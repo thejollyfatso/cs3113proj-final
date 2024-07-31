@@ -149,6 +149,12 @@ void process_input()
                         g_app_status = TERMINATED;
                         break;
                         
+                    case SDLK_RIGHT:
+                        g_current_scene->get_state().player->move_right();
+                        break;
+                    case SDLK_LEFT:
+                        g_current_scene->get_state().player->move_left();
+                        break;
                     case SDLK_SPACE:
                         // ————— JUMPING ————— //
                         if (g_current_scene->get_state().player->get_collided_bottom())
@@ -186,8 +192,10 @@ void process_input()
     // ————— KEY HOLD ————— //
     const Uint8 *key_state = SDL_GetKeyboardState(NULL);
 
+    /*  Removing key hold for discrete movements
     if (key_state[SDL_SCANCODE_LEFT])        g_current_scene->get_state().player->move_left();
     else if (key_state[SDL_SCANCODE_RIGHT])  g_current_scene->get_state().player->move_right();
+    */
 
     if (glm::length( g_current_scene->get_state().player->get_movement()) > 1.0f)
         g_current_scene->get_state().player->normalise_movement();

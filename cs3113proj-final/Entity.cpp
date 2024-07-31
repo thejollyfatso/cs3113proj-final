@@ -148,6 +148,18 @@ Entity::Entity(GLuint texture_id, float speed, float width, float height, Entity
 
 Entity::~Entity() {}
 
+void Entity::move_right()
+{
+    switch_animation("jump", true);
+    m_position.x += 0.3f;
+}
+
+void Entity::move_left()
+{
+    switch_animation("jump", true);
+    m_position.x -= 0.3f;
+}
+
 void Entity::face_right() 
 { 
     if (!m_face_forward)

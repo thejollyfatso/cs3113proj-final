@@ -119,8 +119,8 @@ public:
     void face_right();
     void face_left();
 
-    void move_left() { switch_animation("run", false);  m_movement.x = -1.0f; face_left(); }
-    void move_right() { switch_animation("run", false);  m_movement.x = 1.0f;  face_right(); }
+    void move_left();
+    void move_right();
     
     void const jump() { switch_animation("jump", true);  m_is_jumping = true; }
     void const attack();
