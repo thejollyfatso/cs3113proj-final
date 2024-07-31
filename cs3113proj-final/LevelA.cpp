@@ -1,14 +1,3 @@
-/**
-* Author: Rafael de Leon
-* Assignment: Rise of the AI
-* Date due: 2024-07-27, 11:59pm
-* Extension: 2024-07-30, 11:59pm
-* I pledge that I have completed this assignment without
-* collaborating with anyone else, in conformance with the
-* NYU School of Engineering Policies and Procedures on
-* Academic Misconduct.
-**/
-
 #include "LevelA.h"
 #include "Utility.h"
 
@@ -25,9 +14,9 @@ unsigned int LEVEL_DATA[] =
     90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     110, 0, 205, 207, 209, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    90, 0, 0, 0, 0, 0, 0, 207, 0, 0, 0, 0, 0, 0,
-    86, 0, 0, 0, 0, 0, 0, 0, 0, 25, 27, 28, 27, 50,
-    106, 107, 27, 28, 27, 28, 27, 28, 27, 45, 85, 85, 85, 90,
+    90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    86, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    106, 107, 27, 28, 27, 28, 27, 28, 27, 27, 27, 27, 27, 50,
     126, 127, 128, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 130
 };
 
@@ -135,10 +124,6 @@ void LevelA::initialise()
     }
     // hard coded changes to enemies
 	m_game_state.enemies[0].face_left();
-    m_game_state.enemies[1].set_ai_type(WALKER);
-	m_game_state.enemies[1].set_position(glm::vec3(2.0f, 6.0f, 0.0f));
-    m_game_state.enemies[2].set_ai_type(GUARD);
-	m_game_state.enemies[2].set_position(glm::vec3(1.0f, 6.0f, 0.0f));
 
     /* Create Hitboxes and Hurtboxes */
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
@@ -249,7 +234,6 @@ void LevelA::render(ShaderProgram *g_shader_program)
     if (!m_enemies_left)
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Win!", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
-			//glm::vec3(3.0f, -2.0f, 0.0f));
     if (!m_game_state.player->is_alive())
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Lose.", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
