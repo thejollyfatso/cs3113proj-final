@@ -242,8 +242,8 @@ void LevelA::update(float delta_time)
     }
 	m_game_state.hitboxes[ENEMY_COUNT].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);
 	m_game_state.hurtboxes[ENEMY_COUNT].update(delta_time); // update player hurtbox (last index)
-	m_game_state.hitboxes[ENEMY_COUNT+1].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);
-	m_game_state.hurtboxes[ENEMY_COUNT+1].update(delta_time); // update player hurtbox (last index)
+	//m_game_state.hitboxes[ENEMY_COUNT+1].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);
+	//m_game_state.hurtboxes[ENEMY_COUNT+1].update(delta_time); // update player hurtbox (last index)
 
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
@@ -277,10 +277,10 @@ void LevelA::render(ShaderProgram *g_shader_program)
 		m_game_state.player->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player->get_weight()), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); // position according to player
-	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.enemies[0].get_stance(), 0.5f, 0.05f,
-		m_game_state.enemies[0].get_position() + glm::vec3(-0.5f, 1.0f, 0.0f));
-	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.enemies[0].get_weight()), 0.5f, 0.05f,
-		m_game_state.enemies[0].get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); 
+	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player2->get_stance(), 0.5f, 0.05f,
+		m_game_state.player2->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
+	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player2->get_weight()), 0.5f, 0.05f,
+		m_game_state.player2->get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); // position according to player
 
     if (!m_enemies_left)
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Win!", 0.5f, 0.05f,
