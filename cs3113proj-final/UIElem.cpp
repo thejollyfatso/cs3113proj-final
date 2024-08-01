@@ -17,13 +17,10 @@ void UIElem::set_animation(std::string animation_name, int* indices, int frames)
 }
 
 void UIElem::switch_animation(std::string animation_name, bool locked) {
-    if (!m_animation_lock || (animation_name == "death" && m_current_animation != "death")) {
-        m_animation_lock = locked;
-        m_animation_index = 0;
-        m_current_animation = animation_name;
-        m_animation_indices = m_animations[animation_name].indices.data();
-        m_animation_frames = m_animations[animation_name].indices.size();
-    }
+	m_animation_index = 0;
+	m_current_animation = animation_name;
+	m_animation_indices = m_animations[animation_name].indices.data();
+	m_animation_frames = m_animations[animation_name].indices.size();
 }
 
 void UIElem::update(float delta_time) {
