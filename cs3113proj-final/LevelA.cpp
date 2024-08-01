@@ -26,6 +26,7 @@ LevelA::~LevelA()
     delete [] m_game_state.hitboxes;
     delete [] m_game_state.hurtboxes;
     delete    m_game_state.player;
+    delete    m_game_state.player2;
     delete    m_game_state.map;
     Mix_FreeChunk(m_game_state.jump_sfx);
     Mix_FreeMusic(m_game_state.bgm);
@@ -79,6 +80,38 @@ void LevelA::initialise()
     m_game_state.player->switch_animation("idle", true); // start with idle
 
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
+
+    // PLAYER 2
+    m_game_state.player2 = new Entity(
+        player_texture_id,         // texture id
+        5.0f,                      // speed
+        acceleration,              // acceleration
+        6.0f,                      // jumping power
+        0.0f,                      // animation time
+        8,                         // animation frame amount
+        0,                         // current animation index
+        8,                         // animation column amount
+        8,                         // animation row amount
+        2.0f,                      // width
+        2.0f,                       // height
+        PLAYER
+    );
+
+    // enlarge
+    m_game_state.player2->set_scale(new_scale);
+    m_game_state.player2->set_margin_y(glm::vec2(0.3f, 0.1f)); // trim sprite
+    m_game_state.player2->set_margin_x(glm::vec2(0.5f, 0.5f)); // trim sprite
+    
+    m_game_state.player2->set_animation("run", run_animation, 8, 0, 0);
+    m_game_state.player2->set_animation("idle", idle_animation, 4, 0, 0);
+    m_game_state.player2->set_animation("counter", counter_animation, 4, 3, 1);
+    m_game_state.player2->set_animation("attack", attack_animation, 4, 3, 1);
+    m_game_state.player2->set_animation("death", death_animation, 7, 0, 0);
+    m_game_state.player2->set_animation("jump", jump_animation, 2, 0, 0);
+    m_game_state.player2->switch_animation("idle", true); // start with idle
+
+    m_game_state.player2->set_position(glm::vec3(8.0f, 0.0f, 0.0f));
+    m_game_state.player2->face_left();
     
     /**
      Enemies' stuff */
@@ -132,7 +165,7 @@ void LevelA::initialise()
     GLuint hurtbox_texture_id = Utility::load_texture("assets/hurtbox.png");
 
     // create array
-    m_game_state.hitboxes = new Hitbox[ENEMY_COUNT + 1]; // may need to use n_number_of_enemies later
+    m_game_state.hitboxes = new Hitbox[ENEMY_COUNT + 2]; // may need to use n_number_of_enemies later
     int player_hb_index = ENEMY_COUNT;
 
     // create hitboxes for each enemy then player
@@ -148,9 +181,11 @@ void LevelA::initialise()
 		m_game_state.enemies[i].get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
     }
     m_game_state.hitboxes[player_hb_index] = Hitbox(hitbox_texture_id, m_game_state.player);
+    m_game_state.hitboxes[player_hb_index+1] = Hitbox(hitbox_texture_id, m_game_state.player2);
 
     // set player hitbox and add hitdata
     m_game_state.player->set_hitbox(&m_game_state.hitboxes[player_hb_index]);
+    m_game_state.player2->set_hitbox(&m_game_state.hitboxes[player_hb_index+1]);
 
     glm::vec3 hb_scale = { 1.0f, 1.0f, 1.0f };
     glm::vec3 hb_offset = { 1.3f, 0.4f, 0.0f };
@@ -198,6 +233,7 @@ void LevelA::initialise()
 void LevelA::update(float delta_time)
 {
     m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
+    m_game_state.player2->update(delta_time, m_game_state.player2, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
@@ -206,6 +242,8 @@ void LevelA::update(float delta_time)
     }
 	m_game_state.hitboxes[ENEMY_COUNT].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);
 	m_game_state.hurtboxes[ENEMY_COUNT].update(delta_time); // update player hurtbox (last index)
+	m_game_state.hitboxes[ENEMY_COUNT+1].update(delta_time, m_game_state.hurtboxes, ENEMY_COUNT);
+	m_game_state.hurtboxes[ENEMY_COUNT+1].update(delta_time); // update player hurtbox (last index)
 
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
@@ -232,6 +270,7 @@ void LevelA::render(ShaderProgram *g_shader_program)
     for (int i = 0; i < ENEMY_COUNT; i++)
             m_game_state.enemies[i].render(g_shader_program);
     m_game_state.player->render(g_shader_program);
+    m_game_state.player2->render(g_shader_program);
 
     // DEBUG prototype to ui elements
 	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance(), 0.5f, 0.05f,

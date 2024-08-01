@@ -25,6 +25,7 @@ struct GameState
     // ————— GAME OBJECTS ————— //
     Map *map;
     Entity *player;
+    Entity *player2;
     Entity *enemies;
     Hitbox *hitboxes;
     Hitbox *hurtboxes;

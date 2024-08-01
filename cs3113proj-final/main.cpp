@@ -185,6 +185,33 @@ void process_input()
 						g_current_scene->get_state().player->inc_stance();
                         break;
                         
+                    case SDLK_l:
+                        g_current_scene->get_state().player2->move_right();
+                        break;
+                    case SDLK_j:
+                        g_current_scene->get_state().player2->move_left();
+                        break;
+                    case SDLK_h:
+                        // attack
+						g_current_scene->get_state().player2->attack();
+                        break;
+
+                    case SDLK_i:
+						g_current_scene->get_state().player2->inc_weight();
+                        break;
+                        
+                    case SDLK_k:
+						g_current_scene->get_state().player2->dec_weight();
+                        break;
+                        
+                    case SDLK_u:
+						g_current_scene->get_state().player2->dec_stance();
+                        break;
+                        
+                    case SDLK_o:
+						g_current_scene->get_state().player2->inc_stance();
+                        break;
+
                     default:
                         break;
                 }
