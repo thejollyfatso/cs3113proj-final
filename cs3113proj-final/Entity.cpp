@@ -160,14 +160,24 @@ Entity::~Entity() {}
 
 void Entity::move_right()
 {
-    switch_animation("jump", true);
-    m_position.x += 0.3f;
+    if (!m_is_moving)
+    {
+        switch_animation("jump", true);
+        m_face_forward = true;
+        m_target_position = m_position + glm::vec3(0.3f, 0.0f, 0.0f);
+        m_is_moving = true;
+    }
 }
 
 void Entity::move_left()
 {
-    switch_animation("jump", true);
-    m_position.x -= 0.3f;
+    if (!m_is_moving)
+    {
+        switch_animation("jump", true);
+        m_face_forward = false;
+        m_target_position = m_position - glm::vec3(0.3f, 0.0f, 0.0f);
+        m_is_moving = true;
+    }
 }
 
 void Entity::face_right() 
@@ -513,6 +523,20 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     m_position.y += m_velocity.y * delta_time;
     check_collision_y(collidable_entities, collidable_entity_count);
     check_collision_y(map);
+
+    if (m_position.x != m_target_position.x && m_is_moving)
+    {
+        if (m_position.x < m_target_position.x)
+        {
+            if (m_face_forward) m_position.x += m_speed * delta_time;
+            else m_position.x = m_target_position.x;
+        }
+        else {
+            if (!m_face_forward) m_position.x -= m_speed * delta_time;
+            else m_position.x = m_target_position.x;
+        }
+    }
+    if (m_position.x == m_target_position.x) m_is_moving = false;
 
 
     m_model_matrix = glm::mat4(1.0f);

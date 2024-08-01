@@ -40,6 +40,7 @@ private:
     // ————— TRANSFORMATIONS ————— //
     glm::vec3 m_movement;
     glm::vec3 m_position;
+    glm::vec3 m_target_position;
     glm::vec3 m_scale;
     glm::vec3 m_velocity;
     glm::vec3 m_acceleration;
@@ -49,6 +50,7 @@ private:
     float     m_speed,
               m_jumping_power;
     
+    bool m_is_moving = false;
     bool m_is_jumping;
     bool m_face_forward = true; // right
 
