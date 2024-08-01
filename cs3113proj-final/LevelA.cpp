@@ -60,7 +60,7 @@ void LevelA::initialise()
     // enlarge
     glm::vec3 new_scale = { 4.0f, 4.0f, 0.0f };
     m_game_state.player->set_scale(new_scale);
-    m_game_state.player->set_margin_y(glm::vec2(0.3f, 0.1f)); // trim sprite
+    m_game_state.player->set_margin_y(glm::vec2(0.6f, 0.1f)); // trim sprite
     m_game_state.player->set_margin_x(glm::vec2(0.5f, 0.5f)); // trim sprite
     
     // set animations
@@ -99,7 +99,7 @@ void LevelA::initialise()
 
     // enlarge
     m_game_state.player2->set_scale(new_scale);
-    m_game_state.player2->set_margin_y(glm::vec2(0.3f, 0.1f)); // trim sprite
+    m_game_state.player2->set_margin_y(glm::vec2(0.6f, 0.1f)); // trim sprite
     m_game_state.player2->set_margin_x(glm::vec2(0.5f, 0.5f)); // trim sprite
     
     m_game_state.player2->set_animation("run", run_animation, 3, 0, 0);
