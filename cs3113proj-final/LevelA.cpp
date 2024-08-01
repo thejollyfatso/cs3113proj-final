@@ -232,10 +232,16 @@ void LevelA::render(ShaderProgram *g_shader_program)
     for (int i = 0; i < ENEMY_COUNT; i++)
             m_game_state.enemies[i].render(g_shader_program);
     m_game_state.player->render(g_shader_program);
+
+    // DEBUG prototype to ui elements
 	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance(), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player->get_weight()), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); // position according to player
+	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.enemies[0].get_stance(), 0.5f, 0.05f,
+		m_game_state.enemies[0].get_position() + glm::vec3(-0.5f, 1.0f, 0.0f));
+	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.enemies[0].get_weight()), 0.5f, 0.05f,
+		m_game_state.enemies[0].get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); 
 
     if (!m_enemies_left)
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Win!", 0.5f, 0.05f,
