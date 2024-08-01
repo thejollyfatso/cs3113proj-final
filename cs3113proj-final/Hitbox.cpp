@@ -102,20 +102,6 @@ bool Hitbox::isColliding(const Hitbox* other) const
 }
 
 /* Updates for Player and Enemy boxes */
-// helper function for player to check attack collisions
-void Hitbox::checkCollisions(Hitbox* hurtboxes, int num_hurtboxes)
-{
-    // Check for collisions with other hurtboxes and set them to visible
-	for (int i = 0; i < num_hurtboxes; ++i) {
-		if (this != &hurtboxes[i] && isColliding(&hurtboxes[i]) && m_active && &hurtboxes[i].m_entity->m_is_active) {
-			//hurtboxes[i].m_hidden = false;
-			//this->m_hidden = false;
-			hurtboxes[i].m_entity->death(); // kill
-		}
-		else { this->m_hidden = true; hurtboxes[i].m_hidden = true; }
-	}
-}
-
 // hurtbox updates which are passive awaiting hitbox check
 void Hitbox::update(float delta_time) {
     if (m_entity) {
@@ -148,21 +134,6 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
             //otherHitbox->m_entity->death();
         }
 		else { this->m_hidden = true; otherHitbox->m_hidden = true; } //  DEBUG
-    }
-}
-
-// player update which checks against enemy hurtboxes
-void Hitbox::update(float delta_time, Hitbox* hurtboxes, int num_hurtboxes) {
-    if (m_entity) {
-        // Update the hitbox position based on the entity position and offset
-        m_position = m_entity->get_position() + m_offset;
-
-        // Update the model matrix with the new position
-        m_model_matrix = glm::mat4(1.0f);
-        m_model_matrix = glm::translate(m_model_matrix, m_position);
-        m_model_matrix = glm::scale(m_model_matrix, m_scale);
-
-        checkCollisions(hurtboxes, num_hurtboxes);
     }
 }
 

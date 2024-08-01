@@ -37,11 +37,9 @@ public:
     void set_hitdata(const std::string& key);
 
     bool isColliding(const Hitbox* other) const;
-    void checkCollisions(Hitbox* hurtboxes, int num_hurtboxes);
 
 	void update(float delta_time);
 	void update(float delta_time, Hitbox* otherHitbox);
-	void update(float delta_time, Hitbox* hurtboxes, int num_hurtboxes);
     void render(ShaderProgram* program);
 };
 
