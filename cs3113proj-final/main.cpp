@@ -149,10 +149,10 @@ void process_input()
                         g_app_status = TERMINATED;
                         break;
                         
-                    case SDLK_RIGHT:
+                    case SDLK_d:
                         g_current_scene->get_state().player->move_right();
                         break;
-                    case SDLK_LEFT:
+                    case SDLK_a:
                         g_current_scene->get_state().player->move_left();
                         break;
                     case SDLK_SPACE:
@@ -164,17 +164,19 @@ void process_input()
                         }
                         break;
 
-                    case SDLK_d:
-                        // counter
-						g_current_scene->get_state().player->switch_animation("counter", true);
-						g_current_scene->get_state().player->set_hitdata_by_animation();
-                        break;
-
                     case SDLK_f:
                         // attack
 						g_current_scene->get_state().player->attack();
                         break;
 
+                    case SDLK_w:
+						g_current_scene->get_state().player->inc_weight();
+                        break;
+                        
+                    case SDLK_s:
+						g_current_scene->get_state().player->dec_weight();
+                        break;
+                        
                     case SDLK_q:
 						g_current_scene->get_state().player->dec_stance();
                         break;

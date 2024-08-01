@@ -95,6 +95,8 @@ private:
 public:
     // ————— STATIC VARIABLES ————— //
     static constexpr int SECONDS_PER_FRAME = 12;
+    static constexpr int MIN_ATK_WEIGHT = 1;
+    static constexpr int MAX_ATK_WEIGHT = 3;
 
     // ————— METHODS ————— //
     Entity();
@@ -159,6 +161,10 @@ public:
     bool      const get_collided_right() const { return m_collided_right; }
     bool      const get_collided_left() const { return m_collided_left; }
 
+    // Combat get/set //
+    int const get_weight() const { return m_atk_weight;  }
+    void inc_weight() { if ( m_atk_weight < MAX_ATK_WEIGHT ) ++m_atk_weight; }
+    void dec_weight() { if ( m_atk_weight > MIN_ATK_WEIGHT ) --m_atk_weight; }
     std::string const get_stance() const;
     void inc_stance() { ++m_atk_stance;  }
     void dec_stance() { --m_atk_stance;  }
