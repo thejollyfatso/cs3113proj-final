@@ -10,6 +10,7 @@
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
 enum AIType     { WALKER, GUARD, TRAP      };
 enum AIState    { WALKING, IDLE, ATTACKING };
+enum AtkStance  { N, S, E, W               };
 
 
 enum AnimationDirection { LEFT, RIGHT, UP, DOWN };
@@ -75,6 +76,16 @@ private:
     bool m_collided_bottom = false;
     bool m_collided_left   = false;
     bool m_collided_right  = false;
+
+
+    // ----- Combat ----- //
+    AtkStance m_atk_stance = N;
+    int m_atk_weight = 1;
+    bool m_atk_pressure = true;
+
+    int m_h_advantage = 1;
+    int m_h_luck = 3;
+    bool m_h_wounded = false;
 
     Hitbox* m_hitbox = nullptr;
     Hitbox* m_hurtbox = nullptr;
