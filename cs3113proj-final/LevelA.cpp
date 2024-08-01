@@ -64,14 +64,14 @@ void LevelA::initialise()
     m_game_state.player->set_margin_x(glm::vec2(0.5f, 0.5f)); // trim sprite
     
     // set animations
-    int run_animation[] = { 48, 49, 50, 51, 52, 53, 54, 55 };
+    int run_animation[] = { 49, 50, 51 };
     int idle_animation[] = { 32, 33, 34, 35 };
     int counter_animation[] = { 0, 1, 2, 3 };
     int attack_animation[] = { 8, 9, 10, 11 };
     int death_animation[] = { 16, 17, 18, 19, 20, 21, 22 };
-    int jump_animation[] = { 40, 41 };
+    int jump_animation[] = { 24, 25 };
 
-    m_game_state.player->set_animation("run", run_animation, 8, 0, 0);
+    m_game_state.player->set_animation("run", run_animation, 3, 0, 0);
     m_game_state.player->set_animation("idle", idle_animation, 4, 0, 0);
     m_game_state.player->set_animation("counter", counter_animation, 4, 3, 1);
     m_game_state.player->set_animation("attack", attack_animation, 4, 3, 1);
@@ -102,7 +102,7 @@ void LevelA::initialise()
     m_game_state.player2->set_margin_y(glm::vec2(0.3f, 0.1f)); // trim sprite
     m_game_state.player2->set_margin_x(glm::vec2(0.5f, 0.5f)); // trim sprite
     
-    m_game_state.player2->set_animation("run", run_animation, 8, 0, 0);
+    m_game_state.player2->set_animation("run", run_animation, 3, 0, 0);
     m_game_state.player2->set_animation("idle", idle_animation, 4, 0, 0);
     m_game_state.player2->set_animation("counter", counter_animation, 4, 3, 1);
     m_game_state.player2->set_animation("attack", attack_animation, 4, 3, 1);

@@ -162,10 +162,11 @@ void Entity::move_right()
 {
     if (!m_is_moving && m_recovery == RECOVERY_FRAMES)
     {
-        switch_animation("jump", true);
+        if (m_scale.x >= 0) switch_animation("run", true);
+        else switch_animation("jump", true);
         m_recovery = 0;
         m_face_forward = true;
-        m_target_position = m_position + glm::vec3(0.3f, 0.0f, 0.0f);
+        m_target_position = m_position + glm::vec3(0.3f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 1 - m_atk_weight, 0.0f, 0.0f);
         m_is_moving = true;
     }
 }
@@ -174,10 +175,11 @@ void Entity::move_left()
 {
     if (!m_is_moving && m_recovery == RECOVERY_FRAMES)
     {
-        switch_animation("jump", true);
+        if (m_scale.x < 0) switch_animation("run", true);
+        else switch_animation("jump", true);
         m_recovery = 0;
         m_face_forward = false;
-        m_target_position = m_position - glm::vec3(0.3f, 0.0f, 0.0f);
+        m_target_position = m_position - glm::vec3(0.3f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 1 - m_atk_weight, 0.0f, 0.0f);
         m_is_moving = true;
     }
 }
