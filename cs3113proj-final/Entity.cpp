@@ -505,8 +505,9 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
             }
 
             if (m_animation_index >= m_animation_frames) {
-                m_animation_index = 0; // Loop back to the first frame
                 m_animation_lock = false;
+                switch_animation("idle", false);
+                m_animation_index = 0; // Loop back to the first frame
                 m_hitbox->set_active(false);
                 if (!m_alive) deactivate();  // if animation has finished and no longer alive
             }
