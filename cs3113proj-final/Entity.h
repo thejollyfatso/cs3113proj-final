@@ -10,10 +10,15 @@
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
 enum AIType     { WALKER, GUARD, TRAP      };
 enum AIState    { WALKING, IDLE, ATTACKING };
-enum AtkStance  { N, S, E, W               };
+enum AtkStance  { N, E, S, W               };
 
 
 enum AnimationDirection { LEFT, RIGHT, UP, DOWN };
+
+AtkStance& operator++(AtkStance& dir) {
+    dir = static_cast<AtkStance>((static_cast<int>(dir) + 1) % 4);
+    return dir;
+}
 
 class Hitbox;
 
