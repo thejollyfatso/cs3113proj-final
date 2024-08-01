@@ -81,7 +81,7 @@ private:
     // ----- Combat ----- //
     AtkStance m_atk_stance = N;
     int m_atk_weight = 1;
-    bool m_atk_pressure = true;
+    // bool m_atk_pressure = true;  // removed for simplicity. cold becomes passive
 
     int m_h_advantage = 1;
     int m_h_luck = 3;
