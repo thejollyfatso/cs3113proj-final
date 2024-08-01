@@ -71,6 +71,7 @@ private:
     std::string m_current_animation; // Current animation name
 
     bool m_animation_lock = false; // Will be used to prevent animation cancelling
+    int m_recovery = RECOVERY_FRAMES;
 
     glm::mat2 m_margin = { 0.0f, 0.0f, 0.0f, 0.0f }; // The margin to trim for visual clarity in collisions
 
@@ -99,6 +100,7 @@ public:
     static constexpr int SECONDS_PER_FRAME = 12;
     static constexpr int MIN_ATK_WEIGHT = 1;
     static constexpr int MAX_ATK_WEIGHT = 3;
+    static constexpr int RECOVERY_FRAMES = 4;
 
     // ————— METHODS ————— //
     Entity();

@@ -160,9 +160,10 @@ Entity::~Entity() {}
 
 void Entity::move_right()
 {
-    if (!m_is_moving)
+    if (!m_is_moving && m_recovery == RECOVERY_FRAMES)
     {
         switch_animation("jump", true);
+        m_recovery = 0;
         m_face_forward = true;
         m_target_position = m_position + glm::vec3(0.3f, 0.0f, 0.0f);
         m_is_moving = true;
@@ -171,9 +172,10 @@ void Entity::move_right()
 
 void Entity::move_left()
 {
-    if (!m_is_moving)
+    if (!m_is_moving && m_recovery == RECOVERY_FRAMES)
     {
         switch_animation("jump", true);
+        m_recovery = 0;
         m_face_forward = false;
         m_target_position = m_position - glm::vec3(0.3f, 0.0f, 0.0f);
         m_is_moving = true;
@@ -483,6 +485,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
         if (m_animation_time >= frames_per_second) {
             m_animation_time = 0.0f;
             m_animation_index++;
+            if (m_recovery < RECOVERY_FRAMES && !m_is_moving) m_recovery++;
 
             // Check if we are within the active frames
             auto it = m_animations.find(m_current_animation);
