@@ -189,7 +189,6 @@ void Entity::face_right()
     if (!m_face_forward)
     {
 		m_scale.x *= -1; 
-		if (m_hurtbox) m_hurtbox->m_offset.x *= -1;
     }
 	m_face_forward = true;
 }
@@ -199,7 +198,6 @@ void Entity::face_left()
     if (m_face_forward)
     {
         m_scale.x *= -1;
-		if (m_hurtbox) m_hurtbox->m_offset.x *= -1;
     }
 	m_face_forward = false;
 }
@@ -216,7 +214,6 @@ std::string const Entity::get_stance() const
 }
 
 void const Entity::set_hitbox(Hitbox* hitbox) { m_hitbox = hitbox; }
-void const Entity::set_hurtbox(Hitbox* hurtbox) { m_hurtbox = hurtbox; }
 // helpers
 void const Entity::set_hitdata_by_animation() { m_hitbox->set_hitdata(m_current_animation); }
 void const Entity::hitbox_activate() { m_hitbox->m_active = true; }

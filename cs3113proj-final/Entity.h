@@ -93,7 +93,6 @@ private:
     bool m_h_wounded = false;
 
     Hitbox* m_hitbox = nullptr;
-    Hitbox* m_hurtbox = nullptr;
 
 public:
     // ————— STATIC VARIABLES ————— //
@@ -175,7 +174,6 @@ public:
     bool      const is_alive() const { return m_alive; }
 
     Hitbox* get_hitbox() const { return m_hitbox; }
-    Hitbox* get_hurtbox() const { return m_hurtbox; }
     
     void activate() { m_is_active = true; m_alive = true; };
     void deactivate() { m_is_active = false; };
@@ -202,7 +200,6 @@ public:
     void const set_height(float new_height) {m_height = new_height; }
 
     void const set_hitbox(Hitbox* hitbox);
-    void const set_hurtbox(Hitbox* hurtbox);
     void const set_hitdata_by_animation();
     void const hitbox_activate();
 	void const hitbox_deactivate();

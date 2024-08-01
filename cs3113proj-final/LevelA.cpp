@@ -24,7 +24,6 @@ LevelA::~LevelA()
 {
     delete [] m_game_state.enemies;
     delete [] m_game_state.hitboxes;
-    delete [] m_game_state.hurtboxes;
     delete    m_game_state.player;
     delete    m_game_state.player2;
     delete    m_game_state.map;
@@ -115,7 +114,6 @@ void LevelA::initialise()
     
     /* Create Hitboxes and Hurtboxes */
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
-    GLuint hurtbox_texture_id = Utility::load_texture("assets/hurtbox.png");
 
     // create array
     m_game_state.hitboxes = new Hitbox[2];
@@ -137,20 +135,6 @@ void LevelA::initialise()
     m_game_state.player->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
     m_game_state.player2->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
 
-    // repeat for hurtboxes
-    m_game_state.hurtboxes = new Hitbox[2]; // may need to use n_number_of_enemies later
-    m_game_state.hurtboxes[0] = Hitbox(hurtbox_texture_id, m_game_state.player);
-    m_game_state.hurtboxes[1] = Hitbox(hurtbox_texture_id, m_game_state.player);
-    m_game_state.player->set_hurtbox(&m_game_state.hurtboxes[0]);
-    m_game_state.player2->set_hurtbox(&m_game_state.hurtboxes[1]);
-    // scale and offset hurtbox
-    hb_scale = { 0.7f, 1.4f, 1.0f };
-    hb_offset = { -0.15f, -0.1f, 0.0f };
-    m_game_state.player->get_hurtbox()->set_scale(hb_scale.x, hb_scale.y);
-    m_game_state.player->get_hurtbox()->set_offset(hb_offset.x, hb_offset.y);
-    m_game_state.player2->get_hurtbox()->set_scale(hb_scale.x, hb_scale.y);
-    m_game_state.player2->get_hurtbox()->set_offset(hb_offset.x, hb_offset.y);
-
     /**
      BGM and SFX
      */
@@ -168,11 +152,8 @@ void LevelA::update(float delta_time)
     m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     m_game_state.player2->update(delta_time, m_game_state.player2, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     
-    for (int i = 0; i < 2; i++)
-    {
-        m_game_state.hitboxes[i].update(delta_time);
-        m_game_state.hurtboxes[i].update(delta_time);
-    }
+	m_game_state.hitboxes[0].update(delta_time, m_game_state.player2->get_hitbox());
+	m_game_state.hitboxes[1].update(delta_time, m_game_state.player->get_hitbox());
 }
 
 
@@ -182,7 +163,6 @@ void LevelA::render(ShaderProgram *g_shader_program)
     for (int i = 0; i < 2 + 1; i++)
     {
         m_game_state.hitboxes[i].render(g_shader_program);
-        m_game_state.hurtboxes[i].render(g_shader_program);
     }
     m_game_state.player->render(g_shader_program);
     m_game_state.player2->render(g_shader_program);

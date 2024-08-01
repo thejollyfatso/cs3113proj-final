@@ -28,7 +28,6 @@ struct GameState
     Entity *player2;
     Entity *enemies;
     Hitbox *hitboxes;
-    Hitbox *hurtboxes;
     
     // ————— AUDIO ————— //
     Mix_Music *bgm;
