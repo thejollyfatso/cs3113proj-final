@@ -118,7 +118,7 @@ void LevelA::initialise()
     GLuint hurtbox_texture_id = Utility::load_texture("assets/hurtbox.png");
 
     // create array
-    m_game_state.hitboxes = new Hitbox[2]; // may need to use n_number_of_enemies later
+    m_game_state.hitboxes = new Hitbox[2];
 
     // create hitboxes for each enemy then player
     m_game_state.hitboxes[0] = Hitbox(hitbox_texture_id, m_game_state.player);
