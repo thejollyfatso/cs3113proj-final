@@ -16,6 +16,7 @@
 #include "Entity.h"
 #include "Hitbox.h"
 #include "Map.h"
+#include "UIElem.h"
 
 /**
     Notice that the game's state is now part of the Scene class, not the main file.
@@ -28,6 +29,7 @@ struct GameState
     Entity *player2;
     Entity *enemies;
     Hitbox *hitboxes;
+    UIElem* widgets;
     
     // ————— AUDIO ————— //
     Mix_Music *bgm;

@@ -135,6 +135,14 @@ void LevelA::initialise()
     m_game_state.player->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
     m_game_state.player2->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
 
+    // UI Elements
+    m_ui_texture_id = Utility::load_texture("assets/00.png");
+    m_game_state.widgets = new UIElem(m_ui_texture_id, 20, 10, m_game_state.player);
+    int test_animation[] = { 55 };
+    m_game_state.widgets->set_animation("idle", test_animation, 1);
+    m_game_state.widgets->switch_animation("idle", false);
+    m_game_state.widgets->m_offset = glm::vec3(0.0f, 1.0f, 0.0f);
+
     /**
      BGM and SFX
      */
@@ -154,6 +162,8 @@ void LevelA::update(float delta_time)
     
 	m_game_state.hitboxes[0].update(delta_time, m_game_state.player2->get_hitbox());
 	m_game_state.hitboxes[1].update(delta_time, m_game_state.player->get_hitbox());
+
+    m_game_state.widgets->update(delta_time);
 }
 
 
@@ -166,6 +176,7 @@ void LevelA::render(ShaderProgram *g_shader_program)
     }
     m_game_state.player->render(g_shader_program);
     m_game_state.player2->render(g_shader_program);
+    m_game_state.widgets->render(g_shader_program);
 
     // DEBUG prototype to ui elements
 	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance(), 0.5f, 0.05f,
