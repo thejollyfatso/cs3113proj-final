@@ -17,6 +17,16 @@
 #include "ShaderProgram.h"
 #include "Entity.h"
 
+AtkStance& operator++(AtkStance& dir) {
+    dir = static_cast<AtkStance>((static_cast<int>(dir) + 1) % 4);
+    return dir;
+}
+
+AtkStance& operator--(AtkStance& dir) {
+    dir = static_cast<AtkStance>((static_cast<int>(dir) + 3) % 4);
+    return dir;
+}
+
 void Entity::ai_activate(Entity* player) {
     switch (m_ai_type) {
     case WALKER:
@@ -178,6 +188,17 @@ void Entity::face_left()
 		if (m_hurtbox) m_hurtbox->m_offset.x *= -1;
     }
 	m_face_forward = false;
+}
+
+std::string const Entity::get_stance() const
+{
+    switch (m_atk_stance) {
+		case N: return "N";
+		case E: return "E";
+		case S: return "S";
+		case W: return "W";
+		default: return "Unknown";
+    }
 }
 
 void const Entity::set_hitbox(Hitbox* hitbox) { m_hitbox = hitbox; }

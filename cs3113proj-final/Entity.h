@@ -15,10 +15,8 @@ enum AtkStance  { N, E, S, W               };
 
 enum AnimationDirection { LEFT, RIGHT, UP, DOWN };
 
-AtkStance& operator++(AtkStance& dir) {
-    dir = static_cast<AtkStance>((static_cast<int>(dir) + 1) % 4);
-    return dir;
-}
+AtkStance& operator++(AtkStance& dir);
+AtkStance& operator--(AtkStance& dir);
 
 class Hitbox;
 
@@ -86,7 +84,6 @@ private:
     // ----- Combat ----- //
     AtkStance m_atk_stance = N;
     int m_atk_weight = 1;
-    // bool m_atk_pressure = true;  // removed for simplicity. cold becomes passive
 
     int m_h_advantage = 1;
     int m_h_luck = 3;
@@ -162,6 +159,9 @@ public:
     bool      const get_collided_right() const { return m_collided_right; }
     bool      const get_collided_left() const { return m_collided_left; }
 
+    std::string const get_stance() const;
+    void inc_stance() { ++m_atk_stance;  }
+    void dec_stance() { --m_atk_stance;  }
     bool      const is_alive() const { return m_alive; }
 
     Hitbox* get_hitbox() const { return m_hitbox; }

@@ -144,7 +144,7 @@ void process_input()
                 
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
-                    case SDLK_q:
+                    case SDLK_x:
                         // Quit the game with a keystroke
                         g_app_status = TERMINATED;
                         break;
@@ -175,9 +175,12 @@ void process_input()
 						g_current_scene->get_state().player->attack();
                         break;
 
-                    case SDLK_s:
-                        // respawn 
-						g_current_scene->get_state().enemies[0].activate();
+                    case SDLK_q:
+						g_current_scene->get_state().player->dec_stance();
+                        break;
+                        
+                    case SDLK_e:
+						g_current_scene->get_state().player->inc_stance();
                         break;
                         
                     default:
