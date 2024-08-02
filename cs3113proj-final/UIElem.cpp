@@ -5,7 +5,20 @@ UIElem::UIElem(GLuint texture_id, int animation_cols, int animation_rows, Entity
     m_animation_cols(animation_cols), m_animation_rows(animation_rows),
     m_animation_frames(0), m_animation_index(0), m_animation_indices(nullptr),
     m_animation_time(0.0f), m_animation_lock(false), m_hidden(false), m_entity(entity),
-    m_type(type)
+    m_parent_elem(nullptr), m_type(type)
+    { 
+    m_model_matrix = glm::mat4(1.0f);
+    if (m_entity) {
+        m_position = m_entity->get_position();
+    }
+}
+
+UIElem::UIElem(GLuint texture_id, int animation_cols, int animation_rows, UIElem* parent, ElemType type)
+    : m_position(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_texture_id(texture_id),
+    m_animation_cols(animation_cols), m_animation_rows(animation_rows),
+    m_animation_frames(0), m_animation_index(0), m_animation_indices(nullptr),
+    m_animation_time(0.0f), m_animation_lock(false), m_hidden(false), m_entity(nullptr),
+    m_parent_elem(parent), m_type(type)
     { 
     m_model_matrix = glm::mat4(1.0f);
     if (m_entity) {
