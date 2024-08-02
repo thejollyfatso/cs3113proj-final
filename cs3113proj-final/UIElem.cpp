@@ -1,10 +1,11 @@
 #include "UIElem.h"
 
-UIElem::UIElem(GLuint texture_id, int animation_cols, int animation_rows, Entity* entity)
+UIElem::UIElem(GLuint texture_id, int animation_cols, int animation_rows, Entity* entity, ElemType type)
     : m_position(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_texture_id(texture_id),
     m_animation_cols(animation_cols), m_animation_rows(animation_rows),
     m_animation_frames(0), m_animation_index(0), m_animation_indices(nullptr),
-    m_animation_time(0.0f), m_animation_lock(false), m_hidden(false), m_entity(entity)
+    m_animation_time(0.0f), m_animation_lock(false), m_hidden(false), m_entity(entity),
+    m_type(type)
     { 
     m_model_matrix = glm::mat4(1.0f);
     if (m_entity) {
