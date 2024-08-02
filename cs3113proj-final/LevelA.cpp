@@ -137,7 +137,7 @@ void LevelA::initialise()
 
     // UI Elements
     m_ui_texture_id = Utility::load_texture("assets/00.png");
-    m_game_state.widgets = new UIElem(m_ui_texture_id, 20, 10, m_game_state.player);
+    m_game_state.widgets = new UIElem(m_ui_texture_id, 20, 10, m_game_state.player, STANCE);
     int test_animation[] = { 55 };
     m_game_state.widgets->set_animation("idle", test_animation, 1);
     m_game_state.widgets->switch_animation("idle", false);
