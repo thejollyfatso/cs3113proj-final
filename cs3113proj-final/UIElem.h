@@ -8,6 +8,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
 #include "Entity.h"
+enum ElemType { STANCE, WEIGHT, ADV, LUCK, HEATLH };
 
 class UIElem {
     struct AnimationData {
@@ -16,6 +17,7 @@ class UIElem {
         int active_start;
     };
 public:
+    ElemType m_type;
     glm::vec3 m_position;
     glm::vec3 m_scale;
     glm::vec3 m_offset;
@@ -35,7 +37,7 @@ public:
     float m_animation_time;
     bool m_animation_lock;
 
-    UIElem(GLuint texture_id, int animation_cols, int animation_rows, Entity* entity = nullptr);
+    UIElem(GLuint texture_id, int animation_cols, int animation_rows, Entity* entity = nullptr, ElemType m_type);
     void set_animation(std::string animation_name, int* indices, int frames);
     void switch_animation(std::string animation_name, bool locked);
     void update(float delta_time);
