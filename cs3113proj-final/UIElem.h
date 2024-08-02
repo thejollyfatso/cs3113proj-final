@@ -40,14 +40,16 @@ public:
     float m_animation_time;
     bool m_animation_lock;
 
+    UIElem();
     UIElem(GLuint texture_id, int animation_cols, int animation_rows, Entity* entity = nullptr, ElemType m_type = NONE);
     UIElem(GLuint texture_id, int animation_cols, int animation_rows, UIElem* parent = nullptr, ElemType m_type = NONE);
     void set_animation(std::string animation_name, int* indices, int frames);
     void switch_animation(std::string animation_name, bool locked);
     void update(float delta_time);
-    void update(float delta_time, Entity* entity);
     void render(ShaderProgram* program);
-    void set_scale(float x_scale, float y_scale); // New method for setting scale
+    void set_scale(float x_scale, float y_scale); 
+    void set_entity(Entity* entity) { m_parent_elem = nullptr; m_entity = entity; }
+    void set_parent(UIElem* parent) { m_entity = nullptr; m_parent_elem = parent; }
     void draw_sprites_from_texture_atlas(ShaderProgram* program, GLuint texture_id, const std::vector<int>& indices);
 };
 

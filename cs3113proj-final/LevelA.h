@@ -5,6 +5,7 @@ public:
     // ————— STATIC ATTRIBUTES ————— //
     int ENEMY_COUNT = 0;
     int m_enemies_left = ENEMY_COUNT;
+    int WIDGET_COUNT = 2;
     GLuint m_ui_texture_id;
     GLuint m_font_texture_id;
     

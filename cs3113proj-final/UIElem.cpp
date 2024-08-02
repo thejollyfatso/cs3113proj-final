@@ -1,5 +1,15 @@
 #include "UIElem.h"
 
+UIElem::UIElem()
+    : m_position(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_texture_id(1.0),
+    m_animation_cols(0), m_animation_rows(0),
+    m_animation_frames(0), m_animation_index(0), m_animation_indices(nullptr),
+    m_animation_time(0.0f), m_animation_lock(false), m_hidden(false), m_entity(nullptr),
+    m_parent_elem(nullptr), m_type(NONE)
+    { 
+    m_model_matrix = glm::mat4(1.0f);
+}
+
 UIElem::UIElem(GLuint texture_id, int animation_cols, int animation_rows, Entity* entity, ElemType type)
     : m_position(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_texture_id(texture_id),
     m_animation_cols(animation_cols), m_animation_rows(animation_rows),
@@ -42,6 +52,9 @@ void UIElem::update(float delta_time) {
         // Update the UIElem position based on the associated entity's position and offset
         m_position = m_entity->get_position() + m_offset;
     }
+    else if (m_parent_elem) {
+        m_position = m_parent_elem->m_position + m_offset;
+    }
 
     // Update animation timing
     if (m_animation_indices != nullptr && !m_current_animation.empty()) {
@@ -81,11 +94,6 @@ void UIElem::update(float delta_time) {
             break;
         }
     }
-}
-
-void UIElem::update(float delta_time, Entity* entity) {
-    m_entity = entity;
-    update(delta_time); // Call the other update method to reuse the logic
 }
 
 void UIElem::render(ShaderProgram* program) {
