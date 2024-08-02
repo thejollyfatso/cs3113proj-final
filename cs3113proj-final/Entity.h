@@ -168,7 +168,8 @@ public:
     int const get_weight() const { return m_atk_weight;  }
     void inc_weight() { if ( m_atk_weight < MAX_ATK_WEIGHT ) ++m_atk_weight; }
     void dec_weight() { if ( m_atk_weight > MIN_ATK_WEIGHT ) --m_atk_weight; }
-    std::string const get_stance() const;
+    AtkStance const get_stance() const { return m_atk_stance;  }
+    std::string const get_stance_str() const;
     void inc_stance() { ++m_atk_stance;  }
     void dec_stance() { --m_atk_stance;  }
     bool      const is_alive() const { return m_alive; }

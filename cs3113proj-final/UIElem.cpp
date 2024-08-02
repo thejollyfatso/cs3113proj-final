@@ -48,6 +48,26 @@ void UIElem::update(float delta_time) {
     m_model_matrix = glm::mat4(1.0f);
     m_model_matrix = glm::translate(m_model_matrix, m_position);
     m_model_matrix = glm::scale(m_model_matrix, m_scale); // Apply scaling
+
+    // stance rotation
+    if (m_type == STANCE)
+    {
+        switch (m_entity->get_stance())
+        {
+        case N:
+            m_model_matrix = glm::rotate(m_model_matrix, 0.0f, glm::vec3(0.0f, 0.0f, -1.0f));
+            break;
+        case E:
+            m_model_matrix = glm::rotate(m_model_matrix, glm::pi<float>() / 2, glm::vec3(0.0f, 0.0f, -1.0f));
+            break;
+        case S:
+            m_model_matrix = glm::rotate(m_model_matrix, glm::pi<float>(), glm::vec3(0.0f, 0.0f, -1.0f));
+            break;
+        case W:
+            m_model_matrix = glm::rotate(m_model_matrix, 3 * glm::pi<float>() / 2, glm::vec3(0.0f, 0.0f, -1.0f));
+            break;
+        }
+    }
 }
 
 void UIElem::update(float delta_time, Entity* entity) {

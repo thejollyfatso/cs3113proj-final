@@ -141,7 +141,7 @@ void LevelA::initialise()
     int test_animation[] = { 55 };
     m_game_state.widgets->set_animation("idle", test_animation, 1);
     m_game_state.widgets->switch_animation("idle", false);
-    m_game_state.widgets->m_offset = glm::vec3(0.0f, 1.0f, 0.0f);
+    m_game_state.widgets->m_offset = glm::vec3(-0.5f, 1.0f, 0.0f);
 
     /**
      BGM and SFX
@@ -179,11 +179,11 @@ void LevelA::render(ShaderProgram *g_shader_program)
     m_game_state.widgets->render(g_shader_program);
 
     // DEBUG prototype to ui elements
-	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance(), 0.5f, 0.05f,
+	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance_str(), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player->get_weight()), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); // position according to player
-	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player2->get_stance(), 0.5f, 0.05f,
+	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player2->get_stance_str(), 0.5f, 0.05f,
 		m_game_state.player2->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player2->get_weight()), 0.5f, 0.05f,
 		m_game_state.player2->get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); // position according to player

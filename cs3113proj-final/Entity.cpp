@@ -202,7 +202,7 @@ void Entity::face_left()
 	m_face_forward = false;
 }
 
-std::string const Entity::get_stance() const
+std::string const Entity::get_stance_str() const
 {
     switch (m_atk_stance) {
 		case N: return "N";
