@@ -148,14 +148,23 @@ void LevelA::initialise()
 
     m_game_state.widgets[1] = UIElem(m_ui_texture_id, 20, 10, &m_game_state.widgets[0], WEIGHT);
     int test_animation2[] = { 135 };
+    int test_animation3[] = { 136 };
     m_game_state.widgets[1].set_animation("idle", test_animation2, 1);
-    m_game_state.widgets[1].switch_animation("idle", false);
+    m_game_state.widgets[1].set_animation("active", test_animation3, 1);
+    m_game_state.widgets[1].switch_animation("active", false);
     m_game_state.widgets[1].m_offset = glm::vec3(1.0f, 0.1f, 0.0f);
 
     m_game_state.widgets[2] = UIElem(m_ui_texture_id, 20, 10, &m_game_state.widgets[1], WEIGHT);
     m_game_state.widgets[2].set_animation("idle", test_animation2, 1);
+    m_game_state.widgets[2].set_animation("active", test_animation3, 1);
     m_game_state.widgets[2].switch_animation("idle", false);
-    m_game_state.widgets[2].m_offset = glm::vec3(0.2f, 0.0f, 0.0f);
+    m_game_state.widgets[2].m_offset = glm::vec3(0.19f, 0.0f, 0.0f);
+
+    m_game_state.widgets[3] = UIElem(m_ui_texture_id, 20, 10, &m_game_state.widgets[2], WEIGHT);
+    m_game_state.widgets[3].set_animation("idle", test_animation2, 1);
+    m_game_state.widgets[3].set_animation("active", test_animation3, 1);
+    m_game_state.widgets[3].switch_animation("idle", false);
+    m_game_state.widgets[3].m_offset = glm::vec3(0.19f, 0.0f, 0.0f);
 
     /**
      BGM and SFX
