@@ -225,6 +225,12 @@ void const Entity::attack()
     set_hitdata_by_animation(); 
 }
 
+void const Entity::clash(AtkStance o_atk_stance, int o_atk_weight)
+{
+    if (o_atk_weight > m_atk_weight) death();
+    return;
+}
+
 void const Entity::death() 
 { 
     m_alive = false;

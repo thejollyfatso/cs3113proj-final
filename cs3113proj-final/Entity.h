@@ -142,6 +142,7 @@ public:
     
     void const jump() { switch_animation("jump", true);  m_is_jumping = true; }
     void const attack();
+    void const clash(AtkStance o_atk_stance, int o_atk_weight);
     void const death();
 
     void set_animation(std::string animation_name, int* indices, int frames, int active_start, int active_frames );
