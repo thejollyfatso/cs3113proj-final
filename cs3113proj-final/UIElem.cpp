@@ -103,14 +103,17 @@ void UIElem::update(float delta_time) {
             switch_animation("active", false);
         }
         else if (m_parent_elem->m_type == WEIGHT) {
-			if (m_parent_elem->m_entity) {
-				if (m_parent_elem->m_entity->get_weight() > 0) switch_animation("active", false);
-				else switch_animation("idle", false);
-			}
             if (m_parent_elem->m_parent_elem->m_entity)
             {
 				if (m_parent_elem->m_parent_elem->m_entity) {
 					if (m_parent_elem->m_parent_elem->m_entity->get_weight() > 1) switch_animation("active", false);
+					else switch_animation("idle", false);
+				}
+            }
+            if (m_parent_elem->m_parent_elem->m_parent_elem)
+            {
+				if (m_parent_elem->m_parent_elem->m_parent_elem->m_entity) {
+					if (m_parent_elem->m_parent_elem->m_parent_elem->m_entity->get_weight() > 2) switch_animation("active", false);
 					else switch_animation("idle", false);
 				}
             }
