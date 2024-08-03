@@ -94,6 +94,28 @@ void UIElem::update(float delta_time) {
             break;
         }
     }
+
+    // weight indication, not very clean at all
+    if (m_type == WEIGHT)
+    {
+        if (m_parent_elem->m_type == STANCE)
+        {
+            switch_animation("active", false);
+        }
+        else if (m_parent_elem->m_type == WEIGHT) {
+			if (m_parent_elem->m_entity) {
+				if (m_parent_elem->m_entity->get_weight() > 0) switch_animation("active", false);
+				else switch_animation("idle", false);
+			}
+            if (m_parent_elem->m_parent_elem->m_entity)
+            {
+				if (m_parent_elem->m_parent_elem->m_entity) {
+					if (m_parent_elem->m_parent_elem->m_entity->get_weight() > 1) switch_animation("active", false);
+					else switch_animation("idle", false);
+				}
+            }
+        }
+    }
 }
 
 void UIElem::render(ShaderProgram* program) {
