@@ -80,7 +80,6 @@ void Entity::ai_guard(Entity* player) {
             face_right();
         }
         else {
-            //m_ai_state = IDLE;
             m_ai_state = ATTACKING;
         }
         break;
@@ -227,8 +226,19 @@ void const Entity::attack()
 
 void const Entity::clash(AtkStance o_atk_stance, int o_atk_weight)
 {
-    if (o_atk_weight > m_atk_weight) death();
-    return;
+    if (o_atk_stance == m_atk_stance)
+    {
+        death();
+    }
+    else if (o_atk_stance % 2 == m_atk_stance % 2) // if not matching, opposite?
+    {
+        m_target_position.x = m_position.x - 0.3f;
+        m_is_moving = true;
+    }
+    else // non matching
+    {
+        return;
+    }
 }
 
 void const Entity::death() 
