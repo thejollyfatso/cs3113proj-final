@@ -145,6 +145,7 @@ public:
     void const bind(AtkStance o_atk_stance, int o_atk_weight);
     void const parry(AtkStance o_atk_stance, int o_atk_weight);
     void const knockback();
+    void const take_hit();
     void const death();
 
     void set_animation(std::string animation_name, int* indices, int frames, int active_start, int active_frames );

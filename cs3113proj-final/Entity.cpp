@@ -266,6 +266,14 @@ void const Entity::knockback()
 	m_is_moving = true;
 }
 
+void const Entity::take_hit() 
+{ 
+    // ignoring advantage for now
+    if (m_h_luck > 0) m_h_luck--;
+    else if (!m_h_wounded) m_h_wounded = true;
+    else death();
+}
+
 void const Entity::death() 
 { 
     m_alive = false;
