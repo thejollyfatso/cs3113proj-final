@@ -232,7 +232,8 @@ void const Entity::clash(AtkStance o_atk_stance, int o_atk_weight)
     }
     else if (o_atk_stance % 2 == m_atk_stance % 2) // if not matching, opposite?
     {
-        m_target_position.x = m_position.x - 0.3f;
+        if (m_face_forward) m_target_position.x = m_position.x - 0.2f;
+        else m_target_position.x = m_position.x + 0.2f;
         m_is_moving = true;
     }
     else // non matching
