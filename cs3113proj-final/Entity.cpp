@@ -245,16 +245,17 @@ void const Entity::parry(AtkStance o_atk_stance, int o_atk_weight)
 {
     if (o_atk_stance == m_atk_stance)
     {
-        if (m_atk_weight < o_atk_weight) death();
+        if (m_atk_weight == o_atk_weight) knockback();
+        else death();
     }
     else if (o_atk_stance % 2 == m_atk_stance % 2) // if not matching, opposite?
     {
-        if (m_atk_weight > o_atk_weight) death();
-        if (m_atk_weight == o_atk_weight) knockback();
+        death();
     }
     else // non matching
     {
-        return;  // non matching bind always ends neutral
+        if (m_atk_weight == o_atk_weight) death();
+        else if (m_atk_weight < o_atk_weight) knockback();
     }
 }
 

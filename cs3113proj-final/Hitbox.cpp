@@ -134,6 +134,11 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
             otherHitbox->m_hidden = false;
             otherHitbox->m_entity->bind(m_entity->get_stance(), m_entity->get_weight());
         }
+        if (isColliding(otherHitbox) && m_active && !otherHitbox->m_active) {
+            this->m_hidden = false;
+            otherHitbox->m_hidden = false;
+            otherHitbox->m_entity->parry(m_entity->get_stance(), m_entity->get_weight());
+        }
 		else { this->m_hidden = true; otherHitbox->m_hidden = true; } //  DEBUG
     }
 }
