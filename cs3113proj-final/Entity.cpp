@@ -228,17 +228,21 @@ void const Entity::bind(AtkStance o_atk_stance, int o_atk_weight)
 {
     if (o_atk_stance == m_atk_stance)
     {
-        death();
+        if (m_atk_weight < o_atk_weight) death();
     }
     else if (o_atk_stance % 2 == m_atk_stance % 2) // if not matching, opposite?
     {
-        if (m_face_forward) m_target_position.x = m_position.x - 0.2f;
-        else m_target_position.x = m_position.x + 0.2f;
-        m_is_moving = true;
+        if (m_atk_weight > o_atk_weight) death();
+        if (m_atk_weight == o_atk_weight)
+        {
+			if (m_face_forward) m_target_position.x = m_position.x - 0.2f;
+			else m_target_position.x = m_position.x + 0.2f;
+			m_is_moving = true;
+        }
     }
     else // non matching
     {
-        return;
+        return;  // non matching bind always ends neutral
     }
 }
 
