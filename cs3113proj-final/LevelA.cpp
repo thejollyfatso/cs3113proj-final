@@ -118,6 +118,9 @@ void LevelA::initialise()
     m_game_state.player2->set_position(glm::vec3(8.0f, 0.0f, 0.0f));
     m_game_state.player2->face_left();
     
+    /* Set Meters */
+    m_game_state.player->set_meter(m_game_state.meter);
+    m_game_state.player2->set_meter(m_game_state.meter);
     /* Create Hitboxes and Hurtboxes */
     GLuint hitbox_texture_id = Utility::load_texture("assets/hitbox.png");
 

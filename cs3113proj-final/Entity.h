@@ -5,6 +5,7 @@
 #include <vector>
 #include "Map.h"
 #include "Hitbox.h"
+#include "Meter.h"
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
@@ -51,6 +52,7 @@ private:
               m_jumping_power;
     
     bool m_is_moving = false;
+    bool m_is_attacking = false;
     bool m_is_jumping;
     bool m_face_forward = true; // right
 
@@ -93,6 +95,7 @@ private:
     bool m_h_wounded = false;
 
     Hitbox* m_hitbox = nullptr;
+    Meter* m_meter = nullptr;
 
 public:
     // ————— STATIC VARIABLES ————— //
@@ -208,6 +211,7 @@ public:
 
     void const set_hitbox(Hitbox* hitbox);
     void const set_hitdata_by_animation();
+    void const set_meter(Meter* meter);
     void const hitbox_activate();
 	void const hitbox_deactivate();
 

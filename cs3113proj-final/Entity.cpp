@@ -213,6 +213,7 @@ std::string const Entity::get_stance_str() const
 }
 
 void const Entity::set_hitbox(Hitbox* hitbox) { m_hitbox = hitbox; }
+void const Entity::set_meter(Meter* meter) { m_meter = meter; }
 // helpers
 void const Entity::set_hitdata_by_animation() { m_hitbox->set_hitdata(m_current_animation); }
 void const Entity::hitbox_activate() { m_hitbox->m_active = true; }
