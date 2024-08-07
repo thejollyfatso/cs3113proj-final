@@ -102,7 +102,7 @@ public:
     static constexpr int SECONDS_PER_FRAME = 9;
     static constexpr int MIN_ATK_WEIGHT = 1;
     static constexpr int MAX_ATK_WEIGHT = 3;
-    static constexpr int RECOVERY_FRAMES = 3;
+    static constexpr int RECOVERY_FRAMES = 2;
 
     // ————— METHODS ————— //
     Entity();
