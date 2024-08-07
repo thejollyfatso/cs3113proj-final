@@ -10,7 +10,7 @@ public:
 
     // ————— ATTRIBUTES ————— //
     static constexpr int SECONDS_PER_FRAME = 9;
-    int m_FRAMES = 4;
+    int m_FRAMES = 7;
     int m_frame = 0;
     float m_animation_time = 0.0f;
 };
