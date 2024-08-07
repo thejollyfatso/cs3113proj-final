@@ -67,7 +67,7 @@ void LevelA::initialise()
     
     // set animations
     int run_animation[] = { 49, 50, 51 };
-    int idle_animation[] = { 32, 33, 34, 35 };
+    int idle_animation[] = { 8, 8, 9, 9 };
     int counter_animation[] = { 0, 1, 2, 3 };
     int attack_animation[] = { 8, 9, 10, 11 };
     int attack2_animation[] = { 0, 1, 2, 3 };
