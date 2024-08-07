@@ -155,6 +155,10 @@ void process_input()
                         // Quit the game with a keystroke
                         g_app_status = TERMINATED;
                         break;
+
+                    case SDLK_1:
+                        if (g_current_scene == g_levels[0]) switch_to_scene(g_levels[1]);
+                        break;
                         
                     case SDLK_d:
                         g_current_scene->get_state().player->move_right();
