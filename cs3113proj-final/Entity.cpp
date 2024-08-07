@@ -222,6 +222,7 @@ void const Entity::hitbox_deactivate() { m_hitbox->m_active = false; }
 void const Entity::attack() 
 { 
     m_is_attacking = true;
+    if (m_input_queue.size() < 4) m_input_queue.push_back({ m_atk_stance, m_atk_weight });
     /*
     if (m_atk_stance < 2) switch_animation("attack", true);  
     else switch_animation("attack2", true);  
@@ -527,7 +528,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     {
 		if (m_atk_stance < 2) switch_animation("attack", true);  
 		else switch_animation("attack2", true);  
-        m_is_attacking = false;
+        if (m_input_queue.size() < 2) m_is_attacking = false;
     }
     set_hitdata_by_animation(); 
 
@@ -563,6 +564,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
             }
 
             if (m_animation_index >= m_animation_frames) {
+                if (m_current_animation == "attack" || m_current_animation == "attack2") m_input_queue.pop_front();
                 m_animation_lock = false;
                 switch_animation("idle", false);
                 m_animation_index = 0; // Loop back to the first frame

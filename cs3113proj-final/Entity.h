@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <deque>
 #include "Map.h"
 #include "Hitbox.h"
 #include "Meter.h"
@@ -12,6 +13,11 @@ enum EntityType { PLATFORM, PLAYER, ENEMY  };
 enum AIType     { WALKER, GUARD, TRAP      };
 enum AIState    { WALKING, IDLE, ATTACKING };
 enum AtkStance  { N, E, S, W               };
+struct AtkInput
+{
+    AtkStance stance;
+    int weight;
+};
 
 
 enum AnimationDirection { LEFT, RIGHT, UP, DOWN };
@@ -96,6 +102,8 @@ private:
 
     Hitbox* m_hitbox = nullptr;
     Meter* m_meter = nullptr;
+
+    std::deque<AtkInput> m_input_queue;
 
 public:
     // ————— STATIC VARIABLES ————— //
