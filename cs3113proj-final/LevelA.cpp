@@ -68,6 +68,7 @@ void LevelA::initialise()
     int idle_animation[] = { 32, 33, 34, 35 };
     int counter_animation[] = { 0, 1, 2, 3 };
     int attack_animation[] = { 8, 9, 10, 11 };
+    int attack2_animation[] = { 0, 1, 2, 3 };
     int death_animation[] = { 16, 17, 18, 19, 20, 21, 22 };
     int jump_animation[] = { 24, 25 };
 
@@ -75,6 +76,7 @@ void LevelA::initialise()
     m_game_state.player->set_animation("idle", idle_animation, 4, 0, 0);
     m_game_state.player->set_animation("counter", counter_animation, 4, 3, 1);
     m_game_state.player->set_animation("attack", attack_animation, 4, 3, 1);
+    m_game_state.player->set_animation("attack2", attack2_animation, 4, 3, 1);
     m_game_state.player->set_animation("death", death_animation, 7, 0, 0);
     m_game_state.player->set_animation("jump", jump_animation, 2, 0, 0);
     m_game_state.player->switch_animation("idle", true); // start with idle
@@ -106,6 +108,7 @@ void LevelA::initialise()
     m_game_state.player2->set_animation("idle", idle_animation, 4, 0, 0);
     m_game_state.player2->set_animation("counter", counter_animation, 4, 3, 1);
     m_game_state.player2->set_animation("attack", attack_animation, 4, 3, 1);
+    m_game_state.player->set_animation("attack2", attack2_animation, 4, 3, 1);
     m_game_state.player2->set_animation("death", death_animation, 7, 0, 0);
     m_game_state.player2->set_animation("jump", jump_animation, 2, 0, 0);
     m_game_state.player2->switch_animation("idle", true); // start with idle
@@ -131,6 +134,10 @@ void LevelA::initialise()
     glm::vec3 hb_offset = { 0.8f, 0.2f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
     m_game_state.player2->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
+    hb_scale = { 1.7f, 1.2f, 1.0f };
+    hb_offset = { 0.8f, 0.0f, 0.0f };
+    m_game_state.player->get_hitbox()->add_hitdata("attack2", hb_scale, hb_offset);
+    m_game_state.player2->get_hitbox()->add_hitdata("attack2", hb_scale, hb_offset);
     hb_scale = { 0.4f, 1.1f, 1.0f };
     hb_offset = { 0.05f, 0.0f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("idle", hb_scale, hb_offset);

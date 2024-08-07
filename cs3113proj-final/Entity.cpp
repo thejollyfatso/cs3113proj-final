@@ -220,7 +220,8 @@ void const Entity::hitbox_deactivate() { m_hitbox->m_active = false; }
 
 void const Entity::attack() 
 { 
-    switch_animation("attack", true);  
+    if (m_atk_stance < 2) switch_animation("attack", true);  
+    else switch_animation("attack2", true);  
     //set_hitdata_by_animation(); 
 }
 
