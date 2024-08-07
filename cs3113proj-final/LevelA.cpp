@@ -108,7 +108,7 @@ void LevelA::initialise()
     m_game_state.player2->set_animation("idle", idle_animation, 4, 0, 0);
     m_game_state.player2->set_animation("counter", counter_animation, 4, 3, 1);
     m_game_state.player2->set_animation("attack", attack_animation, 4, 3, 1);
-    m_game_state.player->set_animation("attack2", attack2_animation, 4, 3, 1);
+    m_game_state.player2->set_animation("attack2", attack2_animation, 4, 3, 1);
     m_game_state.player2->set_animation("death", death_animation, 7, 0, 0);
     m_game_state.player2->set_animation("jump", jump_animation, 2, 0, 0);
     m_game_state.player2->switch_animation("idle", true); // start with idle
