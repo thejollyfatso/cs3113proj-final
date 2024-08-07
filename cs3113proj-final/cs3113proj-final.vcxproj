@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Hitbox.cpp" />
+    <ClCompile Include="Level0.cpp" />
     <ClCompile Include="LevelA.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Hitbox.h" />
+    <ClInclude Include="Level0.h" />
     <ClInclude Include="LevelA.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Meter.h" />

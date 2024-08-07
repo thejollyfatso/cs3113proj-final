@@ -11,6 +11,11 @@
 
 #include "Map.h"
 
+Map::Map() : m_width(0), m_height(0), m_level_data(nullptr), m_texture_id(0), m_tile_size(1.0f), m_tile_count_x(1), m_tile_count_y(1),
+m_left_bound(0.0f), m_right_bound(0.0f), m_top_bound(0.0f), m_bottom_bound(0.0f)
+{
+}
+
 Map::Map(int width, int height, unsigned int *level_data, GLuint texture_id, float tile_size, int tile_count_x, int tile_count_y) : 
 m_width(width), m_height(height), m_level_data(level_data), m_texture_id(texture_id), m_tile_size(tile_size), m_tile_count_x(tile_count_x), m_tile_count_y(tile_count_y)
 {

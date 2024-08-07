@@ -33,6 +33,7 @@
 #include "Map.h"
 #include "Utility.h"
 #include "Scene.h"
+#include "Level0.h"
 #include "LevelA.h"
 
 // ————— CONSTANTS ————— //
@@ -58,7 +59,10 @@ enum AppStatus { RUNNING, TERMINATED };
 
 // ————— GLOBAL VARIABLES ————— //
 Scene *g_current_scene;
+Level0 *g_level_0;
 LevelA *g_level_a;
+
+Scene *g_levels[2];
 
 SDL_Window* g_display_window;
 
@@ -118,9 +122,12 @@ void initialise()
     glClearColor(BG_RED, BG_BLUE, BG_GREEN, BG_OPACITY);
     
     
-    // ————— LEVEL A SETUP ————— //
+    // ————— LEVEL SETUP ————— //
+    g_level_0 = new Level0();
     g_level_a = new LevelA();
-    switch_to_scene(g_level_a);
+    g_levels[0] = g_level_0;
+    g_levels[1] = g_level_a;
+    switch_to_scene(g_level_0);
     
     // ————— BLENDING ————— //
     glEnable(GL_BLEND);
@@ -255,6 +262,8 @@ void update()
         
         delta_time -= FIXED_TIMESTEP;
     }
+    //if (g_current_scene->get_state().next_scene_id >= 0) switch_to_scene(g_levels[g_current_scene->get_state().next_scene_id]);
+    //if (g_current_scene == g_levelA && g_current_scene->get_state().player->get_position().y < -10.0f) switch_to_scene(g_levelB);
     
     g_accumulator = delta_time;
     
