@@ -227,8 +227,8 @@ void const Entity::hitbox_deactivate() { m_hitbox->m_active = false; }
 
 void const Entity::attack() 
 { 
-    m_is_attacking = true;
-    if (m_input_queue.size() < 4) m_input_queue.push_back({ m_atk_stance, m_atk_weight });
+    if (!m_is_moving) m_is_attacking = true;
+    if (m_input_queue.size() < 4 && !m_is_moving) m_input_queue.push_back({ m_atk_stance, m_atk_weight });
     /*
     if (m_atk_stance < 2) switch_animation("attack", true);  
     else switch_animation("attack2", true);  
