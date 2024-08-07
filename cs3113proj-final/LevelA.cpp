@@ -68,7 +68,7 @@ void LevelA::initialise()
     // set animations
     int run_animation[] = { 49, 50, 51 };
     int idle_animation[] = { 8, 8, 9, 9 };
-    int counter_animation[] = { 0, 1, 2, 3 };
+    int counter_animation[] = { 3, 3, 1, 0 };
     int attack_animation[] = { 8, 9, 10, 11 };
     int attack2_animation[] = { 0, 1, 2, 3 };
     int death_animation[] = { 16, 17, 18, 19, 20, 21, 22 };
@@ -76,7 +76,7 @@ void LevelA::initialise()
 
     m_game_state.player->set_animation("run", run_animation, 3, 0, 0);
     m_game_state.player->set_animation("idle", idle_animation, 4, 0, 0);
-    m_game_state.player->set_animation("counter", counter_animation, 4, 3, 1);
+    m_game_state.player->set_animation("counter", counter_animation, 4, 0, 0);
     m_game_state.player->set_animation("attack", attack_animation, 4, 3, 1);
     m_game_state.player->set_animation("attack2", attack2_animation, 4, 3, 1);
     m_game_state.player->set_animation("death", death_animation, 7, 0, 0);
@@ -108,7 +108,7 @@ void LevelA::initialise()
     
     m_game_state.player2->set_animation("run", run_animation, 3, 0, 0);
     m_game_state.player2->set_animation("idle", idle_animation, 4, 0, 0);
-    m_game_state.player2->set_animation("counter", counter_animation, 4, 3, 1);
+    m_game_state.player2->set_animation("counter", counter_animation, 4, 0, 0);
     m_game_state.player2->set_animation("attack", attack_animation, 4, 3, 1);
     m_game_state.player2->set_animation("attack2", attack2_animation, 4, 3, 1);
     m_game_state.player2->set_animation("death", death_animation, 7, 0, 0);

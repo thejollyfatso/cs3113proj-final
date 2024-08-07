@@ -255,6 +255,7 @@ void const Entity::bind(AtkStance o_atk_stance, int o_atk_weight)
 
 void const Entity::parry(AtkStance o_atk_stance, int o_atk_weight)
 {
+    switch_animation("counter", true);  
     if (o_atk_stance == m_atk_stance)
     {
         if (m_atk_weight == o_atk_weight) knockback();
