@@ -168,7 +168,7 @@ void Entity::move_right()
         }
         m_recovery = 0;
         m_face_forward = true;
-        m_target_position = m_position + glm::vec3(0.3f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 1 - m_atk_weight, 0.0f, 0.0f);
+        m_target_position = m_position + glm::vec3(0.4f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 1 - m_atk_weight, 0.0f, 0.0f);
         m_is_moving = true;
     }
 }
@@ -184,7 +184,7 @@ void Entity::move_left()
         }
         m_recovery = 0;
         m_face_forward = false;
-        m_target_position = m_position - glm::vec3(0.3f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 1 - m_atk_weight, 0.0f, 0.0f);
+        m_target_position = m_position - glm::vec3(0.4f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 1 - m_atk_weight, 0.0f, 0.0f);
         m_is_moving = true;
     }
 }
@@ -274,8 +274,8 @@ void const Entity::parry(AtkStance o_atk_stance, int o_atk_weight)
 
 void const Entity::knockback()
 {
-	if (m_scale.x > 0) m_target_position.x = m_position.x - 0.2f;
-	else m_target_position.x = m_position.x + 0.2f;
+	if (m_scale.x > 0) m_target_position.x = m_position.x - 0.3f;
+	else m_target_position.x = m_position.x + 0.3f;
 	m_is_moving = true;
 }
 
