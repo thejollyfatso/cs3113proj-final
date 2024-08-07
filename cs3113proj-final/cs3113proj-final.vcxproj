@@ -138,6 +138,7 @@
     <ClCompile Include="LevelA.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Meter.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="UIElem.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="LevelA.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Meter.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="UIElem.h" />

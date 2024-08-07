@@ -28,12 +28,14 @@ LevelA::~LevelA()
     delete    m_game_state.player;
     delete    m_game_state.player2;
     delete    m_game_state.map;
+    delete    m_game_state.meter;
     Mix_FreeChunk(m_game_state.jump_sfx);
     Mix_FreeMusic(m_game_state.bgm);
 }
 
 void LevelA::initialise()
 {
+    m_game_state.meter = new Meter;
     m_font_texture_id = Utility::load_texture("assets/font1.png");
     GLuint map_texture_id = Utility::load_texture("assets/Fantasy Swamp Forest/Free/Terrain_and_Props.png");
     m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 20, 34);
@@ -220,6 +222,8 @@ void LevelA::update(float delta_time)
         m_game_state.player2->horizontal_mirror();
     }
 
+    m_game_state.meter->update(delta_time);
+
     m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     m_game_state.player2->update(delta_time, m_game_state.player2, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     
@@ -243,6 +247,8 @@ void LevelA::render(ShaderProgram *g_shader_program)
     for (int i = 0; i < WIDGET_COUNT; i++)
 		m_game_state.widgets[i].render(g_shader_program);
 
+	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.meter->m_frame), 0.5f, 0.05f,
+		glm::vec3(((m_game_state.player->get_position().x + m_game_state.player2->get_position().x)/2), -2.4f, 0.0f));
     // DEBUG prototype to ui elements
 	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance_str(), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
