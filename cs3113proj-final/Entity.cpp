@@ -262,7 +262,7 @@ void const Entity::parry(AtkStance o_atk_stance, int o_atk_weight)
 
 void const Entity::knockback()
 {
-	if (m_face_forward) m_target_position.x = m_position.x - 0.2f;
+	if (m_scale.x > 0) m_target_position.x = m_position.x - 0.2f;
 	else m_target_position.x = m_position.x + 0.2f;
 	m_is_moving = true;
 }
