@@ -35,6 +35,7 @@
 #include "Scene.h"
 #include "Level0.h"
 #include "LevelA.h"
+#include "LevelB.h"
 
 // ————— CONSTANTS ————— //
 constexpr int WINDOW_WIDTH  = 640,
@@ -61,8 +62,9 @@ enum AppStatus { RUNNING, TERMINATED };
 Scene *g_current_scene;
 Level0 *g_level_0;
 LevelA *g_level_a;
+LevelB *g_level_b;
 
-Scene *g_levels[2];
+Scene *g_levels[3];
 
 SDL_Window* g_display_window;
 
@@ -125,8 +127,10 @@ void initialise()
     // ————— LEVEL SETUP ————— //
     g_level_0 = new Level0();
     g_level_a = new LevelA();
+    g_level_b = new LevelB();
     g_levels[0] = g_level_0;
     g_levels[1] = g_level_a;
+    g_levels[2] = g_level_b;
     switch_to_scene(g_level_0);
     
     // ————— BLENDING ————— //
@@ -153,11 +157,16 @@ void process_input()
                 switch (event.key.keysym.sym) {
                     case SDLK_x:
                         // Quit the game with a keystroke
-                        g_app_status = TERMINATED;
+                        if (g_current_scene == g_levels[0]) g_app_status = TERMINATED;
+                        else switch_to_scene(g_levels[0]);
                         break;
 
                     case SDLK_1:
                         if (g_current_scene == g_levels[0]) switch_to_scene(g_levels[1]);
+                        break;
+
+                    case SDLK_2:
+                        if (g_current_scene == g_levels[0]) switch_to_scene(g_levels[2]);
                         break;
                         
                     case SDLK_d:
