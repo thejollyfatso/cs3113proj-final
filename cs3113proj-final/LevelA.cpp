@@ -151,6 +151,7 @@ void LevelA::initialise()
     // UI Elements
     m_game_state.widgets = new UIElem[WIDGET_COUNT];
     m_ui_texture_id = Utility::load_texture("assets/00.png");
+    m_ui_texture_id2 = Utility::load_texture("assets/07.png");
 
     m_game_state.widgets[0] = UIElem(m_ui_texture_id, 20, 10, m_game_state.player, STANCE);
     int test_animation[] = { 55 };
@@ -201,6 +202,13 @@ void LevelA::initialise()
     m_game_state.widgets[7].switch_animation("idle", false);
     m_game_state.widgets[7].m_offset = glm::vec3(0.19f, 0.0f, 0.0f);
 
+    // Meter
+    int test_animation4[] = { 18 };
+    m_game_state.widgets[8] = UIElem(m_ui_texture_id2, 9, 18, m_game_state.player, METER);
+    m_game_state.widgets[8].set_animation("idle", test_animation4, 1);
+    m_game_state.widgets[8].switch_animation("idle", false);
+    //m_game_state.widgets[8].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 1.6f, 0.0f);
+
     /**
      BGM and SFX
      */
@@ -235,6 +243,9 @@ void LevelA::update(float delta_time)
 
     for (int i = 0; i < WIDGET_COUNT; i++)
 		m_game_state.widgets[i].update(delta_time);
+
+    // center meter
+    m_game_state.widgets[8].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 1.6f, 0.0f);
 }
 
 
@@ -256,11 +267,11 @@ void LevelA::render(ShaderProgram *g_shader_program)
 	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance_str(), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player->get_weight()), 0.5f, 0.05f,
-		m_game_state.player->get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); // position according to player
+		m_game_state.player->get_position() + glm::vec3(0.4f, 1.0f, 0.0f)); // position according to player
 	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player2->get_stance_str(), 0.5f, 0.05f,
 		m_game_state.player2->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player2->get_weight()), 0.5f, 0.05f,
-		m_game_state.player2->get_position() + glm::vec3(0.5f, 1.0f, 0.0f)); // position according to player
+		m_game_state.player2->get_position() + glm::vec3(0.4f, 1.0f, 0.0f)); // position according to player
 
     if (!m_game_state.player->is_alive())
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Lose.", 0.5f, 0.05f,

@@ -5,8 +5,10 @@ public:
     // ————— STATIC ATTRIBUTES ————— //
     int ENEMY_COUNT = 0;
     int m_enemies_left = ENEMY_COUNT;
-    int WIDGET_COUNT = 8;
+    //int WIDGET_COUNT = 10;
+    int WIDGET_COUNT = 9;
     GLuint m_ui_texture_id;
+    GLuint m_ui_texture_id2;
     GLuint m_font_texture_id;
     
     // ————— DESTRUCTOR ————— //
