@@ -210,6 +210,16 @@ void LevelA::initialise()
 
 void LevelA::update(float delta_time)
 {
+    // players face each other
+    if ((m_game_state.player->get_position().x < m_game_state.player2->get_position().x &&
+        m_game_state.player->get_scale().x < 0) ||
+        (m_game_state.player->get_position().x > m_game_state.player2->get_position().x &&
+        m_game_state.player->get_scale().x > 0))
+    {
+        m_game_state.player->horizontal_mirror();
+        m_game_state.player2->horizontal_mirror();
+    }
+
     m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     m_game_state.player2->update(delta_time, m_game_state.player2, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     
