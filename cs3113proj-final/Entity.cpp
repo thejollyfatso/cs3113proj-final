@@ -221,7 +221,7 @@ void const Entity::hitbox_deactivate() { m_hitbox->m_active = false; }
 void const Entity::attack() 
 { 
     switch_animation("attack", true);  
-    set_hitdata_by_animation(); 
+    //set_hitdata_by_animation(); 
 }
 
 void const Entity::bind(AtkStance o_atk_stance, int o_atk_weight)
@@ -518,6 +518,7 @@ void const Entity::check_collision_x(Map* map) {
 void Entity::update(float delta_time, Entity* player, Entity* collidable_entities, int collidable_entity_count, Map* map) {
     if (!m_is_active) return;
     switch_animation("idle", false);
+    set_hitdata_by_animation(); 
 
     m_collided_top = false;
     m_collided_bottom = false;

@@ -131,13 +131,13 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
         //if (isColliding(otherHitbox) && otherHitbox->m_entity->m_is_active && m_entity->m_is_active && m_active) {
         //if (isColliding(otherHitbox) && otherHitbox->m_entity->m_is_active && m_entity->m_is_active) {
         if (isColliding(otherHitbox) && m_active && otherHitbox->m_active) {
-            this->m_hidden = false;
-            otherHitbox->m_hidden = false;
+            //this->m_hidden = false;
+            //otherHitbox->m_hidden = false;
             otherHitbox->m_entity->bind(m_entity->get_stance(), m_entity->get_weight());
         }
         if (isColliding(otherHitbox) && m_active && !otherHitbox->m_active) {
-            this->m_hidden = false;
-            otherHitbox->m_hidden = false;
+            //this->m_hidden = false;
+            //otherHitbox->m_hidden = false;
             otherHitbox->m_entity->parry(m_entity->get_stance(), m_entity->get_weight());
         }
 		else { this->m_hidden = true; otherHitbox->m_hidden = true; } //  DEBUG
@@ -145,7 +145,7 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
 }
 
 void Hitbox::render(ShaderProgram* program) {
-    if (!m_hidden)
+    //if (!m_hidden)
     { 
 		program->set_model_matrix(m_model_matrix);
 

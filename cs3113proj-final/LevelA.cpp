@@ -127,14 +127,14 @@ void LevelA::initialise()
     m_game_state.player->set_hitbox(&m_game_state.hitboxes[0]);
     m_game_state.player2->set_hitbox(&m_game_state.hitboxes[1]);
 
-    glm::vec3 hb_scale = { 1.0f, 1.4f, 1.0f };
-    glm::vec3 hb_offset = { 1.3f, 0.2f, 0.0f };
+    glm::vec3 hb_scale = { 1.8f, 1.4f, 1.0f };
+    glm::vec3 hb_offset = { 0.8f, 0.2f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
     m_game_state.player2->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
-    hb_scale = { 1.2f, 1.2f, 1.0f };
-    hb_offset = { 0.8f, 0.6f, 0.0f };
-    m_game_state.player->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
-    m_game_state.player2->get_hitbox()->add_hitdata("counter", hb_scale, hb_offset);
+    hb_scale = { 0.4f, 1.1f, 1.0f };
+    hb_offset = { 0.05f, 0.0f, 0.0f };
+    m_game_state.player->get_hitbox()->add_hitdata("idle", hb_scale, hb_offset);
+    m_game_state.player2->get_hitbox()->add_hitdata("idle", hb_scale, hb_offset);
 
     // UI Elements
     m_game_state.widgets = new UIElem[WIDGET_COUNT];
