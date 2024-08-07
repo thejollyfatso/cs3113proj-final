@@ -531,7 +531,8 @@ void const Entity::check_collision_x(Map* map) {
 void Entity::update(float delta_time, Entity* player, Entity* collidable_entities, int collidable_entity_count, Map* map) {
     if (!m_is_active) return;
     switch_animation("idle", false);
-    if (m_is_attacking && m_meter->m_frame == 0)
+    //if (m_is_attacking && m_meter->m_frame == 0)
+    if (m_is_attacking && m_meter->m_frame == 2)  // hardcode change for visual timing
     {
 		if (m_atk_stance < 2) switch_animation("attack", true);  
 		else switch_animation("attack2", true);  

@@ -209,6 +209,11 @@ void LevelA::initialise()
     m_game_state.widgets[8].switch_animation("idle", false);
     //m_game_state.widgets[8].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 1.6f, 0.0f);
 
+    int test_animation5[] = { 25 };
+    m_game_state.widgets[9] = UIElem(m_ui_texture_id2, 9, 18, m_game_state.player, METER);
+    m_game_state.widgets[9].set_animation("idle", test_animation5, 1);
+    m_game_state.widgets[9].switch_animation("idle", false);
+
     /**
      BGM and SFX
      */
@@ -246,6 +251,9 @@ void LevelA::update(float delta_time)
 
     // center meter
     m_game_state.widgets[8].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 1.6f, 0.0f);
+    m_game_state.widgets[9].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 
+        3.0f - (3.0 * ((m_game_state.meter->m_frame+1.0f) / (m_game_state.meter->m_FRAMES*1.0f))) + 1.6f,
+        0.0f);
 }
 
 
@@ -261,8 +269,11 @@ void LevelA::render(ShaderProgram *g_shader_program)
     for (int i = 0; i < WIDGET_COUNT; i++)
 		m_game_state.widgets[i].render(g_shader_program);
 
+    /*
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.meter->m_frame), 0.5f, 0.05f,
+	//Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.meter->m_frame/(m_game_state.meter->m_FRAMES * 1.0f)), 0.5f, 0.05f,
 		glm::vec3(((m_game_state.player->get_position().x + m_game_state.player2->get_position().x)/2), -2.4f, 0.0f));
+        */
     // DEBUG prototype to ui elements
 	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance_str(), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
