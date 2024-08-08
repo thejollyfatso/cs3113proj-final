@@ -31,6 +31,8 @@ void Entity::ai_activate(Entity* player) {
     switch (m_ai_type) {
     case TRAP:
         ai_trap(player);
+    case DEBUG_RANGER:
+        ai_range(player);
     default:
         break;
     }
@@ -54,6 +56,15 @@ void Entity::ai_trap(Entity *player) {
             m_ai_state = ATTACKING;
             break;
         }
+    }
+}
+
+void Entity::ai_range(Entity* player) {
+    switch (m_ai_state) {
+    case APPROACH:
+        break;
+    case DISTANCE:
+        break;
     }
 }
 
