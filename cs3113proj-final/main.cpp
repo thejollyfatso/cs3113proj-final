@@ -175,14 +175,6 @@ void process_input()
                     case SDLK_a:
                         g_current_scene->get_state().player->move_left();
                         break;
-                    case SDLK_SPACE:
-                        // ————— JUMPING ————— //
-                        if (g_current_scene->get_state().player->get_collided_bottom())
-                        {
-                            g_current_scene->get_state().player->jump();
-                            Mix_PlayChannel(-1,  g_current_scene->get_state().jump_sfx, 0);
-                        }
-                        break;
 
                     case SDLK_f:
                         // attack
@@ -206,30 +198,30 @@ void process_input()
                         break;
                         
                     case SDLK_l:
-                        g_current_scene->get_state().player2->move_right();
+                        if (g_current_scene == g_levels[1]) g_current_scene->get_state().player2->move_right();
                         break;
                     case SDLK_j:
-                        g_current_scene->get_state().player2->move_left();
+                        if (g_current_scene == g_levels[1]) g_current_scene->get_state().player2->move_left();
                         break;
                     case SDLK_h:
                         // attack
-						g_current_scene->get_state().player2->attack();
+						if (g_current_scene == g_levels[1]) g_current_scene->get_state().player2->attack();
                         break;
 
                     case SDLK_i:
-						g_current_scene->get_state().player2->inc_weight();
+						if (g_current_scene == g_levels[1]) g_current_scene->get_state().player2->inc_weight();
                         break;
                         
                     case SDLK_k:
-						g_current_scene->get_state().player2->dec_weight();
+						if (g_current_scene == g_levels[1]) g_current_scene->get_state().player2->dec_weight();
                         break;
                         
                     case SDLK_u:
-						g_current_scene->get_state().player2->dec_stance();
+						if (g_current_scene == g_levels[1]) g_current_scene->get_state().player2->dec_stance();
                         break;
                         
                     case SDLK_o:
-						g_current_scene->get_state().player2->inc_stance();
+						if (g_current_scene == g_levels[1]) g_current_scene->get_state().player2->inc_stance();
                         break;
 
                     default:
