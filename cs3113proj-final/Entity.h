@@ -10,9 +10,10 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
-enum AIType     { TRAP, DEBUG_RANGER      };
+enum AIType     { TRAP, DEBUG_RANGER, DEBUG_CRASH      };
 enum AIState    { IDLE, ATTACKING,          // grandfathered states
-                  APPROACH, DISTANCE };
+                  APPROACH, DISTANCE,
+                  CRASH_OFF, CRASH_DEF };
 enum AtkStance  { N, E, S, W               };
 struct AtkInput
 {
@@ -142,6 +143,7 @@ public:
     void ai_activate(Entity *player);
     void ai_trap(Entity *player);
     void ai_range(Entity *player);
+    void ai_crash(Entity *player);
     
     void normalise_movement() { m_movement = glm::normalize(m_movement); }
 

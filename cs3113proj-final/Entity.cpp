@@ -33,6 +33,8 @@ void Entity::ai_activate(Entity* player) {
         ai_trap(player);
     case DEBUG_RANGER:
         ai_range(player);
+    case DEBUG_CRASH:
+        ai_crash(player);
     default:
         break;
     }
@@ -60,6 +62,31 @@ void Entity::ai_trap(Entity *player) {
 }
 
 void Entity::ai_range(Entity* player) {
+    switch (m_ai_state) {
+    case APPROACH:
+        if (m_position.x > player->get_position().x + 2.4) {
+            move_left();
+        }
+        else if (m_position.x < player->get_position().x - 2.4) {
+            move_right();
+        }
+        if (glm::distance(m_position, player->get_position()) < 1.6f) {
+            m_ai_state = DISTANCE;
+        }
+        break;
+    case DISTANCE:
+		if (glm::distance(m_position, player->get_position()) < 2.4f) {
+            if (m_position.x < player->get_position().x) move_left();
+            if (m_position.x > player->get_position().x) move_right();
+        }
+        else if (glm::distance(m_position, player->get_position()) > 3.2f) {
+            m_ai_state = APPROACH;
+        }
+        break;
+    }
+}
+
+void Entity::ai_crash(Entity* player) {
     switch (m_ai_state) {
     case APPROACH:
         if (m_position.x > player->get_position().x + 2.4) {
