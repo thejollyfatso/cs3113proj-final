@@ -62,8 +62,18 @@ void Entity::ai_trap(Entity *player) {
 void Entity::ai_range(Entity* player) {
     switch (m_ai_state) {
     case APPROACH:
+        if (m_position.x > player->get_position().x + 2.4) {
+            move_left();
+        }
+        else if (m_position.x < player->get_position().x - 2.4) {
+            move_right();
+        }
         break;
     case DISTANCE:
+		if (glm::distance(m_position, player->get_position()) < 2.4f) {
+            if (m_position.x < player->get_position().x) move_left();
+            if (m_position.x > player->get_position().x) move_right();
+        }
         break;
     }
 }
