@@ -105,6 +105,7 @@ void Entity::ai_crash(Entity* player) {
                 dec_weight();
             }
         }
+        if (m_current_animation == "counter") m_ai_state = DISTANCE;
         break;
     case APPROACH:
         if (m_position.x > player->get_position().x + 2.4) {
