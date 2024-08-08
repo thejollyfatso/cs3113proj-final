@@ -10,8 +10,8 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
-enum AIType     { WALKER, GUARD, TRAP      };
-enum AIState    { WALKING, IDLE, ATTACKING };
+enum AIType     { TRAP      };
+enum AIState    { IDLE, ATTACKING };
 enum AtkStance  { N, E, S, W               };
 struct AtkInput
 {
@@ -138,9 +138,6 @@ public:
     void render(ShaderProgram* program);
 
     void ai_activate(Entity *player);
-    void ai_walk();
-    void ai_walk(float l_bound, float r_bound);
-    void ai_guard(Entity *player);
     void ai_trap(Entity *player);
     
     void normalise_movement() { m_movement = glm::normalize(m_movement); }

@@ -29,64 +29,8 @@ AtkStance& operator--(AtkStance& dir) {
 
 void Entity::ai_activate(Entity* player) {
     switch (m_ai_type) {
-    case WALKER:
-        //ai_walk();
-        ai_walk(2.0f, 4.0f); // hardcode ew
-        break;
-    case GUARD:
-        ai_guard(player);
-        break;
     case TRAP:
         ai_trap(player);
-    default:
-        break;
-    }
-}
-
-void Entity::ai_walk() {
-    m_movement = glm::vec3(-1.0f, 0.0f, 0.0f);
-}
-
-void Entity::ai_walk(float l_bound, float r_bound) {
-    switch_animation("run", false); // this should not need to be called
-    if (m_position.x <= l_bound)
-    {
-        if (!m_movement.x) m_movement.x = 1.0f;
-        move_right();
-    }
-    if (m_position.x >= r_bound)
-    {
-        if (!m_movement.x) m_movement.x = -1.0f;
-        move_left();
-    }
-}
-
-void Entity::ai_guard(Entity* player) {
-    switch (m_ai_state) {
-    case IDLE:
-		switch_animation("idle", false);
-		m_movement = glm::vec3(0.0f, 0.0f, 0.0f);
-        if (glm::distance(m_position, player->get_position()) < 3.0f) m_ai_state = WALKING;
-        break;
-    case WALKING:
-        if (m_position.x > player->get_position().x + 1.2) {
-            m_movement = glm::vec3(-1.0f, 0.0f, 0.0f);
-            switch_animation("run", false);
-            face_left();
-        }
-        else if (m_position.x < player->get_position().x - 1.2) {
-            m_movement = glm::vec3(1.0f, 0.0f, 0.0f);
-            switch_animation("run", false);
-            face_right();
-        }
-        else {
-            m_ai_state = ATTACKING;
-        }
-        break;
-    case ATTACKING:
-        attack();
-		m_ai_state = IDLE;
-        break;
     default:
         break;
     }
