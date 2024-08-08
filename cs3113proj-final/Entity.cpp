@@ -68,11 +68,17 @@ void Entity::ai_range(Entity* player) {
         else if (m_position.x < player->get_position().x - 2.4) {
             move_right();
         }
+        if (glm::distance(m_position, player->get_position()) < 1.6f) {
+            m_ai_state = DISTANCE;
+        }
         break;
     case DISTANCE:
 		if (glm::distance(m_position, player->get_position()) < 2.4f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
+        }
+        else if (glm::distance(m_position, player->get_position()) > 3.2f) {
+            m_ai_state = APPROACH;
         }
         break;
     }
