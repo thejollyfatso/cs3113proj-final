@@ -89,6 +89,22 @@ void Entity::ai_range(Entity* player) {
 void Entity::ai_crash(Entity* player) {
     switch (m_ai_state) {
     case CRASH_DEF:
+        if (m_atk_stance != player->get_stance()) {
+            if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+                inc_stance();
+            }
+            else {
+                dec_stance();
+            }
+        }
+        if (m_atk_weight != player->get_weight()) {
+            if (m_atk_weight < player->get_weight()) {
+                inc_weight();
+            }
+            else {
+                dec_weight();
+            }
+        }
         break;
     case APPROACH:
         if (m_position.x > player->get_position().x + 2.4) {
@@ -98,7 +114,8 @@ void Entity::ai_crash(Entity* player) {
             move_right();
         }
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            m_ai_state = DISTANCE;
+            //m_ai_state = DISTANCE;
+            m_ai_state = CRASH_DEF;
         }
         break;
     case DISTANCE:
