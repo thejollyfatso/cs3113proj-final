@@ -98,7 +98,9 @@ void LevelB::initialise()
         8,                         // animation row amount
         2.0f,                      // width
         2.0f,                       // height
-        PLAYER
+        ENEMY,
+        TRAP,
+        IDLE
     );
 
     // enlarge
