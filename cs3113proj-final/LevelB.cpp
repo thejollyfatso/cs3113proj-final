@@ -6,7 +6,7 @@
 
 constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
-           ENEMY_FILEPATH[]       = "assets/enemy_spritesheet.png";
+           ENEMY_FILEPATH[]       = "assets/spritesheet2.png";
 
 unsigned int LEVEL2_DATA[] =
 {
