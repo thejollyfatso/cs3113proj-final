@@ -267,8 +267,6 @@ void update()
         
         delta_time -= FIXED_TIMESTEP;
     }
-    //if (g_current_scene->get_state().next_scene_id >= 0) switch_to_scene(g_levels[g_current_scene->get_state().next_scene_id]);
-    //if (g_current_scene == g_levelA && g_current_scene->get_state().player->get_position().y < -10.0f) switch_to_scene(g_levelB);
     
     g_accumulator = delta_time;
     
