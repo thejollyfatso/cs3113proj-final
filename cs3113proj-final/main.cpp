@@ -276,11 +276,13 @@ void update()
     // ————— PLAYER CAMERA ————— //
     g_view_matrix = glm::mat4(1.0f);
     
-    if (g_current_scene->get_state().player->get_position().x > LEVEL1_LEFT_EDGE) {
-        g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-g_current_scene->get_state().player->get_position().x, 3.75, 0));
-    } else {
-        g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-5, 3.75, 0));
-    }
+    float midpoint_x = (g_current_scene->get_state().player->get_position().x + g_current_scene->get_state().player2->get_position().x) / 2.0f;
+
+    g_view_matrix = glm::translate(g_view_matrix, glm::vec3(
+        -(midpoint_x > LEVEL1_LEFT_EDGE ? midpoint_x : LEVEL1_LEFT_EDGE),
+        3.75,
+        0
+    ));
 }
 
 void render()
