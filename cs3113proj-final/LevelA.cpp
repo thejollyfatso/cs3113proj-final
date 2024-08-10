@@ -8,6 +8,7 @@ constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
            ENEMY_FILEPATH[]       = "assets/enemy_spritesheet.png";
 
+/*
 unsigned int LEVEL_DATA[] =
 {
     66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -18,6 +19,18 @@ unsigned int LEVEL_DATA[] =
     86, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     106, 107, 27, 28, 27, 28, 27, 28, 27, 27, 27, 27, 27, 50,
     126, 127, 128, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 130
+};
+*/
+unsigned int LEVEL_DATA[] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 205, 207, 209, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23,
+    61, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 63
 };
 
 LevelA::~LevelA()
@@ -37,8 +50,9 @@ void LevelA::initialise()
 {
     m_game_state.meter = new Meter;
     m_font_texture_id = Utility::load_texture("assets/font1.png");
-    GLuint map_texture_id = Utility::load_texture("assets/Fantasy Swamp Forest/Free/Terrain_and_Props.png");
-    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 20, 34);
+    //GLuint map_texture_id = Utility::load_texture("assets/Fantasy Swamp Forest/Free/Terrain_and_Props.png");
+    GLuint map_texture_id = Utility::load_texture("assets/ReverieGrassland/tileset.png");
+    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 20, 13);
     
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
 
