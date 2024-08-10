@@ -31,13 +31,13 @@ void Entity::set_ai_difficulty(AIDifficulty difficulty) {
 	m_ai_difficulty = difficulty;
 	switch (m_ai_difficulty) {
 	case EASY:
-		m_ai_action_delay = 500; // 0.5 seconds
+		m_ai_action_delay = 750;
 		break;
 	case MEDIUM:
-		m_ai_action_delay = 333; // 0.333 seconds
+		m_ai_action_delay = 500;
 		break;
 	case HARD:
-		m_ai_action_delay = 250; // 0.25 seconds
+		m_ai_action_delay = 250;
 		break;
 	}
 }
