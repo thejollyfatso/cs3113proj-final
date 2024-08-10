@@ -20,7 +20,7 @@ bool AudioManager::load_sounds() {
     m_sounds["bind"] = Mix_LoadWAV("assets/sound/bind.wav");
     m_sounds["parry"] = Mix_LoadWAV("assets/sound/parry.wav");
     m_sounds["swing"] = Mix_LoadWAV("assets/sound/swing.wav");
-    m_sounds["knockback"] = Mix_LoadWAV("assets/sound/knockback.wav");
+    m_sounds["knockback"] = Mix_LoadWAV("assets/sound/knockback_alt.wav");
     m_sounds["decision"] = Mix_LoadWAV("assets/sound/decision.wav");
     m_sounds["death"] = Mix_LoadWAV("assets/sound/death.wav");
 
