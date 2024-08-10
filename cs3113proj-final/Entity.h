@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <deque>
+#include <chrono>
 #include "Map.h"
 #include "Hitbox.h"
 #include "Meter.h"
@@ -51,6 +52,7 @@ private:
     AIType     m_ai_type;
     AIState    m_ai_state;
     int        m_ai_action_count = 0;
+    std::chrono::time_point<std::chrono::steady_clock> m_last_action_time = std::chrono::steady_clock::now();
     // ————— TRANSFORMATIONS ————— //
     glm::vec3 m_movement;
     glm::vec3 m_position;

@@ -101,41 +101,54 @@ void Entity::ai_range(Entity* player) {
 }
 
 void Entity::ai_crash(Entity* player) {
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
+
     switch (m_ai_state) {
     case CRASH_DEF:
-        if (m_atk_stance != player->get_stance()) {
-            if ((m_atk_stance + 1) % 4 == player->get_stance()) {
-                inc_stance();
+        if (elapsed_time >= 250) { // 250 milliseconds delay
+            if (m_atk_stance != player->get_stance()) {
+                if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+                    inc_stance();
+                }
+                else {
+                    dec_stance();
+                }
             }
-            else {
-                dec_stance();
+            if (m_atk_weight != player->get_weight()) {
+                if (m_atk_weight < player->get_weight()) {
+                    inc_weight();
+                }
+                else {
+                    dec_weight();
+                }
             }
-        }
-        if (m_atk_weight != player->get_weight()) {
-            if (m_atk_weight < player->get_weight()) {
-                inc_weight();
-            }
-            else {
-                dec_weight();
-            }
+            m_last_action_time = now; // Reset the timer
         }
         if (m_current_animation == "counter") m_ai_state = APPROACH;
         break;
+
     case CRASH_OFF:
-        if (m_atk_stance != player->get_stance()) {
-            if ((m_atk_stance + 1) % 4 == player->get_stance()) {
-                inc_stance();
+        if (elapsed_time >= 250) { // 250 milliseconds delay
+            if (m_atk_stance != player->get_stance()) {
+                if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+                    inc_stance();
+                }
+                else {
+                    dec_stance();
+                }
             }
-            else {
-                dec_stance();
-            }
+            if (m_atk_weight <= player->get_weight()) inc_weight();
+            m_last_action_time = now; // Reset the timer
         }
-        if (m_atk_weight <= player->get_weight()) inc_weight();
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
             attack();
         }
-        else m_ai_state = DISTANCE;
+        else {
+            m_ai_state = DISTANCE;
+        }
         break;
+
     case APPROACH:
         if (m_position.x > player->get_position().x + 2.4) {
             move_left();
@@ -148,8 +161,9 @@ void Entity::ai_crash(Entity* player) {
             else m_ai_state = CRASH_DEF;
         }
         break;
+
     case DISTANCE:
-		if (glm::distance(m_position, player->get_position()) < 2.4f) {
+        if (glm::distance(m_position, player->get_position()) < 2.4f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
@@ -161,35 +175,48 @@ void Entity::ai_crash(Entity* player) {
 }
 
 void Entity::ai_mirror(Entity* player) {
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
+
     switch (m_ai_state) {
     case MIRROR_DEF:
-        if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-            if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-                inc_stance();
+        if (elapsed_time >= 250) { // 250 milliseconds delay
+            if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                    inc_stance();
+                }
+                else {
+                    dec_stance();
+                }
             }
-            else {
-                dec_stance();
-            }
+            if (m_atk_weight > player->get_weight()) dec_weight();
+            m_last_action_time = now; // Reset the timer
         }
-		if (m_atk_weight > player->get_weight()) dec_weight();
         attack();
         m_ai_state = APPROACH;
         break;
+
     case MIRROR_OFF:
-        if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-            if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-                inc_stance();
+        if (elapsed_time >= 250) { // 250 milliseconds delay
+            if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                    inc_stance();
+                }
+                else {
+                    dec_stance();
+                }
             }
-            else {
-                dec_stance();
-            }
+            if (m_atk_weight >= player->get_weight()) dec_weight();
+            m_last_action_time = now; // Reset the timer
         }
-		if (m_atk_weight >= player->get_weight()) dec_weight();
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
             attack();
         }
-        else m_ai_state = DISTANCE;
+        else {
+            m_ai_state = DISTANCE;
+        }
         break;
+
     case APPROACH:
         if (m_position.x > player->get_position().x + 2.4) {
             move_left();
@@ -202,8 +229,9 @@ void Entity::ai_mirror(Entity* player) {
             else m_ai_state = MIRROR_DEF;
         }
         break;
+
     case DISTANCE:
-		if (glm::distance(m_position, player->get_position()) < 2.4f) {
+        if (glm::distance(m_position, player->get_position()) < 2.4f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
@@ -215,31 +243,43 @@ void Entity::ai_mirror(Entity* player) {
 }
 
 void Entity::ai_cooler(Entity* player) {
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
+
     switch (m_ai_state) {
     case COOLER_DEF:
-        if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) inc_stance();
-        if (m_atk_weight == player->get_weight())
-        {
-            if (m_atk_weight == 1) inc_weight();
-            else dec_weight();
+        if (elapsed_time >= 250) { // 250 milliseconds delay
+            if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) inc_stance();
+            if (m_atk_weight == player->get_weight()) {
+                if (m_atk_weight == 1) inc_weight();
+                else dec_weight();
+            }
+            m_last_action_time = now; // Reset the timer
         }
         if (m_current_animation == "counter") m_ai_state = APPROACH;
         break;
+
     case COOLER_OFF:
-        if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) inc_stance();
-        if (m_atk_weight != player->get_weight()) {
-            if (m_atk_weight < player->get_weight()) {
-                inc_weight();
+        if (elapsed_time >= 250) { // 250 milliseconds delay
+            if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) inc_stance();
+            if (m_atk_weight != player->get_weight()) {
+                if (m_atk_weight < player->get_weight()) {
+                    inc_weight();
+                }
+                else {
+                    dec_weight();
+                }
             }
-            else {
-                dec_weight();
-            }
+            m_last_action_time = now; // Reset the timer
         }
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
             attack();
         }
-        else m_ai_state = DISTANCE;
+        else {
+            m_ai_state = DISTANCE;
+        }
         break;
+
     case APPROACH:
         if (m_position.x > player->get_position().x + 2.4) {
             move_left();
@@ -252,8 +292,9 @@ void Entity::ai_cooler(Entity* player) {
             else m_ai_state = COOLER_DEF;
         }
         break;
+
     case DISTANCE:
-		if (glm::distance(m_position, player->get_position()) < 2.4f) {
+        if (glm::distance(m_position, player->get_position()) < 2.4f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
