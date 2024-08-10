@@ -41,6 +41,7 @@ void LevelB::initialise()
     m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL2_DATA, map_texture_id, 1.0f, 20, 34);
     
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
+    GLuint player2_texture_id = Utility::load_texture(ENEMY_FILEPATH);
 
     glm::vec3 acceleration = glm::vec3(0.0f, -9.81f, 0.0f);
 
@@ -62,7 +63,7 @@ void LevelB::initialise()
     // enlarge
     glm::vec3 new_scale = { 4.0f, 4.0f, 0.0f };
     m_game_state.player->set_scale(new_scale);
-    m_game_state.player->set_margin_y(glm::vec2(0.6f, 0.1f)); // trim sprite
+    m_game_state.player->set_margin_y(glm::vec2(0.8f, 0.1f)); // trim sprite
     m_game_state.player->set_margin_x(glm::vec2(0.5f, 0.5f)); // trim sprite
     
     // set animations
@@ -87,7 +88,7 @@ void LevelB::initialise()
 
     // PLAYER 2
     m_game_state.player2 = new Entity(
-        player_texture_id,         // texture id
+        player2_texture_id,         // texture id
         5.0f,                      // speed
         acceleration,              // acceleration
         6.0f,                      // jumping power
@@ -95,7 +96,7 @@ void LevelB::initialise()
         8,                         // animation frame amount
         0,                         // current animation index
         8,                         // animation column amount
-        8,                         // animation row amount
+        9,                         // animation row amount
         2.0f,                      // width
         2.0f,                       // height
         ENEMY,
@@ -105,16 +106,24 @@ void LevelB::initialise()
 
     // enlarge
     m_game_state.player2->set_scale(new_scale);
-    m_game_state.player2->set_margin_y(glm::vec2(0.6f, 0.1f)); // trim sprite
+    m_game_state.player2->set_margin_y(glm::vec2(0.8f, 0.1f)); // trim sprite
     m_game_state.player2->set_margin_x(glm::vec2(0.5f, 0.5f)); // trim sprite
     
-    m_game_state.player2->set_animation("run", run_animation, 3, 0, 0);
-    m_game_state.player2->set_animation("idle", idle_animation, 4, 0, 0);
-    m_game_state.player2->set_animation("counter", counter_animation, 4, 0, 0);
-    m_game_state.player2->set_animation("attack", attack_animation, 4, 3, 1);
-    m_game_state.player2->set_animation("attack2", attack2_animation, 4, 3, 1);
-    m_game_state.player2->set_animation("death", death_animation, 7, 0, 0);
-    m_game_state.player2->set_animation("jump", jump_animation, 2, 0, 0);
+    int run_animation2[] = { 48, 49, 51 };
+    int idle_animation2[] = { 32, 33, 34, 35 };
+    int counter_animation2[] = { 3, 8, 8, 3 };
+    int attack_animation2[] = { 2, 3, 4, 5 };
+    int attack2_animation2[] = { 3, 11, 12, 13 };
+    int death_animation2[] = { 16, 17, 18, 19, 20, 21 };
+    int jump_animation2[] = { 65, 65 };
+    
+    m_game_state.player2->set_animation("run", run_animation2, 3, 0, 0);
+    m_game_state.player2->set_animation("idle", idle_animation2, 4, 0, 0);
+    m_game_state.player2->set_animation("counter", counter_animation2, 4, 0, 0);
+    m_game_state.player2->set_animation("attack", attack_animation2, 4, 3, 1);
+    m_game_state.player2->set_animation("attack2", attack2_animation2, 4, 3, 1);
+    m_game_state.player2->set_animation("death", death_animation2, 6, 0, 0);
+    m_game_state.player2->set_animation("jump", jump_animation2, 2, 0, 0);
     m_game_state.player2->switch_animation("idle", true); // start with idle
 
     m_game_state.player2->set_position(glm::vec3(8.0f, 0.0f, 0.0f));
