@@ -105,7 +105,22 @@ void Entity::ai_crash(Entity* player) {
                 dec_weight();
             }
         }
-        if (m_current_animation == "counter") m_ai_state = DISTANCE;
+        if (m_current_animation == "counter") m_ai_state = APPROACH;
+        break;
+    case CRASH_OFF:
+        if (m_atk_stance != player->get_stance()) {
+            if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+                inc_stance();
+            }
+            else {
+                dec_stance();
+            }
+        }
+        if (m_atk_weight <= player->get_weight()) inc_weight();
+        if (glm::distance(m_position, player->get_position()) < 1.6f) {
+            attack();
+        }
+        else m_ai_state = DISTANCE;
         break;
     case APPROACH:
         if (m_position.x > player->get_position().x + 2.4) {
@@ -115,8 +130,8 @@ void Entity::ai_crash(Entity* player) {
             move_right();
         }
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            //m_ai_state = DISTANCE;
-            m_ai_state = CRASH_DEF;
+            if (m_atk_weight == player->get_weight()) m_ai_state = CRASH_OFF;
+            else m_ai_state = CRASH_DEF;
         }
         break;
     case DISTANCE:
