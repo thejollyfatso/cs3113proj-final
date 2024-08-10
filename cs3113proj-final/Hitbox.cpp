@@ -138,7 +138,8 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
         if (isColliding(otherHitbox) && m_active && !otherHitbox->m_active) {
             //this->m_hidden = false;
             //otherHitbox->m_hidden = false;
-            otherHitbox->m_entity->parry(m_entity->m_input_queue[0].stance, m_entity->m_input_queue[0].weight);
+            //otherHitbox->m_entity->parry(m_entity->m_input_queue[0].stance, m_entity->m_input_queue[0].weight);
+            otherHitbox->m_entity->parry(m_entity->m_atk_stance, m_entity->m_atk_weight);
         }
 		else { this->m_hidden = true; otherHitbox->m_hidden = true; } //  DEBUG
     }
