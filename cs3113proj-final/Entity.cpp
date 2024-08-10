@@ -321,6 +321,7 @@ void Entity::move_right()
         m_face_forward = true;
         m_target_position = m_position + glm::vec3(0.4f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 2 - m_atk_weight, 0.0f, 0.0f);
         m_is_moving = true;
+        soundbox.play_sound("dash");
     }
 }
 
@@ -337,6 +338,7 @@ void Entity::move_left()
         m_face_forward = false;
         m_target_position = m_position - glm::vec3(0.4f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 2 - m_atk_weight, 0.0f, 0.0f);
         m_is_moving = true;
+        soundbox.play_sound("dash");
     }
 }
 
@@ -378,17 +380,14 @@ void const Entity::hitbox_deactivate() { m_hitbox->m_active = false; }
 
 void const Entity::attack() 
 { 
+	soundbox.play_sound("decision");
     if (!m_is_moving) m_is_attacking = true;
     if (m_input_queue.size() < 3 && !m_is_moving) m_input_queue.push_back({ m_atk_stance, m_atk_weight });
-    /*
-    if (m_atk_stance < 2) switch_animation("attack", true);  
-    else switch_animation("attack2", true);  
-    */
-    //set_hitdata_by_animation(); 
 }
 
 void const Entity::bind(AtkStance o_atk_stance, int o_atk_weight)
 {
+	soundbox.play_sound("bind");
     if (o_atk_stance == m_atk_stance)
     {
         if (m_atk_weight < o_atk_weight) death();
@@ -406,6 +405,7 @@ void const Entity::bind(AtkStance o_atk_stance, int o_atk_weight)
 
 void const Entity::parry(AtkStance o_atk_stance, int o_atk_weight)
 {
+	soundbox.play_sound("parry");
     switch_animation("counter", true);  
     if (o_atk_stance == m_atk_stance)
     {
@@ -428,6 +428,7 @@ void const Entity::knockback()
 	if (m_scale.x > 0) m_target_position.x = m_position.x - 0.3f;
 	else m_target_position.x = m_position.x + 0.3f;
 	m_is_moving = true;
+	soundbox.play_sound("knockback");
     ai_action_inc(); // change master ai DEBUG
 }
 
@@ -686,6 +687,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     //if (m_is_attacking && m_meter->m_frame == 0)
     if (m_is_attacking && m_meter->m_frame == 4)  // hardcode change for visual timing
     {
+		soundbox.play_sound("swing");
 		if (m_atk_stance < 2) switch_animation("attack", true);  
 		else switch_animation("attack2", true);  
         if (m_input_queue.size() < 2) m_is_attacking = false;

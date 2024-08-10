@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "Hitbox.h"
 #include "Meter.h"
+#include "AudioManager.h"
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
@@ -110,6 +111,9 @@ private:
     Meter* m_meter = nullptr;
 
     std::deque<AtkInput> m_input_queue;
+
+    // AUDIO //
+    AudioManager soundbox;
 
 public:
     // ————— STATIC VARIABLES ————— //

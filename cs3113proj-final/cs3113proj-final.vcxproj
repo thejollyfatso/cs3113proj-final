@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Hitbox.cpp" />
     <ClCompile Include="Level0.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="Level0.h" />
