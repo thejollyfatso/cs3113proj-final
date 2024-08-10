@@ -101,7 +101,8 @@ void LevelB::initialise()
         2.0f,                       // height
         ENEMY,
         MASTER,
-        DISTANCE
+        DISTANCE,
+        EASY
     );
 
     // enlarge

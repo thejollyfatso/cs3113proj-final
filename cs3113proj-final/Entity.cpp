@@ -27,6 +27,21 @@ AtkStance& operator--(AtkStance& dir) {
     return dir;
 }
 
+void Entity::set_ai_difficulty(AIDifficulty difficulty) {
+	m_ai_difficulty = difficulty;
+	switch (m_ai_difficulty) {
+	case EASY:
+		m_ai_action_delay = 500; // 0.5 seconds
+		break;
+	case MEDIUM:
+		m_ai_action_delay = 333; // 0.333 seconds
+		break;
+	case HARD:
+		m_ai_action_delay = 250; // 0.25 seconds
+		break;
+	}
+}
+
 void Entity::ai_activate(Entity* player) {
     if (m_is_active)
     {
@@ -103,13 +118,15 @@ void Entity::ai_range(Entity* player) {
     }
 }
 
+#include "Entity.h"
+
 void Entity::ai_crash(Entity* player) {
     auto now = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
 
     switch (m_ai_state) {
     case CRASH_DEF:
-        if (elapsed_time >= 250) { // 250 milliseconds delay
+        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
             if (m_atk_stance != player->get_stance()) {
                 if ((m_atk_stance + 1) % 4 == player->get_stance()) {
                     inc_stance();
@@ -132,7 +149,7 @@ void Entity::ai_crash(Entity* player) {
         break;
 
     case CRASH_OFF:
-        if (elapsed_time >= 250) { // 250 milliseconds delay
+        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
             if (m_atk_stance != player->get_stance()) {
                 if ((m_atk_stance + 1) % 4 == player->get_stance()) {
                     inc_stance();
@@ -183,7 +200,7 @@ void Entity::ai_mirror(Entity* player) {
 
     switch (m_ai_state) {
     case MIRROR_DEF:
-        if (elapsed_time >= 250) { // 250 milliseconds delay
+        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
             if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
                 if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
                     inc_stance();
@@ -200,7 +217,7 @@ void Entity::ai_mirror(Entity* player) {
         break;
 
     case MIRROR_OFF:
-        if (elapsed_time >= 250) { // 250 milliseconds delay
+        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
             if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
                 if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
                     inc_stance();
@@ -251,7 +268,7 @@ void Entity::ai_cooler(Entity* player) {
 
     switch (m_ai_state) {
     case COOLER_DEF:
-        if (elapsed_time >= 250) { // 250 milliseconds delay
+        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
             if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) inc_stance();
             if (m_atk_weight == player->get_weight()) {
                 if (m_atk_weight == 1) inc_weight();
@@ -263,7 +280,7 @@ void Entity::ai_cooler(Entity* player) {
         break;
 
     case COOLER_OFF:
-        if (elapsed_time >= 250) { // 250 milliseconds delay
+        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
             if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) inc_stance();
             if (m_atk_weight != player->get_weight()) {
                 if (m_atk_weight < player->get_weight()) {
@@ -328,13 +345,14 @@ Entity::Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jum
 
 Entity::Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jump_power, float animation_time,
     int animation_frames, int animation_index, int animation_cols,
-    int animation_rows, float width, float height, EntityType entity_type, AIType ai_type, AIState ai_state)
+    int animation_rows, float width, float height, EntityType entity_type, AIType ai_type, AIState ai_state, AIDifficulty ai_difficulty)
     : m_position(0.0f), m_movement(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_model_matrix(1.0f),
     m_speed(speed), m_acceleration(acceleration), m_jumping_power(jump_power), m_animation_cols(animation_cols),
     m_animation_frames(animation_frames), m_animation_index(animation_index),
     m_animation_rows(animation_rows), m_animation_indices(nullptr),
     m_animation_time(animation_time), m_texture_id(texture_id), m_velocity(0.0f),
     m_width(width), m_height(height), m_entity_type(entity_type), m_ai_type(ai_type), m_ai_state(ai_state) {
+    set_ai_difficulty(ai_difficulty);
     face_right();
 }
 
@@ -344,11 +362,13 @@ Entity::Entity(GLuint texture_id, float speed, float width, float height, Entity
     m_animation_rows(0), m_animation_indices(nullptr), m_animation_time(0.0f),
     m_texture_id(texture_id), m_velocity(0.0f), m_acceleration(0.0f), m_width(width), m_height(height), m_entity_type(entity_type) {}
 
-Entity::Entity(GLuint texture_id, float speed, float width, float height, EntityType entity_type, AIType ai_type, AIState ai_state)
+Entity::Entity(GLuint texture_id, float speed, float width, float height, EntityType entity_type, AIType ai_type, AIState ai_state, AIDifficulty ai_difficulty)
     : m_position(0.0f), m_movement(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_model_matrix(1.0f),
     m_speed(speed), m_animation_cols(0), m_animation_frames(0), m_animation_index(0),
     m_animation_rows(0), m_animation_indices(nullptr), m_animation_time(0.0f),
-    m_texture_id(texture_id), m_velocity(0.0f), m_acceleration(0.0f), m_width(width), m_height(height), m_entity_type(entity_type), m_ai_type(ai_type), m_ai_state(ai_state) {}
+    m_texture_id(texture_id), m_velocity(0.0f), m_acceleration(0.0f), m_width(width), m_height(height), m_entity_type(entity_type), m_ai_type(ai_type), m_ai_state(ai_state), m_ai_difficulty(ai_difficulty) {
+    set_ai_difficulty(m_ai_difficulty);
+}
 
 Entity::~Entity() {}
 

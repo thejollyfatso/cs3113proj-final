@@ -20,6 +20,8 @@ enum AIState    { IDLE, ATTACKING,          // grandfathered states
                   MIRROR_OFF, MIRROR_DEF,
                   COOLER_OFF, COOLER_DEF };
 enum AtkStance  { N, E, S, W               };
+enum AIDifficulty { EASY, MEDIUM, HARD };
+
 struct AtkInput
 {
     AtkStance stance;
@@ -52,6 +54,8 @@ private:
     AIType     m_ai_type;
     AIState    m_ai_state;
     int        m_ai_action_count = 0;
+    AIDifficulty m_ai_difficulty;
+    float m_ai_action_delay = 0.0f;
     std::chrono::time_point<std::chrono::steady_clock> m_last_action_time = std::chrono::steady_clock::now();
     // ————— TRANSFORMATIONS ————— //
     glm::vec3 m_movement;
@@ -131,9 +135,9 @@ public:
            int animation_rows, float width, float height, EntityType EntityType);
     Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jump_power, float animation_time,
         int animation_frames, int animation_index, int animation_cols,
-        int animation_rows, float width, float height, EntityType entity_type, AIType ai_type, AIState ai_state);
+        int animation_rows, float width, float height, EntityType entity_type, AIType ai_type, AIState ai_state, AIDifficulty ai_difficulty);
     Entity(GLuint texture_id, float speed, float width, float height, EntityType EntityType); // Simpler constructor
-    Entity(GLuint texture_id, float speed, float width, float height, EntityType EntityType, AIType AIType, AIState AIState); // AI constructor
+    Entity(GLuint texture_id, float speed, float width, float height, EntityType EntityType, AIType AIType, AIState AIState, AIDifficulty ai_difficulty); // AI constructor
     ~Entity();
 
     void draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint texture_id, int index);
@@ -214,6 +218,7 @@ public:
     void const set_entity_type(EntityType new_entity_type)  { m_entity_type = new_entity_type;};
     void const set_ai_type(AIType new_ai_type){ m_ai_type = new_ai_type;};
     void const set_ai_state(AIState new_state){ m_ai_state = new_state;};
+    void set_ai_difficulty(AIDifficulty difficulty);
     void const set_position(glm::vec3 new_position) { m_position = new_position; }
     void const set_velocity(glm::vec3 new_velocity) { m_velocity = new_velocity; }
     void const set_acceleration(glm::vec3 new_acceleration) { m_acceleration = new_acceleration; }
