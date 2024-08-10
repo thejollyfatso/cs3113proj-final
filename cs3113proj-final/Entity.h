@@ -11,7 +11,7 @@
 #include "ShaderProgram.h"
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
 enum AIType     { TRAP, DEBUG_RANGER,
-                  CRASHER, MIRROR, COOLER };
+                  CRASHER, MIRROR, COOLER, MASTER };
 enum AIState    { IDLE, ATTACKING,          // grandfathered states
                   APPROACH, DISTANCE,
                   CRASH_OFF, CRASH_DEF,
@@ -49,6 +49,7 @@ private:
     EntityType m_entity_type;
     AIType     m_ai_type;
     AIState    m_ai_state;
+    int        m_ai_action_count = 0;
     // ————— TRANSFORMATIONS ————— //
     glm::vec3 m_movement;
     glm::vec3 m_position;
@@ -144,6 +145,7 @@ public:
 
     // AI Functions
     void ai_activate(Entity *player);
+    void ai_action_inc() { m_ai_action_count++; m_ai_state = DISTANCE; }
     void ai_trap(Entity *player);
     void ai_range(Entity *player);
     void ai_crash(Entity *player);
