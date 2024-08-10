@@ -35,6 +35,8 @@ void Entity::ai_activate(Entity* player) {
         ai_range(player);
     case CRASHER:
         ai_crash(player);
+    case MIRROR:
+        ai_mirror(player);
     default:
         break;
     }
@@ -132,6 +134,60 @@ void Entity::ai_crash(Entity* player) {
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
             if (m_atk_weight == player->get_weight()) m_ai_state = CRASH_OFF;
             else m_ai_state = CRASH_DEF;
+        }
+        break;
+    case DISTANCE:
+		if (glm::distance(m_position, player->get_position()) < 2.4f) {
+            if (m_position.x < player->get_position().x) move_left();
+            if (m_position.x > player->get_position().x) move_right();
+        }
+        else if (glm::distance(m_position, player->get_position()) > 3.2f) {
+            m_ai_state = APPROACH;
+        }
+        break;
+    }
+}
+
+void Entity::ai_mirror(Entity* player) {
+    switch (m_ai_state) {
+    case MIRROR_DEF:
+        if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+            if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                inc_stance();
+            }
+            else {
+                dec_stance();
+            }
+        }
+		if (m_atk_weight > player->get_weight()) dec_weight();
+        attack();
+        m_ai_state = APPROACH;
+        break;
+    case MIRROR_OFF:
+        if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+            if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                inc_stance();
+            }
+            else {
+                dec_stance();
+            }
+        }
+		if (m_atk_weight >= player->get_weight()) dec_weight();
+        if (glm::distance(m_position, player->get_position()) < 1.6f) {
+            attack();
+        }
+        else m_ai_state = DISTANCE;
+        break;
+    case APPROACH:
+        if (m_position.x > player->get_position().x + 2.4) {
+            move_left();
+        }
+        else if (m_position.x < player->get_position().x - 2.4) {
+            move_right();
+        }
+        if (glm::distance(m_position, player->get_position()) < 1.6f) {
+            if (m_atk_weight == player->get_weight()) m_ai_state = MIRROR_OFF;
+            else m_ai_state = MIRROR_DEF;
         }
         break;
     case DISTANCE:

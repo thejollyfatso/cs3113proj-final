@@ -14,7 +14,8 @@ enum AIType     { TRAP, DEBUG_RANGER,
                   CRASHER, MIRROR, COOLER };
 enum AIState    { IDLE, ATTACKING,          // grandfathered states
                   APPROACH, DISTANCE,
-                  CRASH_OFF, CRASH_DEF };
+                  CRASH_OFF, CRASH_DEF,
+                  MIRROR_OFF, MIRROR_DEF };
 enum AtkStance  { N, E, S, W               };
 struct AtkInput
 {
@@ -145,6 +146,7 @@ public:
     void ai_trap(Entity *player);
     void ai_range(Entity *player);
     void ai_crash(Entity *player);
+    void ai_mirror(Entity *player);
     
     void normalise_movement() { m_movement = glm::normalize(m_movement); }
 
