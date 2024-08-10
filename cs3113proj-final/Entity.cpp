@@ -571,6 +571,8 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
 		else switch_animation("attack2", true);  
         if (m_input_queue.size() < 2) m_is_attacking = false;
     }
+    // clear input queue if input didn't go through
+    if (!m_is_attacking && m_input_queue.size() < 0)  m_input_queue.clear();
     set_hitdata_by_animation(); 
 
     m_collided_top = false;
