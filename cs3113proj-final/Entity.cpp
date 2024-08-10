@@ -33,7 +33,7 @@ void Entity::ai_activate(Entity* player) {
         ai_trap(player);
     case DEBUG_RANGER:
         ai_range(player);
-    case DEBUG_CRASH:
+    case CRASHER:
         ai_crash(player);
     default:
         break;

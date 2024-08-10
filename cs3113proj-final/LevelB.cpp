@@ -99,7 +99,7 @@ void LevelB::initialise()
         2.0f,                      // width
         2.0f,                       // height
         ENEMY,
-        DEBUG_CRASH,
+        CRASHER,
         DISTANCE
     );
 

@@ -10,7 +10,8 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
-enum AIType     { TRAP, DEBUG_RANGER, DEBUG_CRASH      };
+enum AIType     { TRAP, DEBUG_RANGER,
+                  CRASHER, MIRROR, COOLER };
 enum AIState    { IDLE, ATTACKING,          // grandfathered states
                   APPROACH, DISTANCE,
                   CRASH_OFF, CRASH_DEF };
