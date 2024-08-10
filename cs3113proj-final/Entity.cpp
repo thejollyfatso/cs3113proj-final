@@ -28,29 +28,32 @@ AtkStance& operator--(AtkStance& dir) {
 }
 
 void Entity::ai_activate(Entity* player) {
-    switch (m_ai_type) {
-    case TRAP:
-        ai_trap(player);
-        break;
-    case DEBUG_RANGER:
-        ai_range(player);
-        break;
-    case CRASHER:
-        ai_crash(player);
-        break;
-    case MIRROR:
-        ai_mirror(player);
-        break;
-    case COOLER:
-        ai_cooler(player);
-        break;
-    case MASTER:
-		if (m_ai_action_count % 3 == 0) ai_crash(player);
-		if (m_ai_action_count % 3 == 1) ai_mirror(player);
-		if (m_ai_action_count % 3 == 2) ai_cooler(player);
-        break;
-    default:
-        break;
+    if (m_is_active)
+    {
+        switch (m_ai_type) {
+        case TRAP:
+            ai_trap(player);
+            break;
+        case DEBUG_RANGER:
+            ai_range(player);
+            break;
+        case CRASHER:
+            ai_crash(player);
+            break;
+        case MIRROR:
+            ai_mirror(player);
+            break;
+        case COOLER:
+            ai_cooler(player);
+            break;
+        case MASTER:
+            if (m_ai_action_count % 3 == 0) ai_crash(player);
+            if (m_ai_action_count % 3 == 1) ai_mirror(player);
+            if (m_ai_action_count % 3 == 2) ai_cooler(player);
+            break;
+        default:
+            break;
+        }
     }
 }
 
