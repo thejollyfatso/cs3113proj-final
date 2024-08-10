@@ -442,6 +442,7 @@ void const Entity::take_hit()
 
 void const Entity::death() 
 { 
+    soundbox.play_sound("death");
     m_alive = false;
     switch_animation("death", true);  
 }
