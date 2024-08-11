@@ -72,6 +72,7 @@ private:
     
     bool m_is_moving = false;
     bool m_is_attacking = false;
+    bool m_taking_hit = false;
     bool m_is_jumping;
     bool m_face_forward = true; // right
 
@@ -209,6 +210,8 @@ public:
     void inc_stance() { ++m_atk_stance;  }
     void dec_stance() { --m_atk_stance;  }
     bool      const is_alive() const { return m_alive; }
+    void set_advantage(int adv) { m_h_advantage = adv;  }
+    void set_hit_flag(bool hit) { m_taking_hit = hit;  }
 
     Hitbox* get_hitbox() const { return m_hitbox; }
     

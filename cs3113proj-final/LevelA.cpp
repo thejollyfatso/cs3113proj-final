@@ -260,8 +260,8 @@ void LevelA::update(float delta_time)
 
     m_game_state.meter->update(delta_time);
 
-    m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
-    m_game_state.player2->update(delta_time, m_game_state.player2, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
+    m_game_state.player->update(delta_time, m_game_state.player2, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
+    m_game_state.player2->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     
 	m_game_state.hitboxes[0].update(delta_time, m_game_state.player2->get_hitbox());
 	m_game_state.hitboxes[1].update(delta_time, m_game_state.player->get_hitbox());

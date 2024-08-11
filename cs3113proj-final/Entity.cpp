@@ -451,12 +451,24 @@ bool const Entity::bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
 	soundbox.play_sound("bind");
     if (o_atk_stance == m_atk_stance)
     {
-        if (m_atk_weight < o_atk_weight) death();
+        if (m_atk_weight < o_atk_weight)
+        {
+            if (o_adv) take_hit();
+            return true;
+        }
     }
     else if (o_atk_stance % 2 == m_atk_stance % 2) // if not matching, opposite?
     {
-        if (m_atk_weight > o_atk_weight) death();
-        if (m_atk_weight == o_atk_weight) knockback();
+        if (m_atk_weight > o_atk_weight) 
+        {
+            if (o_adv) take_hit();
+            return true;
+        }
+        if (m_atk_weight == o_atk_weight)
+        {
+            knockback();
+            return true;
+        }
     }
     else // non matching
     {
@@ -471,17 +483,34 @@ bool const Entity::parry(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
     switch_animation("counter", true);  
     if (o_atk_stance == m_atk_stance)
     {
-        if (m_atk_weight == o_atk_weight) knockback();
-        else death();
+        if (m_atk_weight == o_atk_weight)
+        {
+            knockback();
+            return true;
+        }
+        else 
+        {
+            if (o_adv) take_hit();
+            return true;
+        }
     }
     else if (o_atk_stance % 2 == m_atk_stance % 2) // if not matching, opposite?
     {
-        death();
+		if (o_adv) take_hit();
+		return true;
     }
     else // non matching
     {
-        if (m_atk_weight == o_atk_weight) death();
-        else if (m_atk_weight < o_atk_weight) knockback();
+        if (m_atk_weight == o_atk_weight) 
+        {
+            if (o_adv) take_hit();
+            return true;
+        }
+        else if (m_atk_weight < o_atk_weight)
+        {
+            knockback();
+            return true;
+        }
     }
     return false; // catch any condition that falls through
 }
@@ -495,12 +524,21 @@ void const Entity::knockback()
     ai_action_inc(); // change master ai DEBUG
 }
 
-void const Entity::take_hit() 
-{ 
-    // ignoring advantage for now
-    if (m_h_luck > 0) m_h_luck--;
-    else if (!m_h_wounded) m_h_wounded = true;
-    else death();
+void const Entity::take_hit()
+{
+    if (!m_taking_hit)
+    {
+        if (!m_h_advantage)
+        {
+            death(); //DEBUG
+            // ignoring advantage for now
+            if (m_h_luck > 0) m_h_luck--;
+            else if (!m_h_wounded) m_h_wounded = true;
+            else death();
+        }
+        else (m_h_advantage--);
+    }
+    m_taking_hit = true;
 }
 
 void const Entity::death() 
@@ -788,6 +826,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
                 }
                 else {
                     m_hitbox->set_active(false);
+                    player->set_hit_flag(false); //when known safe?
                 }
             }
 

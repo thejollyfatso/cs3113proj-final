@@ -262,7 +262,7 @@ void LevelB::update(float delta_time)
 
     m_game_state.meter->update(delta_time);
 
-    m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
+    m_game_state.player->update(delta_time, m_game_state.player2, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     //m_game_state.player2->update(delta_time, m_game_state.player2, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
     m_game_state.player2->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map); // ai relates to player
     
