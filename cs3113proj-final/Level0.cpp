@@ -26,6 +26,10 @@ void Level0::initialise()
     m_game_state.player2 = new Entity;
     m_game_state.map = new Map;
     m_game_state.meter = new Meter;
+
+    m_game_state.bgm = Mix_LoadMUS("assets/sound/japan-origami.mp3");
+    Mix_PlayMusic(m_game_state.bgm, -1);
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 }
 
 void Level0::update(float delta_time)
