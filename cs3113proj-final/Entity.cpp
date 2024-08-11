@@ -530,8 +530,7 @@ void const Entity::take_hit()
     {
         if (!m_h_advantage)
         {
-            death(); //DEBUG
-            // ignoring advantage for now
+            //death(); //DEBUG
             if (m_h_luck > 0) m_h_luck--;
             else if (!m_h_wounded) m_h_wounded = true;
             else death();

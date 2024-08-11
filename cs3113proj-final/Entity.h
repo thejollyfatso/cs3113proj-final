@@ -215,12 +215,20 @@ public:
     void set_hit_flag(bool hit) { m_taking_hit = hit;  }
     HealthState get_health_state()
     {
+        if (!m_alive) return DEAD;
         if (m_h_advantage)
         {
             return ADV;
         }
         else {
-            return HEALTH;
+            if (m_h_luck == 3) return LUCK3;
+            if (m_h_luck == 2) return LUCK2;
+            if (m_h_luck == 1) return LUCK1;
+            if (m_h_luck == 0)
+            {
+                if (!m_h_wounded) return HEALTH;
+                else return WOUNDED;
+            }
         }
     }
 

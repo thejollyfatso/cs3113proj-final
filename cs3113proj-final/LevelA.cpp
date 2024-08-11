@@ -237,15 +237,30 @@ void LevelA::initialise()
 
     // Health indication
     int adv_state[] = { 143 };
+    int luck3_state[] = { 70 };
+    int luck2_state[] = { 68 };
+    int luck1_state[] = { 67 };
     int health_state[] = { 130 };
+    int wounded_state[] = { 52 };
+    int dead_state[] = { 0 };
     m_game_state.widgets[10] = UIElem(m_ui_texture_id3, 13, 20, m_game_state.player, HEATLH);
     m_game_state.widgets[10].set_animation("adv", adv_state, 1);
+    m_game_state.widgets[10].set_animation("luck3", luck3_state, 1);
+    m_game_state.widgets[10].set_animation("luck2", luck2_state, 1);
+    m_game_state.widgets[10].set_animation("luck1", luck1_state, 1);
     m_game_state.widgets[10].set_animation("health", health_state, 1);
+    m_game_state.widgets[10].set_animation("wounded", wounded_state, 1);
+    m_game_state.widgets[10].set_animation("dead", dead_state, 1);
     m_game_state.widgets[10].switch_animation("adv", false);
 
     m_game_state.widgets[11] = UIElem(m_ui_texture_id3, 13, 20, m_game_state.player2, HEATLH);
     m_game_state.widgets[11].set_animation("adv", adv_state, 1);
+    m_game_state.widgets[11].set_animation("luck3", luck3_state, 1);
+    m_game_state.widgets[11].set_animation("luck2", luck2_state, 1);
+    m_game_state.widgets[11].set_animation("luck1", luck1_state, 1);
     m_game_state.widgets[11].set_animation("health", health_state, 1);
+    m_game_state.widgets[11].set_animation("wounded", wounded_state, 1);
+    m_game_state.widgets[11].set_animation("dead", dead_state, 1);
     m_game_state.widgets[11].switch_animation("adv", false);
 
     /**

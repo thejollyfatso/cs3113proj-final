@@ -128,8 +128,23 @@ void UIElem::update(float delta_time) {
         case ADV:
             switch_animation("adv", false);
             break;
+        case LUCK3:
+            switch_animation("luck3", false);
+            break;
+        case LUCK2:
+            switch_animation("luck2", false);
+            break;
+        case LUCK1:
+            switch_animation("luck1", false);
+            break;
         case HEALTH:
             switch_animation("health", false);
+            break;
+        case WOUNDED:
+            switch_animation("wounded", false);
+            break;
+        case DEAD:
+            switch_animation("dead", false);
             break;
         }
     }
