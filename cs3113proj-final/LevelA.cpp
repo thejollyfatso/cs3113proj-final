@@ -8,19 +8,6 @@ constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
            ENEMY_FILEPATH[]       = "assets/spritesheet2.png";
 
-/*
-unsigned int LEVEL_DATA[] =
-{
-    66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    110, 0, 205, 207, 209, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    86, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    106, 107, 27, 28, 27, 28, 27, 28, 27, 27, 27, 27, 27, 50,
-    126, 127, 128, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 130
-};
-*/
 unsigned int LEVEL_DATA[] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

@@ -10,14 +10,14 @@ constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
 
 unsigned int LEVEL2_DATA[] =
 {
-    66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    86, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    106, 107, 27, 28, 27, 28, 27, 28, 27, 27, 27, 27, 27, 50,
-    126, 127, 128, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 130
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    67, 68, 69, 69, 69, 68, 69, 69, 68, 69, 69, 69, 69, 70,
+    127, 128, 128, 128, 128, 129, 128, 128, 129, 128, 128, 129, 128, 130
 };
 
 LevelB::~LevelB()
@@ -37,8 +37,8 @@ void LevelB::initialise()
 {
     m_game_state.meter = new Meter;
     m_font_texture_id = Utility::load_texture("assets/font1.png");
-    GLuint map_texture_id = Utility::load_texture("assets/Fantasy Swamp Forest/Free/Terrain_and_Props.png");
-    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL2_DATA, map_texture_id, 1.0f, 20, 34);
+    GLuint map_texture_id = Utility::load_texture("assets/sunnyland/tileset.png");
+    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL2_DATA, map_texture_id, 1.0f, 20, 12);
     
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
     GLuint player2_texture_id = Utility::load_texture(ENEMY_FILEPATH);
