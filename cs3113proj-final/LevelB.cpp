@@ -274,7 +274,7 @@ void LevelB::initialise()
     
     m_game_state.bgm = Mix_LoadMUS("assets/sound/japan-trap.mp3");
     Mix_PlayMusic(m_game_state.bgm, -1);
-    Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+    //Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
     
     m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 }
