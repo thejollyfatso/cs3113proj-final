@@ -252,6 +252,7 @@ void LevelA::initialise()
     m_game_state.widgets[10].set_animation("wounded", wounded_state, 1);
     m_game_state.widgets[10].set_animation("dead", dead_state, 1);
     m_game_state.widgets[10].switch_animation("adv", false);
+    m_game_state.widgets[10].m_offset = glm::vec3(1.1f, 0.95f, 0.0f);
 
     m_game_state.widgets[11] = UIElem(m_ui_texture_id3, 13, 20, m_game_state.player2, HEATLH);
     m_game_state.widgets[11].set_animation("adv", adv_state, 1);
@@ -262,6 +263,7 @@ void LevelA::initialise()
     m_game_state.widgets[11].set_animation("wounded", wounded_state, 1);
     m_game_state.widgets[11].set_animation("dead", dead_state, 1);
     m_game_state.widgets[11].switch_animation("adv", false);
+    m_game_state.widgets[11].m_offset = glm::vec3(1.1f, 0.95f, 0.0f);
 
     /**
      BGM and SFX
