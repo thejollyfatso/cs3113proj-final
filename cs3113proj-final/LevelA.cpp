@@ -169,11 +169,17 @@ void LevelA::initialise()
     hb_scale = { 0.6f, 1.1f, 1.0f };
     hb_offset = { 0.16f, 0.0f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("idle", hb_scale, hb_offset);
+    hb_scale = { 0.6f, 1.1f, 1.0f };
+    hb_offset = { -0.03f, 0.0f, 0.0f };
     m_game_state.player2->get_hitbox()->add_hitdata("idle", hb_scale, hb_offset);
     hb_scale = { 0.6f, 1.1f, 1.0f };
     hb_offset = { 0.0f, 0.0f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("run", hb_scale, hb_offset);
+    m_game_state.player->get_hitbox()->add_hitdata("jump", hb_scale, hb_offset);
+    hb_scale = { 0.6f, 1.1f, 1.0f };
+    hb_offset = { -0.03f, 0.0f, 0.0f };
     m_game_state.player2->get_hitbox()->add_hitdata("run", hb_scale, hb_offset);
+    m_game_state.player2->get_hitbox()->add_hitdata("jump", hb_scale, hb_offset);
 
     // UI Elements
     m_game_state.widgets = new UIElem[WIDGET_COUNT];
