@@ -174,6 +174,7 @@ void LevelB::initialise()
     m_game_state.widgets = new UIElem[WIDGET_COUNT];
     m_ui_texture_id = Utility::load_texture("assets/00.png");
     m_ui_texture_id2 = Utility::load_texture("assets/07.png");
+    m_ui_texture_id3 = Utility::load_texture("assets/hearts.png");
 
     m_game_state.widgets[0] = UIElem(m_ui_texture_id, 20, 10, m_game_state.player, STANCE);
     int test_animation[] = { 55 };
@@ -235,6 +236,36 @@ void LevelB::initialise()
     m_game_state.widgets[9] = UIElem(m_ui_texture_id2, 9, 18, m_game_state.player, METER);
     m_game_state.widgets[9].set_animation("idle", test_animation5, 1);
     m_game_state.widgets[9].switch_animation("idle", false);
+
+    // Health indication
+    int adv_state[] = { 143 };
+    int luck3_state[] = { 70 };
+    int luck2_state[] = { 68 };
+    int luck1_state[] = { 67 };
+    int health_state[] = { 130 };
+    int wounded_state[] = { 52 };
+    int dead_state[] = { 0 };
+    m_game_state.widgets[10] = UIElem(m_ui_texture_id3, 13, 20, m_game_state.player, HEATLH);
+    m_game_state.widgets[10].set_animation("adv", adv_state, 1);
+    m_game_state.widgets[10].set_animation("luck3", luck3_state, 1);
+    m_game_state.widgets[10].set_animation("luck2", luck2_state, 1);
+    m_game_state.widgets[10].set_animation("luck1", luck1_state, 1);
+    m_game_state.widgets[10].set_animation("health", health_state, 1);
+    m_game_state.widgets[10].set_animation("wounded", wounded_state, 1);
+    m_game_state.widgets[10].set_animation("dead", dead_state, 1);
+    m_game_state.widgets[10].switch_animation("adv", false);
+    m_game_state.widgets[10].m_offset = glm::vec3(1.1f, 0.95f, 0.0f);
+
+    m_game_state.widgets[11] = UIElem(m_ui_texture_id3, 13, 20, m_game_state.player2, HEATLH);
+    m_game_state.widgets[11].set_animation("adv", adv_state, 1);
+    m_game_state.widgets[11].set_animation("luck3", luck3_state, 1);
+    m_game_state.widgets[11].set_animation("luck2", luck2_state, 1);
+    m_game_state.widgets[11].set_animation("luck1", luck1_state, 1);
+    m_game_state.widgets[11].set_animation("health", health_state, 1);
+    m_game_state.widgets[11].set_animation("wounded", wounded_state, 1);
+    m_game_state.widgets[11].set_animation("dead", dead_state, 1);
+    m_game_state.widgets[11].switch_animation("adv", false);
+    m_game_state.widgets[11].m_offset = glm::vec3(1.1f, 0.95f, 0.0f);
 
     /**
      BGM and SFX
