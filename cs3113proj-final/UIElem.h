@@ -8,7 +8,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
 #include "Entity.h"
-enum ElemType { STANCE, WEIGHT, ADV, LUCK, HEATLH, METER, NONE };
+enum ElemType { STANCE, WEIGHT, HEATLH, METER, NONE };
 
 class UIElem {
     struct AnimationData {

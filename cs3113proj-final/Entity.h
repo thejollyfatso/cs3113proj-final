@@ -21,6 +21,7 @@ enum AIState    { IDLE, ATTACKING,          // grandfathered states
                   COOLER_OFF, COOLER_DEF };
 enum AtkStance  { N, E, S, W               };
 enum AIDifficulty { EASY, MEDIUM, HARD };
+enum HealthState { ADV, LUCK, LUCK1, LUCK2, LUCK3, HEALTH, WOUNDED, DEAD };
 
 struct AtkInput
 {
@@ -212,6 +213,16 @@ public:
     bool      const is_alive() const { return m_alive; }
     void set_advantage(int adv) { m_h_advantage = adv;  }
     void set_hit_flag(bool hit) { m_taking_hit = hit;  }
+    HealthState get_health_state()
+    {
+        if (m_h_advantage)
+        {
+            return ADV;
+        }
+        else {
+            return HEALTH;
+        }
+    }
 
     Hitbox* get_hitbox() const { return m_hitbox; }
     

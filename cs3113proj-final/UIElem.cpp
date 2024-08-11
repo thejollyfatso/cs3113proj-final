@@ -119,6 +119,20 @@ void UIElem::update(float delta_time) {
             }
         }
     }
+
+    // health indicator
+    if (m_type == HEATLH)
+    {
+        switch (m_entity->get_health_state())
+        {
+        case ADV:
+            switch_animation("adv", false);
+            break;
+        case HEALTH:
+            switch_animation("health", false);
+            break;
+        }
+    }
 }
 
 void UIElem::render(ShaderProgram* program) {
