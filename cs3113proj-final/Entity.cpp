@@ -118,8 +118,6 @@ void Entity::ai_range(Entity* player) {
     }
 }
 
-#include "Entity.h"
-
 void Entity::ai_crash(Entity* player) {
     auto now = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
