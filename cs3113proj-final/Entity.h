@@ -172,8 +172,8 @@ public:
     
     void const jump() { switch_animation("jump", true);  m_is_jumping = true; }
     void const attack();
-    void const bind(AtkStance o_atk_stance, int o_atk_weight);
-    void const parry(AtkStance o_atk_stance, int o_atk_weight);
+    bool const bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv); // returns if other should gain advantage
+    bool const parry(AtkStance o_atk_stance, int o_atk_weight, bool o_adv); // returns if other should gain advantage
     void const knockback();
     void const take_hit();
     void const death();

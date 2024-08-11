@@ -446,7 +446,7 @@ void const Entity::attack()
     if (m_input_queue.size() < 3 && !m_is_moving) m_input_queue.push_back({ m_atk_stance, m_atk_weight });
 }
 
-void const Entity::bind(AtkStance o_atk_stance, int o_atk_weight)
+bool const Entity::bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
 {
 	soundbox.play_sound("bind");
     if (o_atk_stance == m_atk_stance)
@@ -460,11 +460,12 @@ void const Entity::bind(AtkStance o_atk_stance, int o_atk_weight)
     }
     else // non matching
     {
-        return;  // non matching bind always ends neutral
+        return false;  // non matching bind always ends neutral
     }
+    return false; // catch any condition that falls through
 }
 
-void const Entity::parry(AtkStance o_atk_stance, int o_atk_weight)
+bool const Entity::parry(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
 {
 	soundbox.play_sound("parry");
     switch_animation("counter", true);  
@@ -482,6 +483,7 @@ void const Entity::parry(AtkStance o_atk_stance, int o_atk_weight)
         if (m_atk_weight == o_atk_weight) death();
         else if (m_atk_weight < o_atk_weight) knockback();
     }
+    return false; // catch any condition that falls through
 }
 
 void const Entity::knockback()
