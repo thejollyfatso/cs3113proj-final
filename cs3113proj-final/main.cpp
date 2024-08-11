@@ -160,6 +160,11 @@ void process_input()
                         if (g_current_scene == g_levels[0]) g_app_status = TERMINATED;
                         else switch_to_scene(g_levels[0]);
                         break;
+                    case SDLK_m:
+                        // toggle music
+                        if (Mix_VolumeMusic(-1)) Mix_VolumeMusic(0);
+                        else Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+                        break;
 
                     case SDLK_1:
                         if (g_current_scene == g_levels[0]) switch_to_scene(g_levels[1]);
