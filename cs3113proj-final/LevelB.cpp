@@ -338,7 +338,10 @@ void LevelB::render(ShaderProgram *g_shader_program)
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player2->get_weight()), 0.5f, 0.05f,
 		m_game_state.player2->get_position() + glm::vec3(0.4f, 1.0f, 0.0f)); // position according to player
 
-    if (!m_game_state.player->is_alive())
-		Utility::draw_text(g_shader_program, m_font_texture_id, "You Lose.", 0.5f, 0.05f,
+    if (!m_game_state.player2->is_alive())
+		Utility::draw_text(g_shader_program, m_font_texture_id, "You Win!", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
+    if (!m_game_state.player->is_alive())
+		Utility::draw_text(g_shader_program, m_font_texture_id, "You Win!", 0.5f, 0.05f,
+			m_game_state.player2->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
 }
