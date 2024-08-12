@@ -167,11 +167,34 @@ void process_input()
                         break;
 
                     case SDLK_1:
-                        if (g_current_scene == g_levels[0]) switch_to_scene(g_levels[1]);
+                        if (g_current_scene == g_levels[0]) {
+                            if (g_level_0->m_current_menu_state == MAIN_MENU) {
+                                switch_to_scene(g_levels[1]);  // Multiplayer
+                            }
+                            else if (g_level_0->m_current_menu_state == DIFFICULTY_SELECTION) {
+                                g_level_b->selected_difficulty = 1;
+                                switch_to_scene(g_levels[2]);  // Duel with Easy difficulty
+                            }
+                        }
                         break;
 
                     case SDLK_2:
-                        if (g_current_scene == g_levels[0]) switch_to_scene(g_levels[2]);
+                        if (g_current_scene == g_levels[0]) {
+                            if (g_level_0->m_current_menu_state == MAIN_MENU) {
+                                g_level_0->m_current_menu_state = DIFFICULTY_SELECTION;  // Switch to difficulty selection
+                            }
+                            else if (g_level_0->m_current_menu_state == DIFFICULTY_SELECTION) {
+                                g_level_b->selected_difficulty = 2;
+                                switch_to_scene(g_levels[2]);  // Duel with Medium difficulty
+                            }
+                        }
+                        break;
+
+                    case SDLK_3:
+                        if (g_current_scene == g_levels[0] && g_level_0->m_current_menu_state == DIFFICULTY_SELECTION) {
+                            g_level_b->selected_difficulty = 3;
+                            switch_to_scene(g_levels[2]);  // Duel with Hard difficulty
+                        }
                         break;
                         
                     case SDLK_d:

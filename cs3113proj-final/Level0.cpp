@@ -16,6 +16,7 @@ Level0::~Level0()
 
 void Level0::initialise()
 {
+    m_current_menu_state = MAIN_MENU;
 	m_game_state.next_scene_id = -1;
     m_font_texture_id = Utility::load_texture("assets/font1.png");
 
@@ -39,14 +40,26 @@ void Level0::update(float delta_time)
 
 void Level0::render(ShaderProgram *g_shader_program)
 {
-	Utility::draw_text(g_shader_program, m_font_texture_id, "MAIN MENU", 0.5f, 0.05f,
-		glm::vec3(2.8f, -2.0f, 0.0f));
-	Utility::draw_text(g_shader_program, m_font_texture_id, "1: Multiplayer", 0.5f, 0.01f,
-		glm::vec3(1.6f, -3.0f, 0.0f));
-	Utility::draw_text(g_shader_program, m_font_texture_id, "2: Duel vs CPU", 0.5f, 0.01f,
-		glm::vec3(1.6f, -3.8f, 0.0f));
-	Utility::draw_text(g_shader_program, m_font_texture_id, "3: Tutorial", 0.5f, 0.01f,
-		glm::vec3(1.6f, -4.6f, 0.0f));
-	Utility::draw_text(g_shader_program, m_font_texture_id, "X: Exit", 0.5f, 0.01f,
-		glm::vec3(1.6f, -5.4f, 0.0f));
+    if (m_current_menu_state == MAIN_MENU) {
+        Utility::draw_text(g_shader_program, m_font_texture_id, "MAIN MENU", 0.5f, 0.05f,
+            glm::vec3(2.8f, -2.0f, 0.0f));
+        Utility::draw_text(g_shader_program, m_font_texture_id, "1: Multiplayer", 0.5f, 0.01f,
+            glm::vec3(1.6f, -3.0f, 0.0f));
+        Utility::draw_text(g_shader_program, m_font_texture_id, "2: Duel vs CPU", 0.5f, 0.01f,
+            glm::vec3(1.6f, -3.8f, 0.0f));
+        Utility::draw_text(g_shader_program, m_font_texture_id, "3: Tutorial", 0.5f, 0.01f,
+            glm::vec3(1.6f, -4.6f, 0.0f));
+        Utility::draw_text(g_shader_program, m_font_texture_id, "X: Exit", 0.5f, 0.01f,
+            glm::vec3(1.6f, -5.4f, 0.0f));
+    }
+    else if (m_current_menu_state == DIFFICULTY_SELECTION) {
+        Utility::draw_text(g_shader_program, m_font_texture_id, "SELECT DIFFICULTY", 0.5f, 0.05f,
+            glm::vec3(2.4f, -2.0f, 0.0f));
+        Utility::draw_text(g_shader_program, m_font_texture_id, "1: Easy", 0.5f, 0.01f,
+            glm::vec3(1.6f, -3.0f, 0.0f));
+        Utility::draw_text(g_shader_program, m_font_texture_id, "2: Medium", 0.5f, 0.01f,
+            glm::vec3(1.6f, -3.8f, 0.0f));
+        Utility::draw_text(g_shader_program, m_font_texture_id, "3: Hard", 0.5f, 0.01f,
+            glm::vec3(1.6f, -4.6f, 0.0f));
+    }
 }

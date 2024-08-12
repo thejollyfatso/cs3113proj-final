@@ -1,9 +1,12 @@
 #include "Scene.h"
+enum MenuState { MAIN_MENU, DIFFICULTY_SELECTION };
 
 class Level0 : public Scene {
 public:
     // ————— STATIC ATTRIBUTES ————— //
     GLuint m_font_texture_id;
+
+    MenuState m_current_menu_state;
     
     // ————— DESTRUCTOR ————— //
     ~Level0();
