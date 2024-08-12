@@ -1,7 +1,7 @@
 #include "LevelA.h"
 #include "Utility.h"
 
-#define LEVEL_WIDTH 14
+#define LEVEL_WIDTH 48
 #define LEVEL_HEIGHT 8
 
 constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
@@ -10,15 +10,16 @@ constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
 
 unsigned int LEVEL_DATA[] =
 {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23,
-    61, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 63
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23,
+    0, 0, 0, 0, 61, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 63
 };
+
 
 LevelA::~LevelA()
 {
@@ -85,7 +86,7 @@ void LevelA::initialise()
     m_game_state.player->set_animation("jump", jump_animation, 2, 0, 0);
     m_game_state.player->switch_animation("idle", true); // start with idle
 
-    m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
+    m_game_state.player->set_position(glm::vec3(25.0f, 0.0f, 0.0f));
 
     // PLAYER 2
     m_game_state.player2 = new Entity(
@@ -125,7 +126,7 @@ void LevelA::initialise()
     m_game_state.player2->set_animation("jump", jump_animation2, 2, 0, 0);
     m_game_state.player2->switch_animation("idle", true); // start with idle
 
-    m_game_state.player2->set_position(glm::vec3(8.0f, 0.0f, 0.0f));
+    m_game_state.player2->set_position(glm::vec3(28.0f, 0.0f, 0.0f));
     m_game_state.player2->face_left();
     
     /* Set Meters */
