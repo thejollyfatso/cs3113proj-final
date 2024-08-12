@@ -161,7 +161,7 @@ public:
 
     // AI Functions
     void ai_activate(Entity *player);
-    void ai_action_inc() { m_ai_action_count++; m_ai_state = IDLE; }
+    void ai_action_inc();
     void ai_start_new_attack_sequence();
     void ai_attempt_attack();
     void ai_trap(Entity *player);
