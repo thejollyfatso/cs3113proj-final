@@ -133,7 +133,7 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
             //this->m_hidden = false;
             //otherHitbox->m_hidden = false;
             //otherHitbox->m_entity->bind(m_entity->m_input_queue[0].stance, m_entity->m_input_queue[0].weight, m_entity->m_h_advantage);
-            if (otherHitbox->m_entity->bind(m_entity->m_input_queue[0].stance, m_entity->m_input_queue[0].weight, m_entity->m_h_advantage))
+            if (otherHitbox->m_entity->bind(m_entity->m_input_queue[0].stance, m_entity->m_input_queue[0].weight, m_entity->m_h_advantage) || m_entity->m_h_wounded)
                 m_entity->set_advantage(1);
             m_entity->inc_bind();
         }
@@ -142,7 +142,7 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
             //otherHitbox->m_hidden = false;
             //otherHitbox->m_entity->parry(m_entity->m_input_queue[0].stance, m_entity->m_input_queue[0].weight);
             //otherHitbox->m_entity->parry(m_entity->m_atk_stance, m_entity->m_atk_weight, m_entity->m_h_advantage);
-            if (otherHitbox->m_entity->parry(m_entity->m_atk_stance, m_entity->m_atk_weight, m_entity->m_h_advantage))
+            if (otherHitbox->m_entity->parry(m_entity->m_atk_stance, m_entity->m_atk_weight, m_entity->m_h_advantage || m_entity->m_h_wounded))
                 m_entity->set_advantage(1);
             m_entity->inc_parry();
         }

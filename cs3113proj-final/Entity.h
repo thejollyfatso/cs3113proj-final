@@ -261,7 +261,7 @@ public:
     void inc_stance() { ++m_atk_stance;  }
     void dec_stance() { --m_atk_stance;  }
     bool      const is_alive() const { return m_alive; }
-    void set_advantage(int adv) { m_h_advantage = adv;  }
+    void set_advantage(int adv) { if (m_h_wounded) m_h_advantage = 0; else m_h_advantage = adv; }
     void set_hit_flag(bool hit) { m_taking_hit = hit;  }
     HealthState get_health_state()
     {
