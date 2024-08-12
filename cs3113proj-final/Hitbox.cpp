@@ -135,6 +135,7 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
             //otherHitbox->m_entity->bind(m_entity->m_input_queue[0].stance, m_entity->m_input_queue[0].weight, m_entity->m_h_advantage);
             if (otherHitbox->m_entity->bind(m_entity->m_input_queue[0].stance, m_entity->m_input_queue[0].weight, m_entity->m_h_advantage))
                 m_entity->set_advantage(1);
+            m_entity->inc_bind();
         }
         if (isColliding(otherHitbox) && m_active && !otherHitbox->m_active) {
             //this->m_hidden = false;
@@ -143,6 +144,7 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
             //otherHitbox->m_entity->parry(m_entity->m_atk_stance, m_entity->m_atk_weight, m_entity->m_h_advantage);
             if (otherHitbox->m_entity->parry(m_entity->m_atk_stance, m_entity->m_atk_weight, m_entity->m_h_advantage))
                 m_entity->set_advantage(1);
+            m_entity->inc_parry();
         }
 		else { this->m_hidden = true; otherHitbox->m_hidden = true; } //  DEBUG
     }

@@ -201,6 +201,10 @@ public:
     void oracle_calculate_style_preference();
     void oracle_calculate_bind_parry_ratio();
     void oracle_calculate_close_retreat_ratio();
+    void inc_bind() { m_bind_count++; }
+    void inc_parry() { m_parry_count++; }
+    void inc_close() { m_close_count++; }
+    void inc_retreat() { m_retreat_count++; }
 
     
     void normalise_movement() { m_movement = glm::normalize(m_movement); }

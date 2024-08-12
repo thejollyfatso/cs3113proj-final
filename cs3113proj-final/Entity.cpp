@@ -433,14 +433,22 @@ void Entity::ai_oracle(Entity* player) {
     // 3. Track binding vs. parrying preference
     // will be tracked by hitbox
 
-    // 4. Track close vs. retreat behavior
-    float distance_to_ai = glm::distance(player->m_position, this->m_position);
-
-    if (player->m_position.x < this->m_position.x) {
-        m_close_count++;
+	// 4. Track close vs. retreat behavior
+    if (player->get_movement().x < 0) {  // Player is moving left
+        if (player->get_position().x > m_position.x) {
+            m_close_count++;  // Moving towards AI
+        }
+        else {
+            m_retreat_count++;  // Moving away from AI
+        }
     }
-    else {
-        m_retreat_count++;
+    else if (player->get_movement().x > 0) {  // Player is moving right
+        if (player->get_position().x < m_position.x) {
+            m_close_count++;  // Moving towards AI
+        }
+        else {
+            m_retreat_count++;  // Moving away from AI
+        }
     }
 
     // Calculate final values
@@ -941,6 +949,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     m_collided_right = false;
 
     if (m_entity_type == ENEMY) ai_activate(player);
+    if (m_entity_type == ENEMY) ai_oracle(player);
 
     if (m_animation_indices != nullptr && !m_current_animation.empty()) {
         m_animation_time += delta_time;
@@ -978,7 +987,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
         }
     }
 
-    m_velocity.x = m_movement.x * m_speed;
+    //m_velocity.x = m_movement.x * m_speed;
     m_velocity += m_acceleration * delta_time;
 
     if (m_is_jumping) {
@@ -986,7 +995,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
         m_velocity.y += m_jumping_power;
     }
 
-    m_position.x += m_velocity.x * delta_time;
+    //m_position.x += m_velocity.x * delta_time;
     check_collision_x(collidable_entities, collidable_entity_count);
     check_collision_x(map);
 
@@ -998,15 +1007,21 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     {
         if (m_position.x < m_target_position.x)
         {
-            if (m_face_forward) m_position.x += m_speed * delta_time;
+            m_movement.x = 1.0f;
+            if (m_face_forward) m_position.x += m_movement.x * m_speed * delta_time;
             else m_position.x = m_target_position.x;
         }
         else {
-            if (!m_face_forward) m_position.x -= m_speed * delta_time;
+            m_movement.x = -1.0f;
+            if (!m_face_forward) m_position.x += m_movement.x * m_speed * delta_time;
             else m_position.x = m_target_position.x;
         }
     }
-    if (m_position.x == m_target_position.x) m_is_moving = false;
+    if (m_position.x == m_target_position.x) 
+    {
+        m_is_moving = false;
+        m_movement.x = 0.0f;
+    }
 
 
     m_model_matrix = glm::mat4(1.0f);
