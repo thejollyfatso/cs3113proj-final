@@ -569,6 +569,7 @@ void const Entity::take_hit()
             m_h_advantage--;
         }
     }
+    ai_action_inc(); // change master ai DEBUG
     m_ai_state = IDLE; // defaults to def
 
 	// Start the defense timer

@@ -100,7 +100,7 @@ void LevelB::initialise()
         2.0f,                      // width
         2.0f,                       // height
         ENEMY,
-        CRASHER,
+        MASTER,
         IDLE,
         EASY
     );
