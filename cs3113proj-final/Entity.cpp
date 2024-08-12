@@ -448,7 +448,7 @@ void const Entity::attack()
 
 bool const Entity::bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
 {
-	soundbox.play_sound("bind");
+	soundbox.play_unique_sound("bind");
     if (o_atk_stance == m_atk_stance)
     {
         if (m_atk_weight < o_atk_weight)
@@ -479,7 +479,7 @@ bool const Entity::bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
 
 bool const Entity::parry(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
 {
-	soundbox.play_sound("parry");
+	soundbox.play_unique_sound("parry");
     switch_animation("counter", true);  
     if (o_atk_stance == m_atk_stance)
     {

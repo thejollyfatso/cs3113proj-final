@@ -1,6 +1,8 @@
 #include "AudioManager.h"
 #include <iostream>
 
+std::map<std::string, int> AudioManager::playing_sounds;
+
 AudioManager::AudioManager() {
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
         std::cerr << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
@@ -47,6 +49,7 @@ bool AudioManager::load_sounds() {
 }
 
 void AudioManager::play_sound(const std::string& sound_name) {
+	Mix_ChannelFinished(channel_finished);
     auto it = m_sounds.find(sound_name);
     if (it != m_sounds.end()) {
         if (Mix_PlayChannel(-1, it->second, 0) == -1) {  // Use Mix_PlayChannel for Mix_Chunk
@@ -57,4 +60,30 @@ void AudioManager::play_sound(const std::string& sound_name) {
         std::cerr << "Sound " << sound_name << " not found!" << std::endl;
     }
 }
+
+void AudioManager::play_unique_sound(const std::string& sound_name) {
+	Mix_ChannelFinished(channel_finished);
+    // Check if the sound is already playing
+    if (playing_sounds.find(sound_name) == playing_sounds.end() || !Mix_Playing(playing_sounds[sound_name])) {
+        auto it = m_sounds.find(sound_name);
+        if (it != m_sounds.end()) {
+            // Sound is not currently playing, or has finished, so play it
+            int channel = Mix_PlayChannel(-1, it->second, 0);
+            if (channel != -1) {
+                playing_sounds[sound_name] = channel;  // Track the channel this sound is playing on
+                std::cout << "Playing sound: " << sound_name << " on channel " << channel << std::endl;
+            }
+        }
+    }
+}
+
+void AudioManager::channel_finished(int channel) {
+    for (auto it = playing_sounds.begin(); it != playing_sounds.end(); ++it) {
+        if (it->second == channel) {
+            playing_sounds.erase(it);
+            break;
+        }
+    }
+}
+
 
