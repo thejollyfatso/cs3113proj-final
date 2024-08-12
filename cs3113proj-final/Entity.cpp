@@ -154,23 +154,21 @@ void Entity::ai_crash(Entity* player) {
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
     auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
-    // Calculate the opposite aggression rating
-    int opposite_rating = 11 - m_oracle_aggression_rating;
+    int opposite_rating = m_oracle_aggression_rating; // Use the aggression rating
 
-    // Calculate switch_time using the opposite rating and a logarithmic scale
-    float switch_time = pow(10, (1 - (opposite_rating / 10.0f)));
+    // Adjusted switch time formula for a range of 1 to 5 seconds
+    float switch_time = 1 + 4 * pow(10, (1 - (opposite_rating / 10.0f)) - 1);
 
     switch (m_ai_state) {
     case CRASH_DEF:
-        m_ai_attack_count = 0;  // Reset the attack count
-        // Start the defense timer immediately when entering the defensive state
+        m_ai_attack_count = 0;
+
         if (defense_elapsed_time >= switch_time) {
             m_ai_state = CRASH_OFF;
-            m_last_action_time = now;  // Reset the action timer
+            m_last_action_time = now;
             break;
         }
 
-        // Keep just out of range and constantly shift stance and weight
         if (elapsed_time >= m_ai_action_delay) {
             if (m_atk_stance != player->get_stance()) {
                 if ((m_atk_stance + 1) % 4 == player->get_stance()) {
@@ -191,40 +189,39 @@ void Entity::ai_crash(Entity* player) {
             m_last_action_time = now;
         }
 
-        // Move to keep distance just out of range
         if (glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
 
+        // Switch to CRASH_OFF if player is too far
+        if (glm::distance(m_position, player->get_position()) > m_max_defensive_distance) {
+            m_ai_state = CRASH_OFF;
+        }
+
         break;
 
     case CRASH_OFF:
-        // Move to get just within attack range and initiate attack sequence
         if (elapsed_time >= m_ai_action_delay) {
-            if (glm::distance(m_position, player->get_position()) > 1.4f) {
-                if (m_position.x < player->get_position().x) move_right();
-                if (m_position.x > player->get_position().x) move_left();
+            float distance = glm::distance(m_position, player->get_position());
+
+            if (distance < m_attack_range) {
+                if (m_ai_attack_count == 0) {
+                    ai_start_new_attack_sequence();
+                }
+                ai_attempt_attack();
             }
             else {
-                if (m_ai_attack_count == 0) {
-                    ai_start_new_attack_sequence(); // Start a new sequence
-                }
-                ai_attempt_attack(); // Attempt an attack if conditions are met
-
-                // If the combo is finished, switch to defensive state
-                if (m_ai_attack_count >= m_ai_attack_limit) {
-                    m_ai_state = CRASH_DEF;
-                    m_defense_start_time = std::chrono::steady_clock::now(); // Reset the defense timer
-                }
+                if (m_position.x < player->get_position().x) move_right();
+                if (m_position.x > player->get_position().x) move_left();
             }
             m_last_action_time = now;
         }
         break;
 
     case IDLE:
-        m_ai_state = CRASH_DEF; // Default to the defensive state when idle
-        m_defense_start_time = std::chrono::steady_clock::now(); // Start the defense timer
+        m_ai_state = CRASH_DEF;
+        m_defense_start_time = std::chrono::steady_clock::now();
         break;
     }
 }
@@ -234,23 +231,21 @@ void Entity::ai_mirror(Entity* player) {
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
     auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
-    // Calculate the opposite aggression rating
-    int opposite_rating = 11 - m_oracle_aggression_rating;
+    int opposite_rating = m_oracle_aggression_rating; // Use the aggression rating
 
-    // Calculate switch_time using the opposite rating and a logarithmic scale
-    float switch_time = pow(10, (1 - (opposite_rating / 10.0f)));
+    // Adjusted switch time formula for a range of 1 to 5 seconds
+    float switch_time = 1 + 4 * pow(10, (1 - (opposite_rating / 10.0f)) - 1);
 
     switch (m_ai_state) {
     case MIRROR_DEF:
-        m_ai_attack_count = 0;  // Reset the attack count
-        // Start the defense timer immediately when entering the defensive state
+        m_ai_attack_count = 0;
+
         if (defense_elapsed_time >= switch_time) {
             m_ai_state = MIRROR_OFF;
-            m_last_action_time = now;  // Reset the action timer
+            m_last_action_time = now;
             break;
         }
 
-        // Keep just out of range and constantly shift stance and weight
         if (elapsed_time >= m_ai_action_delay) {
             if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
                 if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
@@ -268,39 +263,39 @@ void Entity::ai_mirror(Entity* player) {
             m_last_action_time = now;
         }
 
-        // Move to keep distance just out of range
         if (glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
+
+        // Switch to MIRROR_OFF if player is too far
+        if (glm::distance(m_position, player->get_position()) > m_max_defensive_distance) {
+            m_ai_state = MIRROR_OFF;
+        }
+
         break;
 
     case MIRROR_OFF:
-        // Move to get just within attack range and initiate attack sequence
         if (elapsed_time >= m_ai_action_delay) {
-            if (glm::distance(m_position, player->get_position()) > 1.4f) {
-                if (m_position.x < player->get_position().x) move_right();
-                if (m_position.x > player->get_position().x) move_left();
+            float distance = glm::distance(m_position, player->get_position());
+
+            if (distance < m_attack_range) {
+                if (m_ai_attack_count == 0) {
+                    ai_start_new_attack_sequence();
+                }
+                ai_attempt_attack();
             }
             else {
-                if (m_ai_attack_count == 0) {
-                    ai_start_new_attack_sequence(); // Start a new sequence
-                }
-                ai_attempt_attack(); // Attempt an attack if conditions are met
-
-                // If the combo is finished, switch to defensive state
-                if (m_ai_attack_count >= m_ai_attack_limit) {
-                    m_ai_state = MIRROR_DEF;
-                    m_defense_start_time = std::chrono::steady_clock::now(); // Reset the defense timer
-                }
+                if (m_position.x < player->get_position().x) move_right();
+                if (m_position.x > player->get_position().x) move_left();
             }
             m_last_action_time = now;
         }
         break;
 
     case IDLE:
-        m_ai_state = MIRROR_DEF; // Default to the defensive state when idle
-        m_defense_start_time = std::chrono::steady_clock::now(); // Start the defense timer
+        m_ai_state = MIRROR_DEF;
+        m_defense_start_time = std::chrono::steady_clock::now();
         break;
     }
 }
@@ -310,26 +305,29 @@ void Entity::ai_cooler(Entity* player) {
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
     auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
-    // Calculate the opposite aggression rating
-    int opposite_rating = 11 - m_oracle_aggression_rating;
+    int opposite_rating = m_oracle_aggression_rating; // Use the aggression rating
 
-    // Calculate switch_time using the opposite rating and a logarithmic scale
-    float switch_time = pow(10, (1 - (opposite_rating / 10.0f)));
+    // Adjusted switch time formula for a range of 1 to 5 seconds
+    float switch_time = 1 + 4 * pow(10, (1 - (opposite_rating / 10.0f)) - 1);
 
     switch (m_ai_state) {
     case COOLER_DEF:
-        m_ai_attack_count = 0;  // Reset the attack count
-        // Start the defense timer immediately when entering the defensive state
+        m_ai_attack_count = 0;
+
         if (defense_elapsed_time >= switch_time) {
             m_ai_state = COOLER_OFF;
-            m_last_action_time = now;  // Reset the action timer
+            m_last_action_time = now;
             break;
         }
 
-        // Keep just out of range and constantly shift stance and weight
         if (elapsed_time >= m_ai_action_delay) {
-            if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-                inc_stance();
+            if (m_atk_stance != player->get_stance()) {
+                if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+                    inc_stance();
+                }
+                else {
+                    dec_stance();
+                }
             }
             if (m_atk_weight != player->get_weight()) {
                 if (m_atk_weight < player->get_weight()) {
@@ -342,39 +340,39 @@ void Entity::ai_cooler(Entity* player) {
             m_last_action_time = now;
         }
 
-        // Move to keep distance just out of range
         if (glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
+
+        // Switch to COOLER_OFF if player is too far
+        if (glm::distance(m_position, player->get_position()) > m_max_defensive_distance) {
+            m_ai_state = COOLER_OFF;
+        }
+
         break;
 
     case COOLER_OFF:
-        // Move to get just within attack range and initiate attack sequence
         if (elapsed_time >= m_ai_action_delay) {
-            if (glm::distance(m_position, player->get_position()) > 1.4f) {
-                if (m_position.x < player->get_position().x) move_right();
-                if (m_position.x > player->get_position().x) move_left();
+            float distance = glm::distance(m_position, player->get_position());
+
+            if (distance < m_attack_range) {
+                if (m_ai_attack_count == 0) {
+                    ai_start_new_attack_sequence();
+                }
+                ai_attempt_attack();
             }
             else {
-                if (m_ai_attack_count == 0) {
-                    ai_start_new_attack_sequence(); // Start a new sequence
-                }
-                ai_attempt_attack(); // Attempt an attack if conditions are met
-
-                // If the combo is finished, switch to defensive state
-                if (m_ai_attack_count >= m_ai_attack_limit) {
-                    m_ai_state = COOLER_DEF;
-                    m_defense_start_time = std::chrono::steady_clock::now(); // Reset the defense timer
-                }
+                if (m_position.x < player->get_position().x) move_right();
+                if (m_position.x > player->get_position().x) move_left();
             }
             m_last_action_time = now;
         }
         break;
 
     case IDLE:
-        m_ai_state = COOLER_DEF; // Default to the defensive state when idle
-        m_defense_start_time = std::chrono::steady_clock::now(); // Start the defense timer
+        m_ai_state = COOLER_DEF;
+        m_defense_start_time = std::chrono::steady_clock::now();
         break;
     }
 }
