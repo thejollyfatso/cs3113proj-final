@@ -22,7 +22,8 @@ bool AudioManager::load_sounds() {
     m_sounds["swing"] = Mix_LoadWAV("assets/sound/swing.wav");
     m_sounds["knockback"] = Mix_LoadWAV("assets/sound/knockback_alt.wav");
     m_sounds["decision"] = Mix_LoadWAV("assets/sound/decision.wav");
-    m_sounds["death"] = Mix_LoadWAV("assets/sound/death.wav");
+    m_sounds["hit"] = Mix_LoadWAV("assets/sound/Sword1.wav");
+    m_sounds["death"] = Mix_LoadWAV("assets/sound/death3.wav");
 
     for (const auto& sound : m_sounds) {
         if (sound.second == nullptr) {
