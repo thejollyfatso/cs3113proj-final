@@ -950,7 +950,6 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     m_collided_right = false;
 
     if (m_entity_type == ENEMY) ai_activate(player);
-    if (m_entity_type == ENEMY) ai_oracle(player);
 
     if (m_animation_indices != nullptr && !m_current_animation.empty()) {
         m_animation_time += delta_time;
@@ -960,6 +959,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
             m_animation_time = 0.0f;
             m_animation_index++;
             if (m_recovery < RECOVERY_FRAMES && !m_is_moving) m_recovery++;
+			if (m_entity_type == ENEMY) ai_oracle(player); // run oracle only by frame
 
             // Check if we are within the active frames
             auto it = m_animations.find(m_current_animation);
