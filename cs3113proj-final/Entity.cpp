@@ -548,7 +548,6 @@ void const Entity::knockback()
 	m_is_moving = true;
 	soundbox.play_sound("knockback");
     ai_action_inc(); // change master ai DEBUG
-    m_ai_state = IDLE; // just to be safe
 }
 
 void const Entity::take_hit()
@@ -570,7 +569,6 @@ void const Entity::take_hit()
         }
     }
     ai_action_inc(); // change master ai DEBUG
-    m_ai_state = IDLE; // defaults to def
 
 	// Start the defense timer
 	m_defense_start_time = std::chrono::steady_clock::now();
