@@ -87,6 +87,21 @@ void LevelB::initialise()
     m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
 
     // PLAYER 2
+    AIDifficulty difficulty;
+	switch (selected_difficulty)
+	{
+	case 1:
+		difficulty = EASY;
+		break;
+	case 2:
+		difficulty = MEDIUM;
+		break;
+	case 3:
+		difficulty = HARD;
+		break;
+	default:
+		break;
+	}
     m_game_state.player2 = new Entity(
         player2_texture_id,         // texture id
         5.0f,                      // speed
@@ -102,7 +117,7 @@ void LevelB::initialise()
         ENEMY,
         MASTER,
         IDLE,
-        EASY
+        difficulty
     );
 
     // enlarge
