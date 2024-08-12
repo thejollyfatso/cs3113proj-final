@@ -154,12 +154,19 @@ void Entity::ai_crash(Entity* player) {
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
     auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
+    // Calculate the opposite aggression rating
+    int opposite_rating = 11 - m_oracle_aggression_rating;
+
+    // Calculate switch_time using the opposite rating and a logarithmic scale
+    float switch_time = pow(10, (1 - (opposite_rating / 10.0f)));
+
     switch (m_ai_state) {
     case CRASH_DEF:
         m_ai_attack_count = 0;  // Reset the attack count
         // Start the defense timer immediately when entering the defensive state
-        if (defense_elapsed_time >= 3) {
+        if (defense_elapsed_time >= switch_time) {
             m_ai_state = CRASH_OFF;
+            m_last_action_time = now;  // Reset the action timer
             break;
         }
 
@@ -227,12 +234,19 @@ void Entity::ai_mirror(Entity* player) {
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
     auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
+    // Calculate the opposite aggression rating
+    int opposite_rating = 11 - m_oracle_aggression_rating;
+
+    // Calculate switch_time using the opposite rating and a logarithmic scale
+    float switch_time = pow(10, (1 - (opposite_rating / 10.0f)));
+
     switch (m_ai_state) {
     case MIRROR_DEF:
         m_ai_attack_count = 0;  // Reset the attack count
         // Start the defense timer immediately when entering the defensive state
-        if (defense_elapsed_time >= 3) {
+        if (defense_elapsed_time >= switch_time) {
             m_ai_state = MIRROR_OFF;
+            m_last_action_time = now;  // Reset the action timer
             break;
         }
 
@@ -296,12 +310,19 @@ void Entity::ai_cooler(Entity* player) {
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
     auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
+    // Calculate the opposite aggression rating
+    int opposite_rating = 11 - m_oracle_aggression_rating;
+
+    // Calculate switch_time using the opposite rating and a logarithmic scale
+    float switch_time = pow(10, (1 - (opposite_rating / 10.0f)));
+
     switch (m_ai_state) {
     case COOLER_DEF:
         m_ai_attack_count = 0;  // Reset the attack count
         // Start the defense timer immediately when entering the defensive state
-        if (defense_elapsed_time >= 3) {
+        if (defense_elapsed_time >= switch_time) {
             m_ai_state = COOLER_OFF;
+            m_last_action_time = now;  // Reset the action timer
             break;
         }
 
