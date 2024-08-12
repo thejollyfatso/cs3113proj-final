@@ -58,6 +58,9 @@ private:
     AIDifficulty m_ai_difficulty;
     float m_ai_action_delay = 0.0f;
     std::chrono::time_point<std::chrono::steady_clock> m_last_action_time = std::chrono::steady_clock::now();
+    int m_ai_attack_limit = 0; // Number of attacks allowed in the current sequence
+    int m_ai_attack_count = 0; // Number of attacks already performed in the current sequence
+    std::chrono::time_point<std::chrono::steady_clock> m_last_attack_time; // Time of the last attack
     // ————— TRANSFORMATIONS ————— //
     glm::vec3 m_movement;
     glm::vec3 m_position;
@@ -158,6 +161,8 @@ public:
     // AI Functions
     void ai_activate(Entity *player);
     void ai_action_inc() { m_ai_action_count++; m_ai_state = DISTANCE; }
+    void ai_start_new_attack_sequence();
+    void ai_attempt_attack();
     void ai_trap(Entity *player);
     void ai_range(Entity *player);
     void ai_crash(Entity *player);

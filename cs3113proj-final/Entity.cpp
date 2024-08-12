@@ -41,6 +41,28 @@ void Entity::set_ai_difficulty(AIDifficulty difficulty) {
 	}
 }
 
+void Entity::ai_start_new_attack_sequence() {
+    m_ai_attack_limit = rand() % 3 + 1; // Set attack limit to a random number between 1 and 3
+    m_ai_attack_count = 0;              // Reset the attack count
+}
+
+void Entity::ai_attempt_attack() {
+    auto now = std::chrono::steady_clock::now();
+    auto time_since_last_attack = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_attack_time).count();
+
+    // Check if enough time has passed and if we haven't reached the attack limit
+    if (time_since_last_attack >= 250 && m_ai_attack_count < m_ai_attack_limit) {
+        attack();
+        m_last_attack_time = now; // Update the time of the last attack
+        m_ai_attack_count++;      // Increment the attack count
+
+        // Check if the attack sequence is complete
+        if (m_ai_attack_count >= m_ai_attack_limit) {
+            m_ai_state = DISTANCE; // Return to the DISTANCE state after completing the sequence
+        }
+    }
+}
+
 void Entity::ai_activate(Entity* player) {
     if (m_is_active)
     {
@@ -159,7 +181,10 @@ void Entity::ai_crash(Entity* player) {
             m_last_action_time = now; // Reset the timer
         }
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            attack();
+            if (m_ai_attack_count == 0) {
+                ai_start_new_attack_sequence(); // Start a new sequence if this is the first attack
+            }
+            ai_attempt_attack(); // Attempt an attack if conditions are met
         }
         else {
             m_ai_state = DISTANCE;
@@ -227,7 +252,10 @@ void Entity::ai_mirror(Entity* player) {
             m_last_action_time = now; // Reset the timer
         }
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            attack();
+            if (m_ai_attack_count == 0) {
+                ai_start_new_attack_sequence(); // Start a new sequence if this is the first attack
+            }
+            ai_attempt_attack(); // Attempt an attack if conditions are met
         }
         else {
             m_ai_state = DISTANCE;
@@ -290,7 +318,10 @@ void Entity::ai_cooler(Entity* player) {
             m_last_action_time = now; // Reset the timer
         }
         if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            attack();
+            if (m_ai_attack_count == 0) {
+                ai_start_new_attack_sequence(); // Start a new sequence if this is the first attack
+            }
+            ai_attempt_attack(); // Attempt an attack if conditions are met
         }
         else {
             m_ai_state = DISTANCE;
