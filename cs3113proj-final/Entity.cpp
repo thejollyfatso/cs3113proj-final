@@ -98,13 +98,7 @@ void Entity::ai_action_inc() {
     int rand_num = rand() % 100;
 
     // 50% chance to increment m_ai_action_count
-    if (rand_num < 50) {
-        m_ai_action_count++;
-    }
-    else {
-        // Randomize m_ai_action_count if not incremented
-        m_ai_action_count = rand() % 3; // Randomize between 0, 1, and 2
-    }
+    if (rand_num < 50) m_ai_action_count = rand() % 3; // Randomize between 0, 1, and 2
 
     m_ai_state = IDLE;
 }
