@@ -53,7 +53,7 @@ void Level0::render(ShaderProgram *g_shader_program)
             glm::vec3(1.6f, -5.4f, 0.0f));
     }
     else if (m_current_menu_state == DIFFICULTY_SELECTION) {
-        Utility::draw_text(g_shader_program, m_font_texture_id, "SELECT DIFFICULTY", 0.5f, 0.05f,
+        Utility::draw_text(g_shader_program, m_font_texture_id, "DIFFICULTY", 0.5f, 0.05f,
             glm::vec3(2.4f, -2.0f, 0.0f));
         Utility::draw_text(g_shader_program, m_font_texture_id, "1: Easy", 0.5f, 0.01f,
             glm::vec3(1.6f, -3.0f, 0.0f));
@@ -61,5 +61,7 @@ void Level0::render(ShaderProgram *g_shader_program)
             glm::vec3(1.6f, -3.8f, 0.0f));
         Utility::draw_text(g_shader_program, m_font_texture_id, "3: Hard", 0.5f, 0.01f,
             glm::vec3(1.6f, -4.6f, 0.0f));
+        Utility::draw_text(g_shader_program, m_font_texture_id, "X: Back", 0.5f, 0.01f,
+            glm::vec3(1.6f, -5.4f, 0.0f));
     }
 }

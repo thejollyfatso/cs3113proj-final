@@ -155,11 +155,20 @@ void process_input()
                 
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
-                    case SDLK_x:
-                        // Quit the game with a keystroke
-                        if (g_current_scene == g_levels[0]) g_app_status = TERMINATED;
-                        else switch_to_scene(g_levels[0]);
-                        break;
+                case SDLK_x:
+                    // If in the difficulty selection state, revert back to the main menu state
+                    if (g_current_scene == g_levels[0]) {
+                        if (g_level_0->m_current_menu_state == DIFFICULTY_SELECTION) {
+                            g_level_0->m_current_menu_state = MAIN_MENU;  // Revert to the main menu state
+                        }
+                        else {
+                            g_app_status = TERMINATED;  // Exit the game if in the main menu state
+                        }
+                    }
+                    else {
+                        switch_to_scene(g_levels[0]);
+                    }
+                    break;
                     case SDLK_m:
                         // toggle music
                         if (Mix_VolumeMusic(-1)) Mix_VolumeMusic(0);
