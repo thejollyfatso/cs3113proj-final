@@ -36,6 +36,7 @@
 #include "Level0.h"
 #include "LevelA.h"
 #include "LevelB.h"
+#include "LevelC.h"
 
 // ————— CONSTANTS ————— //
 constexpr int WINDOW_WIDTH  = 640,
@@ -63,8 +64,9 @@ Scene *g_current_scene;
 Level0 *g_level_0;
 LevelA *g_level_a;
 LevelB *g_level_b;
+LevelC *g_level_c;
 
-Scene *g_levels[3];
+Scene *g_levels[4];
 
 SDL_Window* g_display_window;
 
@@ -128,9 +130,11 @@ void initialise()
     g_level_0 = new Level0();
     g_level_a = new LevelA();
     g_level_b = new LevelB();
+    g_level_c = new LevelC();
     g_levels[0] = g_level_0;
     g_levels[1] = g_level_a;
     g_levels[2] = g_level_b;
+    g_levels[3] = g_level_c;
     switch_to_scene(g_level_0);
     
     // ————— BLENDING ————— //
@@ -200,9 +204,14 @@ void process_input()
                         break;
 
                     case SDLK_3:
-                        if (g_current_scene == g_levels[0] && g_level_0->m_current_menu_state == DIFFICULTY_SELECTION) {
-                            g_level_b->selected_difficulty = 3;
-                            switch_to_scene(g_levels[2]);  // Duel with Hard difficulty
+                        if (g_current_scene == g_levels[0]) {
+                            if (g_level_0->m_current_menu_state == MAIN_MENU) {
+                                switch_to_scene(g_levels[3]);
+                            }
+                            else if (g_level_0->m_current_menu_state == DIFFICULTY_SELECTION) {
+                                g_level_b->selected_difficulty = 3;
+                                switch_to_scene(g_levels[2]);  // Duel with Hard difficulty
+                            }
                         }
                         break;
                         
