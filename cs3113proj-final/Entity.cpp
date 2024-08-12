@@ -360,13 +360,16 @@ void Entity::ai_cooler(Entity* player) {
 
 void Entity::oracle_calculate_aggression_rating() {
     if (m_attack_count > 0) {
-        // Example aggression scale: faster attack intervals yield a higher rating
-        if (m_player_attack_interval_avg < 200) m_oracle_aggression_rating = 10;
-        else if (m_player_attack_interval_avg < 400) m_oracle_aggression_rating = 8;
-        else if (m_player_attack_interval_avg < 600) m_oracle_aggression_rating = 6;
-        else if (m_player_attack_interval_avg < 800) m_oracle_aggression_rating = 4;
-        else if (m_player_attack_interval_avg < 1000) m_oracle_aggression_rating = 2;
-        else m_oracle_aggression_rating = 1;
+        // Ensure the interval is within the range 0.1 to 10 seconds
+        float clamped_interval = glm::clamp(m_player_attack_interval_avg / 1000.0f, 0.1f, 10.0f);
+
+        // Apply logarithmic scaling based on the 0.1 to 10 seconds range
+        float log_interval = log10(clamped_interval);
+        float log_min = log10(0.1f);
+        float log_max = log10(10.0f);
+
+        // Map the log value to a 1-10 scale
+        m_oracle_aggression_rating = static_cast<int>(10 - ((log_interval - log_min) / (log_max - log_min) * 10));
     }
 }
 
