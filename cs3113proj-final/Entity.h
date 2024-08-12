@@ -65,6 +65,9 @@ private:
     std::chrono::time_point<std::chrono::steady_clock> m_last_attack_time; // Time of the last attack
     std::chrono::time_point<std::chrono::steady_clock> m_defense_start_time; // Defense timer
 
+    StylePreference m_ai_style_preference;
+    int m_ai_style_rigidity; // Scale 1-10 for how likely to switch out of or into style
+
     // AI Oracle
     int m_oracle_aggression_rating = 0;  // 1-10 scale for aggression
 
@@ -72,6 +75,7 @@ private:
 
     float m_oracle_bind_parry_ratio = 0.0f;
     float m_oracle_close_retreat_ratio = 0.0f;
+    float m_oracle_stance_weight_ratio = 0.0f; // player preference to stance or weight fight
 
     // For tracking intermediate data
     std::chrono::time_point<std::chrono::steady_clock> m_last_player_attack_time;
@@ -87,6 +91,9 @@ private:
 
     int m_close_count = 0;
     int m_retreat_count = 0;
+
+    int m_stance_count = 0;
+    int m_weight_count = 0;
 
     // ————— TRANSFORMATIONS ————— //
     glm::vec3 m_movement;
