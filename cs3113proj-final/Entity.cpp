@@ -536,7 +536,11 @@ void const Entity::take_hit()
             else if (!m_h_wounded) m_h_wounded = true;
             else death();
         }
-        else (m_h_advantage--);
+        else 
+        {
+            soundbox.play_sound("adv");
+            m_h_advantage--;
+        }
     }
     m_taking_hit = true;
 }
