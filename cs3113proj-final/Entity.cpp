@@ -420,18 +420,10 @@ void Entity::ai_oracle(Entity* player) {
     }
 
     // 2. Track engagement style (crashing, mirroring, cooling)
-    if (player->m_atk_stance == this->m_atk_stance) {  // Crashing: same stance
-        m_crash_count++;
-    }
-    else if ((player->m_atk_stance + 2) % 4 == this->m_atk_stance) {  // Mirroring: opposite stance
-        m_mirror_count++;
-    }
-    else {  // Cooling: stance doesn't match
-        m_cool_count++;
-    }
+    // tracked in bind/parry
 
     // 3. Track binding vs. parrying preference
-    // will be tracked by hitbox
+    // tracked by hitbox updates
 
 	// 4. Track close vs. retreat behavior
     if (player->get_movement().x < 0) {  // Player is moving left
@@ -589,6 +581,7 @@ bool const Entity::bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
 	soundbox.play_unique_sound("bind");
     if (o_atk_stance == m_atk_stance)
     {
+        m_crash_count++;
         if (m_atk_weight < o_atk_weight)
         {
             if (o_adv) take_hit();
@@ -597,6 +590,7 @@ bool const Entity::bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
     }
     else if (o_atk_stance % 2 == m_atk_stance % 2) // if not matching, opposite?
     {
+		m_mirror_count++;
         if (m_atk_weight > o_atk_weight) 
         {
             if (o_adv) take_hit();
@@ -610,6 +604,7 @@ bool const Entity::bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
     }
     else // non matching
     {
+        m_cool_count++;
         return false;  // non matching bind always ends neutral
     }
     return false; // catch any condition that falls through
@@ -621,6 +616,7 @@ bool const Entity::parry(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
     switch_animation("counter", true);  
     if (o_atk_stance == m_atk_stance)
     {
+        m_crash_count++;
         if (m_atk_weight == o_atk_weight)
         {
             knockback();
@@ -634,11 +630,13 @@ bool const Entity::parry(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
     }
     else if (o_atk_stance % 2 == m_atk_stance % 2) // if not matching, opposite?
     {
+        m_mirror_count++;
 		if (o_adv) take_hit();
 		return true;
     }
     else // non matching
     {
+        m_cool_count++;
         if (m_atk_weight == o_atk_weight) 
         {
             if (o_adv) take_hit();
