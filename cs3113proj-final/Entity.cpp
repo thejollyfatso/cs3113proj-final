@@ -358,6 +358,100 @@ void Entity::ai_cooler(Entity* player) {
     }
 }
 
+void Entity::oracle_calculate_aggression_rating() {
+    if (m_attack_count > 0) {
+        // Example aggression scale: faster attack intervals yield a higher rating
+        if (m_player_attack_interval_avg < 200) m_oracle_aggression_rating = 10;
+        else if (m_player_attack_interval_avg < 400) m_oracle_aggression_rating = 8;
+        else if (m_player_attack_interval_avg < 600) m_oracle_aggression_rating = 6;
+        else if (m_player_attack_interval_avg < 800) m_oracle_aggression_rating = 4;
+        else if (m_player_attack_interval_avg < 1000) m_oracle_aggression_rating = 2;
+        else m_oracle_aggression_rating = 1;
+    }
+}
+
+void Entity::oracle_calculate_style_preference() {
+    if (m_crash_count > m_mirror_count && m_crash_count > m_cool_count) {
+        m_oracle_style_preference = StylePreference::CRASHING;
+    }
+    else if (m_mirror_count > m_crash_count && m_mirror_count > m_cool_count) {
+        m_oracle_style_preference = StylePreference::MIRRORING;
+    }
+    else if (m_cool_count > m_crash_count && m_cool_count > m_mirror_count) {
+        m_oracle_style_preference = StylePreference::COOLING;
+    }
+    else {
+        m_oracle_style_preference = StylePreference::UNDEFINED;  // In case of a tie
+    }
+}
+
+void Entity::oracle_calculate_bind_parry_ratio() {
+    if (m_parry_count > 0) {
+        m_oracle_bind_parry_ratio = static_cast<float>(m_bind_count) / m_parry_count;
+    }
+    else {
+        m_oracle_bind_parry_ratio = (m_bind_count > 0) ? static_cast<float>(m_bind_count) : 0.0f;
+    }
+}
+
+void Entity::oracle_calculate_close_retreat_ratio() {
+    if (m_retreat_count > 0) {
+        m_oracle_close_retreat_ratio = static_cast<float>(m_close_count) / m_retreat_count;
+    }
+    else {
+        m_oracle_close_retreat_ratio = (m_close_count > 0) ? static_cast<float>(m_close_count) : 0.0f;
+    }
+}
+
+void Entity::ai_oracle(Entity* player) {
+    auto now = std::chrono::steady_clock::now();
+
+    // 1. Track aggression (attack frequency)
+    if (player->m_is_attacking) {  // Use actual variables and logic from your codebase
+        auto time_since_last_attack = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_player_attack_time).count();
+        if (m_attack_count > 0) {
+            m_player_attack_interval_avg = ((m_player_attack_interval_avg * m_attack_count) + time_since_last_attack) / (m_attack_count + 1);
+        }
+        else {
+            m_player_attack_interval_avg = time_since_last_attack;
+        }
+        m_last_player_attack_time = now;
+        m_attack_count++;
+    }
+
+    // 2. Track engagement style (crashing, mirroring, cooling)
+    if (player->m_atk_stance == this->m_atk_stance) {  // Crashing: same stance
+        m_crash_count++;
+    }
+    else if ((player->m_atk_stance + 2) % 4 == this->m_atk_stance) {  // Mirroring: opposite stance
+        m_mirror_count++;
+    }
+    else {  // Cooling: stance doesn't match
+        m_cool_count++;
+    }
+
+    // 3. Track binding vs. parrying preference
+    // will be tracked by hitbox
+
+    // 4. Track close vs. retreat behavior
+    float distance_to_ai = glm::distance(player->m_position, this->m_position);
+
+    if (player->m_position.x < this->m_position.x) {
+        m_close_count++;
+    }
+    else {
+        m_retreat_count++;
+    }
+
+    // Calculate final values
+    oracle_calculate_aggression_rating();
+    oracle_calculate_style_preference();
+    oracle_calculate_bind_parry_ratio();
+    oracle_calculate_close_retreat_ratio();
+}
+
+
+
 Entity::Entity()
     : m_position(0.0f), m_movement(0.0f), m_scale(1.0f, 1.0f, 0.0f), m_model_matrix(1.0f),
     m_speed(0.0f), m_animation_cols(0), m_animation_frames(0), m_animation_index(0),

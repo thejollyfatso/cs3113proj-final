@@ -22,6 +22,7 @@ enum AIState    { IDLE, ATTACKING,          // grandfathered states
 enum AtkStance  { N, E, S, W               };
 enum AIDifficulty { EASY, MEDIUM, HARD };
 enum HealthState { ADV, LUCK, LUCK1, LUCK2, LUCK3, HEALTH, WOUNDED, DEAD };
+enum StylePreference { CRASHING, MIRRORING, COOLING, UNDEFINED };
 
 struct AtkInput
 {
@@ -51,6 +52,7 @@ private:
     bool m_is_active = true;
     bool m_alive = true;
     
+    // AI Members
     EntityType m_entity_type;
     AIType     m_ai_type;
     AIState    m_ai_state;
@@ -62,6 +64,30 @@ private:
     int m_ai_attack_count = 0; // Number of attacks already performed in the current sequence
     std::chrono::time_point<std::chrono::steady_clock> m_last_attack_time; // Time of the last attack
     std::chrono::time_point<std::chrono::steady_clock> m_defense_start_time; // Defense timer
+
+    // AI Oracle
+    int m_oracle_aggression_rating = 0;  // 1-10 scale for aggression
+
+	StylePreference m_oracle_style_preference = UNDEFINED;
+
+    float m_oracle_bind_parry_ratio = 0.0f;
+    float m_oracle_close_retreat_ratio = 0.0f;
+
+    // For tracking intermediate data
+    std::chrono::time_point<std::chrono::steady_clock> m_last_player_attack_time;
+    float m_player_attack_interval_avg = 0.0f;
+    int m_attack_count = 0;
+
+    int m_crash_count = 0;
+    int m_mirror_count = 0;
+    int m_cool_count = 0;
+
+    int m_bind_count = 0;
+    int m_parry_count = 0;
+
+    int m_close_count = 0;
+    int m_retreat_count = 0;
+
     // ————— TRANSFORMATIONS ————— //
     glm::vec3 m_movement;
     glm::vec3 m_position;
@@ -169,6 +195,13 @@ public:
     void ai_crash(Entity *player);
     void ai_mirror(Entity *player);
     void ai_cooler(Entity *player);
+
+    void ai_oracle(Entity* player);
+    void oracle_calculate_aggression_rating();
+    void oracle_calculate_style_preference();
+    void oracle_calculate_bind_parry_ratio();
+    void oracle_calculate_close_retreat_ratio();
+
     
     void normalise_movement() { m_movement = glm::normalize(m_movement); }
 
