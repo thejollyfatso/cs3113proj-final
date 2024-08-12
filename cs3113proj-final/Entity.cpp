@@ -142,10 +142,19 @@ void Entity::ai_range(Entity* player) {
 void Entity::ai_crash(Entity* player) {
     auto now = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
+    auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
     switch (m_ai_state) {
     case CRASH_DEF:
-        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
+        m_ai_attack_count = 0;  // Reset the attack count
+        // Start the defense timer immediately when entering the defensive state
+        if (defense_elapsed_time >= 3) {
+            m_ai_state = CRASH_OFF;
+            break;
+        }
+
+        // Keep just out of range and constantly shift stance and weight
+        if (elapsed_time >= m_ai_action_delay) {
             if (m_atk_stance != player->get_stance()) {
                 if ((m_atk_stance + 1) % 4 == player->get_stance()) {
                     inc_stance();
@@ -162,56 +171,43 @@ void Entity::ai_crash(Entity* player) {
                     dec_weight();
                 }
             }
-            m_last_action_time = now; // Reset the timer
+            m_last_action_time = now;
         }
-        if (m_current_animation == "counter") m_ai_state = APPROACH;
-        break;
 
-    case CRASH_OFF:
-        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
-            if (m_atk_stance != player->get_stance()) {
-                if ((m_atk_stance + 1) % 4 == player->get_stance()) {
-                    inc_stance();
-                }
-                else {
-                    dec_stance();
-                }
-            }
-            if (m_atk_weight <= player->get_weight()) inc_weight();
-            m_last_action_time = now; // Reset the timer
-        }
-        if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            if (m_ai_attack_count == 0) {
-                ai_start_new_attack_sequence(); // Start a new sequence if this is the first attack
-            }
-            ai_attempt_attack(); // Attempt an attack if conditions are met
-        }
-        else {
-            m_ai_state = DISTANCE;
-        }
-        break;
-
-    case APPROACH:
-        if (m_position.x > player->get_position().x + 2.4) {
-            move_left();
-        }
-        else if (m_position.x < player->get_position().x - 2.4) {
-            move_right();
-        }
-        if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            if (m_atk_weight == player->get_weight()) m_ai_state = CRASH_OFF;
-            else m_ai_state = CRASH_DEF;
-        }
-        break;
-
-    case DISTANCE:
-        if (glm::distance(m_position, player->get_position()) < 2.4f) {
+        // Move to keep distance just out of range
+        if (glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
-        else if (glm::distance(m_position, player->get_position()) > 3.2f) {
-            m_ai_state = APPROACH;
+
+        break;
+
+    case CRASH_OFF:
+        // Move to get just within attack range and initiate attack sequence
+        if (elapsed_time >= m_ai_action_delay) {
+            if (glm::distance(m_position, player->get_position()) > 1.4f) {
+                if (m_position.x < player->get_position().x) move_right();
+                if (m_position.x > player->get_position().x) move_left();
+            }
+            else {
+                if (m_ai_attack_count == 0) {
+                    ai_start_new_attack_sequence(); // Start a new sequence
+                }
+                ai_attempt_attack(); // Attempt an attack if conditions are met
+
+                // If the combo is finished, switch to defensive state
+                if (m_ai_attack_count >= m_ai_attack_limit) {
+                    m_ai_state = CRASH_DEF;
+                    m_defense_start_time = std::chrono::steady_clock::now(); // Reset the defense timer
+                }
+            }
+            m_last_action_time = now;
         }
+        break;
+
+    case IDLE:
+        m_ai_state = CRASH_DEF; // Default to the defensive state when idle
+        m_defense_start_time = std::chrono::steady_clock::now(); // Start the defense timer
         break;
     }
 }
@@ -219,10 +215,19 @@ void Entity::ai_crash(Entity* player) {
 void Entity::ai_mirror(Entity* player) {
     auto now = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
+    auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
     switch (m_ai_state) {
     case MIRROR_DEF:
-        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
+        m_ai_attack_count = 0;  // Reset the attack count
+        // Start the defense timer immediately when entering the defensive state
+        if (defense_elapsed_time >= 3) {
+            m_ai_state = MIRROR_OFF;
+            break;
+        }
+
+        // Keep just out of range and constantly shift stance and weight
+        if (elapsed_time >= m_ai_action_delay) {
             if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
                 if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
                     inc_stance();
@@ -231,58 +236,47 @@ void Entity::ai_mirror(Entity* player) {
                     dec_stance();
                 }
             }
-            if (m_atk_weight > player->get_weight()) dec_weight();
-            m_last_action_time = now; // Reset the timer
-        }
-        attack();
-        m_ai_state = APPROACH;
-        break;
-
-    case MIRROR_OFF:
-        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
-            if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-                if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-                    inc_stance();
-                }
-                else {
-                    dec_stance();
+            if (m_atk_weight != player->get_weight()) {
+                if (m_atk_weight > player->get_weight()) {
+                    dec_weight();
                 }
             }
-            if (m_atk_weight >= player->get_weight()) dec_weight();
-            m_last_action_time = now; // Reset the timer
+            m_last_action_time = now;
         }
-        if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            if (m_ai_attack_count == 0) {
-                ai_start_new_attack_sequence(); // Start a new sequence if this is the first attack
-            }
-            ai_attempt_attack(); // Attempt an attack if conditions are met
-        }
-        else {
-            m_ai_state = DISTANCE;
-        }
-        break;
 
-    case APPROACH:
-        if (m_position.x > player->get_position().x + 2.4) {
-            move_left();
-        }
-        else if (m_position.x < player->get_position().x - 2.4) {
-            move_right();
-        }
-        if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            if (m_atk_weight == player->get_weight()) m_ai_state = MIRROR_OFF;
-            else m_ai_state = MIRROR_DEF;
-        }
-        break;
-
-    case DISTANCE:
-        if (glm::distance(m_position, player->get_position()) < 2.4f) {
+        // Move to keep distance just out of range
+        if (glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
-        else if (glm::distance(m_position, player->get_position()) > 3.2f) {
-            m_ai_state = APPROACH;
+        break;
+
+    case MIRROR_OFF:
+        // Move to get just within attack range and initiate attack sequence
+        if (elapsed_time >= m_ai_action_delay) {
+            if (glm::distance(m_position, player->get_position()) > 1.4f) {
+                if (m_position.x < player->get_position().x) move_right();
+                if (m_position.x > player->get_position().x) move_left();
+            }
+            else {
+                if (m_ai_attack_count == 0) {
+                    ai_start_new_attack_sequence(); // Start a new sequence
+                }
+                ai_attempt_attack(); // Attempt an attack if conditions are met
+
+                // If the combo is finished, switch to defensive state
+                if (m_ai_attack_count >= m_ai_attack_limit) {
+                    m_ai_state = MIRROR_DEF;
+                    m_defense_start_time = std::chrono::steady_clock::now(); // Reset the defense timer
+                }
+            }
+            m_last_action_time = now;
         }
+        break;
+
+    case IDLE:
+        m_ai_state = MIRROR_DEF; // Default to the defensive state when idle
+        m_defense_start_time = std::chrono::steady_clock::now(); // Start the defense timer
         break;
     }
 }
@@ -290,23 +284,22 @@ void Entity::ai_mirror(Entity* player) {
 void Entity::ai_cooler(Entity* player) {
     auto now = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
+    auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
     switch (m_ai_state) {
     case COOLER_DEF:
-        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
-            if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) inc_stance();
-            if (m_atk_weight == player->get_weight()) {
-                if (m_atk_weight == 1) inc_weight();
-                else dec_weight();
-            }
-            m_last_action_time = now; // Reset the timer
+        m_ai_attack_count = 0;  // Reset the attack count
+        // Start the defense timer immediately when entering the defensive state
+        if (defense_elapsed_time >= 3) {
+            m_ai_state = COOLER_OFF;
+            break;
         }
-        if (m_current_animation == "counter") m_ai_state = APPROACH;
-        break;
 
-    case COOLER_OFF:
-        if (elapsed_time >= m_ai_action_delay) { // Use m_ai_action_delay
-            if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) inc_stance();
+        // Keep just out of range and constantly shift stance and weight
+        if (elapsed_time >= m_ai_action_delay) {
+            if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                inc_stance();
+            }
             if (m_atk_weight != player->get_weight()) {
                 if (m_atk_weight < player->get_weight()) {
                     inc_weight();
@@ -315,40 +308,42 @@ void Entity::ai_cooler(Entity* player) {
                     dec_weight();
                 }
             }
-            m_last_action_time = now; // Reset the timer
+            m_last_action_time = now;
         }
-        if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            if (m_ai_attack_count == 0) {
-                ai_start_new_attack_sequence(); // Start a new sequence if this is the first attack
-            }
-            ai_attempt_attack(); // Attempt an attack if conditions are met
-        }
-        else {
-            m_ai_state = DISTANCE;
-        }
-        break;
 
-    case APPROACH:
-        if (m_position.x > player->get_position().x + 2.4) {
-            move_left();
-        }
-        else if (m_position.x < player->get_position().x - 2.4) {
-            move_right();
-        }
-        if (glm::distance(m_position, player->get_position()) < 1.6f) {
-            if (m_atk_weight == player->get_weight()) m_ai_state = COOLER_OFF;
-            else m_ai_state = COOLER_DEF;
-        }
-        break;
-
-    case DISTANCE:
-        if (glm::distance(m_position, player->get_position()) < 2.4f) {
+        // Move to keep distance just out of range
+        if (glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
-        else if (glm::distance(m_position, player->get_position()) > 3.2f) {
-            m_ai_state = APPROACH;
+        break;
+
+    case COOLER_OFF:
+        // Move to get just within attack range and initiate attack sequence
+        if (elapsed_time >= m_ai_action_delay) {
+            if (glm::distance(m_position, player->get_position()) > 1.4f) {
+                if (m_position.x < player->get_position().x) move_right();
+                if (m_position.x > player->get_position().x) move_left();
+            }
+            else {
+                if (m_ai_attack_count == 0) {
+                    ai_start_new_attack_sequence(); // Start a new sequence
+                }
+                ai_attempt_attack(); // Attempt an attack if conditions are met
+
+                // If the combo is finished, switch to defensive state
+                if (m_ai_attack_count >= m_ai_attack_limit) {
+                    m_ai_state = COOLER_DEF;
+                    m_defense_start_time = std::chrono::steady_clock::now(); // Reset the defense timer
+                }
+            }
+            m_last_action_time = now;
         }
+        break;
+
+    case IDLE:
+        m_ai_state = COOLER_DEF; // Default to the defensive state when idle
+        m_defense_start_time = std::chrono::steady_clock::now(); // Start the defense timer
         break;
     }
 }
@@ -553,6 +548,7 @@ void const Entity::knockback()
 	m_is_moving = true;
 	soundbox.play_sound("knockback");
     ai_action_inc(); // change master ai DEBUG
+    m_ai_state = IDLE; // just to be safe
 }
 
 void const Entity::take_hit()
@@ -573,6 +569,10 @@ void const Entity::take_hit()
             m_h_advantage--;
         }
     }
+    m_ai_state = IDLE; // defaults to def
+
+	// Start the defense timer
+	m_defense_start_time = std::chrono::steady_clock::now();
     m_taking_hit = true;
 }
 
@@ -582,7 +582,6 @@ void const Entity::death()
     m_alive = false;
     switch_animation("death", true);  
 }
-
 
 void Entity::set_animation(std::string animation_name, int* indices, int frames, int active_start, int active_frames) {
     m_animations[animation_name] = { std::vector<int>(indices, indices + frames), active_frames, active_start };

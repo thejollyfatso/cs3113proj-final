@@ -61,6 +61,7 @@ private:
     int m_ai_attack_limit = 0; // Number of attacks allowed in the current sequence
     int m_ai_attack_count = 0; // Number of attacks already performed in the current sequence
     std::chrono::time_point<std::chrono::steady_clock> m_last_attack_time; // Time of the last attack
+    std::chrono::time_point<std::chrono::steady_clock> m_defense_start_time; // Defense timer
     // ————— TRANSFORMATIONS ————— //
     glm::vec3 m_movement;
     glm::vec3 m_position;
