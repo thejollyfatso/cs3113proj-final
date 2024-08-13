@@ -12,7 +12,7 @@
 #include "glm/glm.hpp"
 #include "ShaderProgram.h"
 enum EntityType { PLATFORM, PLAYER, ENEMY  };
-enum AIType     { TRAP, DEBUG_RANGER,
+enum AIType     { TRAP, DEBUG_RANGER, DUMMY,
                   CRASHER, MIRROR, COOLER, MASTER };
 enum AIState    { IDLE, ATTACKING,          // grandfathered states
                   APPROACH, DISTANCE,
@@ -206,6 +206,7 @@ public:
     void ai_crash(Entity *player);
     void ai_mirror(Entity *player);
     void ai_cooler(Entity *player);
+    void ai_dummy(Entity *player);
 
     void ai_oracle(Entity* player);
     void oracle_calculate_aggression_rating();

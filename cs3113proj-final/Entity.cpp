@@ -87,6 +87,9 @@ void Entity::ai_activate(Entity* player) {
             if (m_ai_action_count % 3 == 1) ai_mirror(player);
             if (m_ai_action_count % 3 == 2) ai_cooler(player);
             break;
+        case DUMMY:
+            ai_dummy(player);
+            break;
         default:
             break;
         }
@@ -321,22 +324,15 @@ void Entity::ai_cooler(Entity* player) {
         }
 
         if (elapsed_time >= m_ai_action_delay) {
-            if (m_atk_stance != player->get_stance()) {
-                if ((m_atk_stance + 1) % 4 == player->get_stance()) {
-                    inc_stance();
-                }
-                else {
-                    dec_stance();
-                }
+            // Avoid matching the player's stance or directly opposite stances
+            if (m_atk_stance == player->get_stance() ||
+                m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                inc_stance(); // Adjust stance to avoid direct match or opposite
             }
-            if (m_atk_weight != player->get_weight()) {
-                if (m_atk_weight < player->get_weight()) {
-                    inc_weight();
-                }
-                else {
-                    dec_weight();
-                }
-            }
+            if (m_atk_weight == player->get_weight()) {
+				inc_weight();
+				if (m_atk_weight == player->get_weight()) dec_weight();
+			}
             m_last_action_time = now;
         }
 
@@ -373,6 +369,33 @@ void Entity::ai_cooler(Entity* player) {
     case IDLE:
         m_ai_state = COOLER_DEF;
         m_defense_start_time = std::chrono::steady_clock::now();
+        break;
+    }
+}
+
+void Entity::ai_dummy(Entity* player) {
+    switch (m_ai_state) {
+    case COOLER_DEF:
+        // Ensure stance is neither matching nor opposite to the player's stance
+        if (m_atk_stance == player->get_stance() || (m_atk_stance + 2) % 4 == player->get_stance()) {
+            // Adjust stance to a non-matching, non-opposite one
+            if ((m_atk_stance + 1) % 4 != player->get_stance() && (m_atk_stance + 1) % 4 != (player->get_stance() + 2) % 4) {
+                inc_stance();
+            }
+            else {
+                dec_stance();
+            }
+        }
+
+        // Ensure weight is neither matching nor opposite
+        if (m_atk_weight == player->get_weight()) {
+			dec_weight();
+			if (m_atk_weight == player->get_weight()) inc_weight();
+        }
+        break;
+
+    case IDLE:
+        m_ai_state = COOLER_DEF;
         break;
     }
 }
@@ -688,6 +711,11 @@ bool const Entity::parry(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
 
 void const Entity::knockback()
 {
+    if (m_ai_type == DUMMY)
+    {
+        switch_animation("death", true);
+        return;
+    }
 	if (m_scale.x > 0) m_target_position.x = m_position.x - 0.3f;
 	else m_target_position.x = m_position.x + 0.3f;
 	m_is_moving = true;

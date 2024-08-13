@@ -101,7 +101,7 @@ void LevelC1::initialise()
         2.0f,                      // width
         2.0f,                       // height
         ENEMY,
-        MASTER,
+        DUMMY,
         IDLE,
         EASY
     );

@@ -151,7 +151,8 @@ void Hitbox::update(float delta_time, Hitbox* otherHitbox) {
 }
 
 void Hitbox::render(ShaderProgram* program) {
-    if (!m_hidden)
+    //if (!m_hidden) // keeps randomly bugging out
+    if (false)
     { 
 		program->set_model_matrix(m_model_matrix);
 
