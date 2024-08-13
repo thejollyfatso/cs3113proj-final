@@ -324,6 +324,12 @@ void LevelC::update(float delta_time)
             post_player_prev_stance = m_game_state.player->get_stance();
             goal_change_stance++;
         }
+        if (goal_change_stance >= 6)
+        {
+            if (m_game_state.player->get_weight() == 3) goal_max_weight = true;
+            if (m_game_state.player->get_weight() == 1) goal_min_weight = true;
+        }
+        else m_game_state.player->set_weight(2);
     }
 }
 
@@ -370,5 +376,8 @@ void LevelC::render(ShaderProgram *g_shader_program)
             m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
     if (goal_move_left && goal_move_right && goal_change_stance < 6)
         Utility::draw_text(g_shader_program, m_font_texture_id, "Q and E to change stance", 0.36f, 0.01f,
+            m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
+    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && (!goal_max_weight || !goal_min_weight))
+        Utility::draw_text(g_shader_program, m_font_texture_id, "W and S to change weight", 0.36f, 0.01f,
             m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
 }

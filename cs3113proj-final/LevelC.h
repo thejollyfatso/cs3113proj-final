@@ -17,6 +17,9 @@ public:
     bool goal_move_right = false;
     AtkStance post_player_prev_stance = N;
     int goal_change_stance = 0;
+    bool goal_max_weight = false;
+    bool goal_min_weight = false;
+    bool goal_attack = false;
 
     
     

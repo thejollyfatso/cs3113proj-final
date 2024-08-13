@@ -313,6 +313,8 @@ public:
     void const set_width(float new_width) {m_width = new_width; }
     void const set_height(float new_height) {m_height = new_height; }
 
+    void const set_weight(int weight) { m_atk_weight = weight; } // ONLY MEANT FOR TUTORIAL
+
     void const set_hitbox(Hitbox* hitbox);
     void const set_hitdata_by_animation();
     void const set_meter(Meter* meter);
