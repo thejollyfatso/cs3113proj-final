@@ -11,6 +11,11 @@ public:
     GLuint m_ui_texture_id3;
     GLuint m_font_texture_id;
 
+    // PROGRESS //
+    float post_player_start = 31.0f;
+    bool goal_move_left = false;
+    bool goal_move_right = false;
+
     
     
     // ————— DESTRUCTOR ————— //

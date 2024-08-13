@@ -84,7 +84,7 @@ void LevelC::initialise()
     m_game_state.player->set_animation("jump", jump_animation, 2, 0, 0);
     m_game_state.player->switch_animation("idle", true); // start with idle
 
-    m_game_state.player->set_position(glm::vec3(31.0f, 0.0f, 0.0f));
+    m_game_state.player->set_position(glm::vec3(post_player_start, 0.0f, 0.0f));
 
     // PLAYER 2
     
@@ -268,6 +268,9 @@ void LevelC::initialise()
     m_game_state.widgets[11].switch_animation("adv", false);
     m_game_state.widgets[11].m_offset = glm::vec3(1.1f, 0.95f, 0.0f);
 
+    // deactivate p2
+    m_game_state.player2->deactivate();
+
     /**
      BGM and SFX
      */
@@ -309,6 +312,9 @@ void LevelC::update(float delta_time)
     m_game_state.widgets[9].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 
         3.0f - (3.0 * ((m_game_state.meter->m_frame+1.0f) / (m_game_state.meter->m_FRAMES*1.0f))) + 1.6f,
         0.0f);
+
+    if (m_game_state.player->get_position().x < post_player_start) goal_move_left = true;
+    if (m_game_state.player->get_position().x > post_player_start) goal_move_right = true;
 }
 
 
@@ -339,14 +345,17 @@ void LevelC::render(ShaderProgram *g_shader_program)
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player2->get_weight()), 0.5f, 0.05f,
 		m_game_state.player2->get_position() + glm::vec3(0.4f, 1.0f, 0.0f)); // position according to player
 
+    /*
     if (!m_game_state.player2->is_alive())
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Win!", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
     if (!m_game_state.player->is_alive())
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Lose.", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
+	*/
 
     // example tutorial message
-	Utility::draw_text(g_shader_program, m_font_texture_id, "A and D to move", 0.36f, 0.01f,
-		m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
+    if (!goal_move_left || !goal_move_right)
+        Utility::draw_text(g_shader_program, m_font_texture_id, "A and D to move", 0.36f, 0.01f,
+            m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
 }
