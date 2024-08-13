@@ -347,6 +347,8 @@ void LevelC1::render(ShaderProgram *g_shader_program)
     std::string player2_state_text;
     std::string player2_state_def_text;
     std::string player2_state_info_text;
+    std::string bind_info_text = "Simultaneous attacks";
+    std::string bind_info_text2 = "result in binds";
     switch (m_game_state.player2->get_state()) {
     case CRASH_DEF:
         player2_state_text = "CRASHING";
