@@ -268,6 +268,7 @@ public:
     bool      const is_alive() const { return m_alive; }
     void set_advantage(int adv) { if (m_h_wounded) m_h_advantage = 0; else m_h_advantage = adv; }
     void set_hit_flag(bool hit) { m_taking_hit = hit;  }
+    AIState get_state() { return m_ai_state;  }
     HealthState get_health_state()
     {
         if (!m_alive) return DEAD;

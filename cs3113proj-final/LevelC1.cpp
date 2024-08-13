@@ -343,4 +343,24 @@ void LevelC1::render(ShaderProgram *g_shader_program)
     if (!m_game_state.player->is_alive())
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Lose.", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
+
+    std::string player2_state_text;
+    switch (m_game_state.player2->get_state()) {
+    case CRASH_DEF:
+        player2_state_text = "CRASHING";
+        break;
+    case MIRROR_DEF:
+        player2_state_text = "MIRRORING";
+        break;
+    case COOLER_DEF:
+        player2_state_text = "COOLING";
+        break;
+    default:
+        player2_state_text = "UNKNOWN";
+        break;
+    }
+
+    // Render the state text above player2
+    Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_text, 0.5f, 0.05f,
+        m_game_state.player2->get_position() + glm::vec3(0.0f, 2.0f, 0.0f));
 }
