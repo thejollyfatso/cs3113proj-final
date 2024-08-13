@@ -270,7 +270,11 @@ void process_input()
 						if (g_current_scene == g_levels[1]) g_current_scene->get_state().player2->inc_stance();
                         break;
 
-                    default:
+                    
+                    case SDLK_BACKQUOTE: // Toggling debug mode with backtick key
+                        static_cast<LevelB*>(g_levels[2])->m_debug_mode = !static_cast<LevelB*>(g_levels[2])->m_debug_mode;
+                        break;
+					default:
                         break;
                 }
                 

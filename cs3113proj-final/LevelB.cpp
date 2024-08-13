@@ -326,13 +326,18 @@ void LevelB::update(float delta_time)
 }
 
 
+
 void LevelB::render(ShaderProgram *g_shader_program)
 {
     m_game_state.map->render(g_shader_program);
-    for (int i = 0; i < 2 + 1; i++)
-    {
-        m_game_state.hitboxes[i].render(g_shader_program);
+    
+    if (m_debug_mode) {
+        Utility::draw_text(g_shader_program, m_font_texture_id, "AGRS: " + std::to_string(m_game_state.player2->m_oracle_aggression_rating), 0.24f, 0.005f, m_game_state.player2->get_position() + glm::vec3(-1.0f, 3.0f, 0.0f));  
+        Utility::draw_text(g_shader_program, m_font_texture_id, "STYL: " + std::to_string(m_game_state.player2->m_oracle_style_preference), 0.24f, 0.005f, m_game_state.player2->get_position() + glm::vec3(-1.0f, 2.5f, 0.0f));  
+        Utility::draw_text(g_shader_program, m_font_texture_id, "B/P: " + std::to_string(m_game_state.player2->m_oracle_bind_parry_ratio), 0.24f, 0.005f, m_game_state.player2->get_position() + glm::vec3(-1.0f, 2.0f, 0.0f));  
+        Utility::draw_text(g_shader_program, m_font_texture_id, "C/R: " + std::to_string(m_game_state.player2->m_oracle_close_retreat_ratio), 0.24f, 0.005f, m_game_state.player2->get_position() + glm::vec3(-1.0f, 1.5f, 0.0f));  
     }
+
     m_game_state.player->render(g_shader_program);
     m_game_state.player2->render(g_shader_program);
     for (int i = 0; i < WIDGET_COUNT; i++)

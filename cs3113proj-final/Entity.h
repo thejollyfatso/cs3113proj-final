@@ -71,16 +71,7 @@ private:
     float m_max_defensive_distance = 3.6f;
     float m_attack_range = 1.5f;  // The range within which the AI will initiate an attack
 
-    // AI Oracle
-    int m_oracle_aggression_rating = 0;  // 1-10 scale for aggression
-
-	StylePreference m_oracle_style_preference = UNDEFINED;
-
-    float m_oracle_bind_parry_ratio = 0.0f;
-    float m_oracle_close_retreat_ratio = 0.0f;
-    float m_oracle_stance_weight_ratio = 0.0f; // player preference to stance or weight fight
-
-    // For tracking intermediate data
+    // For tracking intermediate oracle data
     std::chrono::time_point<std::chrono::steady_clock> m_last_player_attack_time;
     float m_player_attack_interval_avg = 0.0f;
     int m_attack_count = 0;
@@ -169,6 +160,16 @@ public:
     static constexpr int MIN_ATK_WEIGHT = 1;
     static constexpr int MAX_ATK_WEIGHT = 3;
     static constexpr int RECOVERY_FRAMES = 1;
+
+    // AI Oracle
+    int m_oracle_aggression_rating = 0;  // 1-10 scale for aggression
+
+	StylePreference m_oracle_style_preference = UNDEFINED;
+
+    float m_oracle_bind_parry_ratio = 0.0f;
+    float m_oracle_close_retreat_ratio = 0.0f;
+    float m_oracle_stance_weight_ratio = 0.0f; // player preference to stance or weight fight
+
 
     // ————— METHODS ————— //
     Entity();

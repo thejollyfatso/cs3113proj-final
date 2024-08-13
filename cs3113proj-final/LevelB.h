@@ -12,6 +12,7 @@ public:
     GLuint m_font_texture_id;
 
     int selected_difficulty = 1;
+    bool m_debug_mode = false;
     
     // ————— DESTRUCTOR ————— //
     ~LevelB();
