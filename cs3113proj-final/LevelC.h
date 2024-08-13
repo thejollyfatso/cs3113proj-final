@@ -15,6 +15,8 @@ public:
     float post_player_start = 31.0f;
     bool goal_move_left = false;
     bool goal_move_right = false;
+    AtkStance post_player_prev_stance = N;
+    int goal_change_stance = 0;
 
     
     

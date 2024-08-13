@@ -85,6 +85,7 @@ void LevelC::initialise()
     m_game_state.player->switch_animation("idle", true); // start with idle
 
     m_game_state.player->set_position(glm::vec3(post_player_start, 0.0f, 0.0f));
+    post_player_prev_stance = m_game_state.player->get_stance();
 
     // PLAYER 2
     
@@ -315,6 +316,15 @@ void LevelC::update(float delta_time)
 
     if (m_game_state.player->get_position().x < post_player_start) goal_move_left = true;
     if (m_game_state.player->get_position().x > post_player_start) goal_move_right = true;
+
+    if (goal_move_left && goal_move_right)
+    {
+        if (m_game_state.player->get_stance() != post_player_prev_stance)
+        {
+            post_player_prev_stance = m_game_state.player->get_stance();
+            goal_change_stance++;
+        }
+    }
 }
 
 
@@ -357,5 +367,8 @@ void LevelC::render(ShaderProgram *g_shader_program)
     // example tutorial message
     if (!goal_move_left || !goal_move_right)
         Utility::draw_text(g_shader_program, m_font_texture_id, "A and D to move", 0.36f, 0.01f,
+            m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
+    if (goal_move_left && goal_move_right && goal_change_stance < 6)
+        Utility::draw_text(g_shader_program, m_font_texture_id, "Q and E to change stance", 0.36f, 0.01f,
             m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
 }
