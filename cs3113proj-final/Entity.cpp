@@ -407,6 +407,30 @@ void Entity::ai_dummy(Entity* player) {
         }
         break;
 
+    case MIRROR_DEF:
+        if (elapsed_time >= m_ai_action_delay) {
+            // Ensure the stance is opposite to the player's stance
+            if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+                    inc_stance();
+                }
+                else {
+                    dec_stance();
+                }
+            }
+
+            // Increment weight with each action delay, reset to 1 after reaching MAX_ATK_WEIGHT
+            if (m_atk_weight < MAX_ATK_WEIGHT) {
+                inc_weight();
+            }
+            else {
+                m_atk_weight = 1;
+            }
+
+            m_last_action_time = now;  // Update last action time after performing the changes
+        }
+        break;
+
     case COOLER_DEF:
         if (elapsed_time >= m_ai_action_delay) {
             // Ensure stance is neither matching nor opposite to the player's stance
