@@ -331,6 +331,7 @@ void LevelC::update(float delta_time)
         }
         else m_game_state.player->set_weight(2);
     }
+    if (goal_move_left && goal_move_right && goal_min_weight && goal_max_weight && goal_change_stance >= 6 && m_game_state.player->get_hitbox()->m_active) goal_attack = true;
 }
 
 
@@ -379,5 +380,8 @@ void LevelC::render(ShaderProgram *g_shader_program)
             m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
     if (goal_move_left && goal_move_right && goal_change_stance >= 6 && (!goal_max_weight || !goal_min_weight))
         Utility::draw_text(g_shader_program, m_font_texture_id, "W and S to change weight", 0.36f, 0.01f,
+            m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
+    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && goal_max_weight && goal_min_weight && !goal_attack)
+        Utility::draw_text(g_shader_program, m_font_texture_id, "F to attack", 0.36f, 0.01f,
             m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
 }
