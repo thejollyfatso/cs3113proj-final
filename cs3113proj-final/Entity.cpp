@@ -374,50 +374,66 @@ void Entity::ai_cooler(Entity* player) {
 }
 
 void Entity::ai_dummy(Entity* player) {
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
+
     switch (m_ai_state) {
     case CRASH_DEF:
-        // Adjust stance to match or get close to the player's stance
-        if (m_atk_stance != player->get_stance()) {
-            if ((m_atk_stance + 1) % 4 == player->get_stance()) {
-                inc_stance();
-            }
-            else {
-                dec_stance();
-            }
-        }
+        m_ai_attack_count = 0;
 
-        // Adjust weight to match or get close to the player's weight
-        if (m_atk_weight != player->get_weight()) {
-            if (m_atk_weight < player->get_weight()) {
-                inc_weight();
+        if (elapsed_time >= m_ai_action_delay) {
+            // Adjust stance to match or get close to the player's stance
+            if (m_atk_stance != player->get_stance()) {
+                if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+                    inc_stance();
+                }
+                else {
+                    dec_stance();
+                }
             }
-            else {
-                dec_weight();
+
+            // Adjust weight to match or get close to the player's weight
+            if (m_atk_weight != player->get_weight()) {
+                if (m_atk_weight < player->get_weight()) {
+                    inc_weight();
+                }
+                else {
+                    dec_weight();
+                }
             }
+
+            m_last_action_time = now;  // Update last action time after performing the changes
         }
         break;
 
     case COOLER_DEF:
-        // Ensure stance is neither matching nor opposite to the player's stance
-        if (m_atk_stance == player->get_stance() || (m_atk_stance + 2) % 4 == player->get_stance()) {
-            // Adjust stance to a non-matching, non-opposite one
-            if ((m_atk_stance + 1) % 4 != player->get_stance() && (m_atk_stance + 1) % 4 != (player->get_stance() + 2) % 4) {
-                inc_stance();
+        if (elapsed_time >= m_ai_action_delay) {
+            // Ensure stance is neither matching nor opposite to the player's stance
+            if (m_atk_stance == player->get_stance() ||
+                (m_atk_stance + 2) % 4 == player->get_stance()) {
+                // Adjust stance to a non-matching, non-opposite one
+                if ((m_atk_stance + 1) % 4 != player->get_stance() &&
+                    (m_atk_stance + 1) % 4 != (player->get_stance() + 2) % 4) {
+                    inc_stance();
+                }
+                else {
+                    dec_stance();
+                }
             }
-            else {
-                dec_stance();
-            }
-        }
 
-        // Ensure weight is neither matching nor opposite
-        if (m_atk_weight == player->get_weight()) {
-			dec_weight();
-			if (m_atk_weight == player->get_weight()) inc_weight();
+            // Ensure weight is neither matching nor opposite
+            if (m_atk_weight == player->get_weight()) {
+                dec_weight();
+                if (m_atk_weight == player->get_weight()) inc_weight();
+            }
+
+            m_last_action_time = now;  // Update last action time after performing the changes
         }
         break;
 
     case IDLE:
-        m_ai_state = CRASH_DEF;
+        m_ai_state = COOLER_DEF;
+        m_last_action_time = now;
         break;
     }
 }
