@@ -375,6 +375,28 @@ void Entity::ai_cooler(Entity* player) {
 
 void Entity::ai_dummy(Entity* player) {
     switch (m_ai_state) {
+    case CRASH_DEF:
+        // Adjust stance to match or get close to the player's stance
+        if (m_atk_stance != player->get_stance()) {
+            if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+                inc_stance();
+            }
+            else {
+                dec_stance();
+            }
+        }
+
+        // Adjust weight to match or get close to the player's weight
+        if (m_atk_weight != player->get_weight()) {
+            if (m_atk_weight < player->get_weight()) {
+                inc_weight();
+            }
+            else {
+                dec_weight();
+            }
+        }
+        break;
+
     case COOLER_DEF:
         // Ensure stance is neither matching nor opposite to the player's stance
         if (m_atk_stance == player->get_stance() || (m_atk_stance + 2) % 4 == player->get_stance()) {
@@ -395,7 +417,7 @@ void Entity::ai_dummy(Entity* player) {
         break;
 
     case IDLE:
-        m_ai_state = COOLER_DEF;
+        m_ai_state = CRASH_DEF;
         break;
     }
 }
