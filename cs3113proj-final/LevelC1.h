@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-class LevelC : public Scene {
+class LevelC1 : public Scene {
 public:
     // ————— STATIC ATTRIBUTES ————— //
     int ENEMY_COUNT = 0;
@@ -11,21 +11,10 @@ public:
     GLuint m_ui_texture_id3;
     GLuint m_font_texture_id;
 
-    // PROGRESS //
-    float post_player_start = 31.0f;
-    bool goal_move_left = false;
-    bool goal_move_right = false;
-    AtkStance post_player_prev_stance = N;
-    int goal_change_stance = 0;
-    bool goal_max_weight = false;
-    bool goal_min_weight = false;
-    bool goal_attack = false;
-    bool post_level_switch = false;
-
     
     
     // ————— DESTRUCTOR ————— //
-    ~LevelC();
+    ~LevelC1();
     
     // ————— METHODS ————— //
     void initialise() override;

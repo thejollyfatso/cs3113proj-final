@@ -1,4 +1,4 @@
-#include "LevelC.h"
+#include "LevelC1.h"
 #include "Utility.h"
 
 #define LEVEL_WIDTH 60
@@ -8,7 +8,7 @@ constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
            ENEMY_FILEPATH[]       = "assets/spritesheet2.png";
 
-unsigned int LEVEL3_DATA[] =
+unsigned int LEVEL4_DATA[] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -20,7 +20,7 @@ unsigned int LEVEL3_DATA[] =
     0, 0, 0, 127, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 130, 0, 0, 0, 0, 0
 };
 
-LevelC::~LevelC()
+LevelC1::~LevelC1()
 {
     delete [] m_game_state.enemies;
     delete [] m_game_state.hitboxes;
@@ -33,12 +33,12 @@ LevelC::~LevelC()
     Mix_FreeMusic(m_game_state.bgm);
 }
 
-void LevelC::initialise()
+void LevelC1::initialise()
 {
     m_game_state.meter = new Meter;
     m_font_texture_id = Utility::load_texture("assets/font1.png");
     GLuint map_texture_id = Utility::load_texture("assets/sunnyland/tileset.png");
-    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL3_DATA, map_texture_id, 1.0f, 20, 12);
+    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL4_DATA, map_texture_id, 1.0f, 20, 12);
     
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
     GLuint player2_texture_id = Utility::load_texture(ENEMY_FILEPATH);
@@ -84,8 +84,7 @@ void LevelC::initialise()
     m_game_state.player->set_animation("jump", jump_animation, 2, 0, 0);
     m_game_state.player->switch_animation("idle", true); // start with idle
 
-    m_game_state.player->set_position(glm::vec3(post_player_start, 0.0f, 0.0f));
-    post_player_prev_stance = m_game_state.player->get_stance();
+    m_game_state.player->set_position(glm::vec3(31.0f, 0.0f, 0.0f));
 
     // PLAYER 2
     
@@ -269,9 +268,6 @@ void LevelC::initialise()
     m_game_state.widgets[11].switch_animation("adv", false);
     m_game_state.widgets[11].m_offset = glm::vec3(1.1f, 0.95f, 0.0f);
 
-    // deactivate p2
-    m_game_state.player2->deactivate();
-
     /**
      BGM and SFX
      */
@@ -284,7 +280,7 @@ void LevelC::initialise()
     m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 }
 
-void LevelC::update(float delta_time)
+void LevelC1::update(float delta_time)
 {
     // players face each other
     if ((m_game_state.player->get_position().x < m_game_state.player2->get_position().x &&
@@ -313,30 +309,10 @@ void LevelC::update(float delta_time)
     m_game_state.widgets[9].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 
         3.0f - (3.0 * ((m_game_state.meter->m_frame+1.0f) / (m_game_state.meter->m_FRAMES*1.0f))) + 1.6f,
         0.0f);
-
-    if (m_game_state.player->get_position().x < post_player_start) goal_move_left = true;
-    if (m_game_state.player->get_position().x > post_player_start) goal_move_right = true;
-
-    if (goal_move_left && goal_move_right)
-    {
-        if (m_game_state.player->get_stance() != post_player_prev_stance)
-        {
-            post_player_prev_stance = m_game_state.player->get_stance();
-            goal_change_stance++;
-        }
-        if (goal_change_stance >= 6)
-        {
-            if (m_game_state.player->get_weight() == 3) goal_max_weight = true;
-            if (m_game_state.player->get_weight() == 1) goal_min_weight = true;
-        }
-        else m_game_state.player->set_weight(2);
-    }
-    if (goal_move_left && goal_move_right && goal_min_weight && goal_max_weight && goal_change_stance >= 6 && m_game_state.player->get_hitbox()->m_active) goal_attack = true;
-    if (goal_move_left && goal_move_right && goal_min_weight && goal_max_weight && goal_change_stance >= 6 && goal_attack) post_level_switch = true;
 }
 
 
-void LevelC::render(ShaderProgram *g_shader_program)
+void LevelC1::render(ShaderProgram *g_shader_program)
 {
     m_game_state.map->render(g_shader_program);
     for (int i = 0; i < 2 + 1; i++)
@@ -363,26 +339,10 @@ void LevelC::render(ShaderProgram *g_shader_program)
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player2->get_weight()), 0.5f, 0.05f,
 		m_game_state.player2->get_position() + glm::vec3(0.4f, 1.0f, 0.0f)); // position according to player
 
-    /*
     if (!m_game_state.player2->is_alive())
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Win!", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
     if (!m_game_state.player->is_alive())
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Lose.", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
-	*/
-
-    // example tutorial message
-    if (!goal_move_left || !goal_move_right)
-        Utility::draw_text(g_shader_program, m_font_texture_id, "A and D to move", 0.36f, 0.01f,
-            m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
-    if (goal_move_left && goal_move_right && goal_change_stance < 6)
-        Utility::draw_text(g_shader_program, m_font_texture_id, "Q and E to change stance", 0.36f, 0.01f,
-            m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
-    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && (!goal_max_weight || !goal_min_weight))
-        Utility::draw_text(g_shader_program, m_font_texture_id, "W and S to change weight", 0.36f, 0.01f,
-            m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
-    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && goal_max_weight && goal_min_weight && !goal_attack)
-        Utility::draw_text(g_shader_program, m_font_texture_id, "F to attack", 0.36f, 0.01f,
-            m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
 }

@@ -37,6 +37,7 @@
 #include "LevelA.h"
 #include "LevelB.h"
 #include "LevelC.h"
+#include "LevelC1.h"
 
 // ————— CONSTANTS ————— //
 constexpr int WINDOW_WIDTH  = 640,
@@ -65,8 +66,9 @@ Level0 *g_level_0;
 LevelA *g_level_a;
 LevelB *g_level_b;
 LevelC *g_level_c;
+LevelC1 *g_level_c1;
 
-Scene *g_levels[4];
+Scene *g_levels[5];
 
 SDL_Window* g_display_window;
 
@@ -131,10 +133,12 @@ void initialise()
     g_level_a = new LevelA();
     g_level_b = new LevelB();
     g_level_c = new LevelC();
+    g_level_c1 = new LevelC1();
     g_levels[0] = g_level_0;
     g_levels[1] = g_level_a;
     g_levels[2] = g_level_b;
     g_levels[3] = g_level_c;
+    g_levels[4] = g_level_c1;
     switch_to_scene(g_level_0);
     
     // ————— BLENDING ————— //
@@ -331,6 +335,7 @@ void update()
         3.75,
         0
     ));
+    if (g_current_scene == g_level_c && g_level_c->post_level_switch) { switch_to_scene(g_levels[4]); }
 }
 
 void render()
@@ -349,8 +354,12 @@ void shutdown()
 {    
     SDL_Quit();
     
-    // ————— DELETING LEVEL A DATA (i.e. map, character, enemies...) ————— //
+    // ————— DELETING LEVEL DATA (i.e. map, character, enemies...) ————— //
+    //delete g_level_0;
     delete g_level_a;
+    delete g_level_b;
+    delete g_level_c;
+    delete g_level_c1;
 }
 
 // ————— GAME LOOP ————— //
