@@ -103,7 +103,8 @@ void Entity::ai_action_inc() {
     // 50% chance to increment m_ai_action_count
     if (rand_num < 50) m_ai_action_count = rand() % 3; // Randomize between 0, 1, and 2
 
-    m_ai_state = IDLE;
+    //m_ai_state = IDLE;
+    if (m_ai_type != DUMMY) m_ai_state = IDLE;
 }
 
 void Entity::ai_trap(Entity *player) {
@@ -432,7 +433,7 @@ void Entity::ai_dummy(Entity* player) {
         break;
 
     case IDLE:
-        m_ai_state = COOLER_DEF;
+        m_ai_state = CRASH_DEF;
         m_last_action_time = now;
         break;
     }
@@ -790,6 +791,25 @@ void const Entity::take_hit()
 
 void const Entity::death() 
 { 
+    if (m_ai_type == DUMMY) {
+        // Reset health values
+        m_alive = true;
+        m_h_wounded = false;
+        m_h_advantage = 1;
+        m_h_luck = 0;  // Ensure luck remains at 0
+
+        // indicated death
+		soundbox.play_sound("correct");
+		switch_animation("death", true);  
+
+        // Switch from CRASH_DEF to COOLER_DEF
+        if (m_ai_state == CRASH_DEF) {
+            m_ai_state = COOLER_DEF;
+        }
+        else m_ai_state = IDLE;
+
+        return;
+    }
     soundbox.play_sound("death");
     m_alive = false;
     switch_animation("death", true);  

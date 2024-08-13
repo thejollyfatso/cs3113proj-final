@@ -27,6 +27,7 @@ bool AudioManager::load_sounds() {
     m_sounds["adv"] = Mix_LoadWAV("assets/sound/adv.wav");
     m_sounds["hit"] = Mix_LoadWAV("assets/sound/Sword1.wav");
     m_sounds["death"] = Mix_LoadWAV("assets/sound/death3.wav");
+    m_sounds["correct"] = Mix_LoadWAV("assets/sound/correct.wav");
 
     for (const auto& sound : m_sounds) {
         if (sound.second == nullptr) {
