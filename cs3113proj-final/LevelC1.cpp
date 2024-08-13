@@ -345,22 +345,33 @@ void LevelC1::render(ShaderProgram *g_shader_program)
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
 
     std::string player2_state_text;
+    std::string player2_state_def_text;
+    std::string player2_state_info_text;
     switch (m_game_state.player2->get_state()) {
     case CRASH_DEF:
         player2_state_text = "CRASHING";
+        player2_state_def_text = "Equal stance";
+        player2_state_info_text = "Guard broken with unequal weight";
         break;
     case MIRROR_DEF:
         player2_state_text = "MIRRORING";
+        player2_state_def_text = "Opposite stance";
+        player2_state_info_text = "Guard completely ineffective";
         break;
     case COOLER_DEF:
         player2_state_text = "COOLING";
+        player2_state_def_text = "Non-match stance";
+        player2_state_info_text = "Guard broken with equal weight";
         break;
     default:
-        player2_state_text = "UNKNOWN";
         break;
     }
 
     // Render the state text above player2
     Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_text, 0.5f, 0.05f,
-        m_game_state.player2->get_position() + glm::vec3(0.0f, 2.0f, 0.0f));
+        m_game_state.player2->get_position() + glm::vec3(-2.0f, 3.0f, 0.0f));
+    Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_def_text, 0.3f, 0.005f,
+        m_game_state.player2->get_position() + glm::vec3(-3.0f, 2.5f, 0.0f));
+    Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_info_text, 0.3f, 0.005f,
+        m_game_state.player2->get_position() + glm::vec3(-5.0f, 2.0f, 0.0f));
 }
