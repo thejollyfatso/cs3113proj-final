@@ -333,6 +333,8 @@ void LevelC::update(float delta_time)
     }
     if (goal_move_left && goal_move_right && goal_min_weight && goal_max_weight && goal_change_stance >= 6 && m_game_state.player->get_hitbox()->m_active) goal_attack = true;
     if (goal_move_left && goal_move_right && goal_min_weight && goal_max_weight && goal_change_stance >= 6 && goal_attack) post_level_switch = true;
+
+    goal_listener_audio();
 }
 
 

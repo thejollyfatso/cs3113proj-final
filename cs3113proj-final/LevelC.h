@@ -22,6 +22,35 @@ public:
     bool goal_attack = false;
     bool post_level_switch = false;
 
+    // Progress audio
+    AudioManager soundbox;
+    bool goal_move_played = false;
+    bool goal_stance_played = false;
+    bool goal_weight_played = false;
+    bool goal_attack_played = false;
+    void goal_listener_audio()
+    {
+        if (!goal_move_played && goal_move_left && goal_move_right)
+        {
+            soundbox.play_sound("correct");
+            goal_move_played = true;
+        }
+        if (!goal_stance_played && goal_change_stance >= 6)
+        {
+            soundbox.play_sound("correct");
+            goal_stance_played = true;
+        }
+        if (!goal_weight_played && goal_max_weight && goal_min_weight) 
+        {
+            soundbox.play_sound("correct");
+            goal_weight_played = true;
+        }
+        if (!goal_attack_played && goal_attack) 
+        {
+            soundbox.play_sound("correct");
+            goal_attack_played = true;
+        }
+    }
     
     
     // ————— DESTRUCTOR ————— //
