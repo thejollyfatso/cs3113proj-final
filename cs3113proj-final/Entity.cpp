@@ -826,11 +826,19 @@ void const Entity::death()
 		soundbox.play_sound("correct");
 		switch_animation("death", true);  
 
-        // Switch from CRASH_DEF to COOLER_DEF
+        // Cycle through AI states
         if (m_ai_state == CRASH_DEF) {
+            m_ai_state = MIRROR_DEF;
+        }
+        else if (m_ai_state == MIRROR_DEF) {
             m_ai_state = COOLER_DEF;
         }
-        else m_ai_state = IDLE;
+        else if (m_ai_state == COOLER_DEF) {
+            m_ai_state = IDLE;
+        }
+        else {
+            m_ai_state = IDLE;  // Reset to CRASH_DEF if needed
+        }
 
         return;
     }
