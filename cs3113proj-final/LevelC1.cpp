@@ -102,7 +102,7 @@ void LevelC1::initialise()
         2.0f,                       // height
         ENEMY,
         DUMMY,
-        IDLE,
+        CRASH_OFF,
         EASY
     );
 
@@ -148,10 +148,12 @@ void LevelC1::initialise()
     glm::vec3 hb_scale = { 1.8f, 1.4f, 1.0f };
     glm::vec3 hb_offset = { 0.8f, 0.2f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
-    m_game_state.player2->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
     hb_scale = { 1.7f, 1.2f, 1.0f };
     hb_offset = { 0.8f, 0.0f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("attack2", hb_scale, hb_offset);
+    hb_scale = { 1.0f, 1.0f, 1.0f };
+    hb_offset = { 0.0f, 0.0f, 0.0f };
+    m_game_state.player2->get_hitbox()->add_hitdata("attack", hb_scale, hb_offset);
     m_game_state.player2->get_hitbox()->add_hitdata("attack2", hb_scale, hb_offset);
     hb_scale = { 0.6f, 1.1f, 1.0f };
     hb_offset = { 0.16f, 0.0f, 0.0f };
