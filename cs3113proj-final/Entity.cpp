@@ -378,17 +378,28 @@ void Entity::ai_cooler(Entity* player) {
 }
 
 void Entity::oracle_calculate_aggression_rating() {
-    if (m_attack_count > 0) {
-        // Ensure the interval is within the range 0.1 to 10 seconds
-        float clamped_interval = glm::clamp(m_player_attack_interval_avg / 1000.0f, 0.1f, 10.0f);
+    // Calculate the total time elapsed in the match in seconds
+    auto now = std::chrono::steady_clock::now();
+    float match_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
-        // Apply logarithmic scaling based on the 0.1 to 10 seconds range
-        float log_interval = log10(clamped_interval);
-        float log_min = log10(0.1f);
-        float log_max = log10(10.0f);
+    // Avoid division by zero if the match time is too short
+    if (match_time < 1.0f) {
+        match_time = 1.0f;
+    }
 
-        // Map the log value to a 1-10 scale
-        m_oracle_aggression_rating = static_cast<int>(10 - ((log_interval - log_min) / (log_max - log_min) * 10));
+    // Calculate the average time between attacks
+    //float avg_attack_interval = match_time / static_cast<float>(m_attack_count);
+    float avg_attack_interval = match_time / (static_cast<float>(m_attack_count)/6); // manual adjustment
+
+    // Map the average attack interval to an aggression rating on a scale of 1 to 10
+    if (avg_attack_interval <= 1.0f) {
+        m_oracle_aggression_rating = 10;
+    }
+    else if (avg_attack_interval >= 10.0f) {
+        m_oracle_aggression_rating = 1;
+    }
+    else {
+        m_oracle_aggression_rating = static_cast<int>(10 - (avg_attack_interval - 1) / 9 * 9);
     }
 }
 
