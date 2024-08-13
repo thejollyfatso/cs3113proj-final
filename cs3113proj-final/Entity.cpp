@@ -577,6 +577,7 @@ Entity::Entity(GLuint texture_id, float speed, glm::vec3 acceleration, float jum
     m_width(width), m_height(height), m_entity_type(entity_type), m_ai_type(ai_type), m_ai_state(ai_state) {
     set_ai_difficulty(ai_difficulty);
     face_right();
+    if (m_ai_type == DUMMY) { m_h_luck = 0; }
 }
 
 Entity::Entity(GLuint texture_id, float speed, float width, float height, EntityType entity_type)
@@ -591,6 +592,7 @@ Entity::Entity(GLuint texture_id, float speed, float width, float height, Entity
     m_animation_rows(0), m_animation_indices(nullptr), m_animation_time(0.0f),
     m_texture_id(texture_id), m_velocity(0.0f), m_acceleration(0.0f), m_width(width), m_height(height), m_entity_type(entity_type), m_ai_type(ai_type), m_ai_state(ai_state), m_ai_difficulty(ai_difficulty) {
     set_ai_difficulty(m_ai_difficulty);
+    if (m_ai_type == DUMMY) { m_h_luck = 0; }
 }
 
 Entity::~Entity() {}
