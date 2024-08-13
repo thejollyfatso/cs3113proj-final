@@ -365,6 +365,16 @@ void LevelC1::render(ShaderProgram *g_shader_program)
         player2_state_def_text = "Non-match stance";
         player2_state_info_text = "Guard broken with equal weight";
         break;
+    case CRASH_OFF:
+        player2_state_text = "CRASHING";
+        player2_state_def_text = "Equal stance";
+        player2_state_info_text = "Favors greater weight";
+        break;
+    case MIRROR_OFF:
+        player2_state_text = "MIRRORING";
+        player2_state_def_text = "Opposite stance";
+        player2_state_info_text = "Favors lesser weight";
+        break;
     default:
         break;
     }
@@ -376,4 +386,12 @@ void LevelC1::render(ShaderProgram *g_shader_program)
         m_game_state.player2->get_position() + glm::vec3(-3.0f, 2.5f, 0.0f));
     Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_info_text, 0.3f, 0.005f,
         m_game_state.player2->get_position() + glm::vec3(-5.0f, 2.0f, 0.0f));
+
+    if (m_game_state.player2->get_state() == CRASH_OFF || m_game_state.player2->get_state() == MIRROR_OFF)
+    {
+		Utility::draw_text(g_shader_program, m_font_texture_id, bind_info_text, 0.3f, 0.05f,
+			m_game_state.player2->get_position() + glm::vec3(-5.0f, 4.0f, 0.0f));
+		Utility::draw_text(g_shader_program, m_font_texture_id, bind_info_text2, 0.3f, 0.05f,
+			m_game_state.player2->get_position() + glm::vec3(-5.0f, 3.6f, 0.0f));
+    }
 }
