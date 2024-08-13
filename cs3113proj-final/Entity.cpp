@@ -463,7 +463,7 @@ void Entity::ai_dummy(Entity* player) {
         if (need_to_generate) {
             // Generate a new random outcome for the engagement
             int rand_value = rand() % 100;
-            dummy_will_win = (rand_value < 25); // 25% chance to win
+            dummy_will_win = (rand_value < 50); // % chance to win
             need_to_generate = false; // Only generate after a bind
         }
 
@@ -493,16 +493,15 @@ void Entity::ai_dummy(Entity* player) {
             if (m_input_queue.size() < 1) {
                 m_input_queue.push_back({ m_atk_stance, m_atk_weight });
             }
-
-            need_to_generate = true; // Ready to generate a new random outcome after a bind
-        }
+            
+        } else need_to_generate = true; // Ready to generate a new random outcome after a bind
         break;
 
     case MIRROR_OFF:
         if (need_to_generate) {
             // Generate a new random outcome for the engagement
             int rand_value = rand() % 100;
-            dummy_will_win = (rand_value < 25); // 25% chance to win
+            dummy_will_win = (rand_value < 50); // % chance to win
             need_to_generate = false; // Only generate after a bind
         }
 
@@ -533,8 +532,7 @@ void Entity::ai_dummy(Entity* player) {
                 m_input_queue.push_back({ m_atk_stance, m_atk_weight });
             }
 
-            need_to_generate = true; // Ready to generate a new random outcome after a bind
-        }
+        } else need_to_generate = true; // Ready to generate a new random outcome after a bind
         break;
 
     case IDLE:

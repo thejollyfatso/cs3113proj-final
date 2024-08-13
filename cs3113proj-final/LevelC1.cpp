@@ -102,7 +102,7 @@ void LevelC1::initialise()
         2.0f,                       // height
         ENEMY,
         DUMMY,
-        CRASH_OFF,
+        IDLE,
         EASY
     );
 
