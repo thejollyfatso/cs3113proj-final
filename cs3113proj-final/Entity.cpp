@@ -378,6 +378,9 @@ void Entity::ai_dummy(Entity* player) {
     auto now = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
 
+    static bool dummy_will_win = false; // Keeps track if the dummy will win the next engagement
+    static bool need_to_generate = true; // Flag to generate a new random outcome
+
     switch (m_ai_state) {
     case CRASH_DEF:
         m_ai_attack_count = 0;
@@ -453,6 +456,84 @@ void Entity::ai_dummy(Entity* player) {
             }
 
             m_last_action_time = now;  // Update last action time after performing the changes
+        }
+        break;
+
+    case CRASH_OFF:
+        if (need_to_generate) {
+            // Generate a new random outcome for the engagement
+            int rand_value = rand() % 100;
+            dummy_will_win = (rand_value < 25); // 25% chance to win
+            need_to_generate = false; // Only generate after a bind
+        }
+
+		// Ensure the stance is equal to the player's stance
+		if (m_atk_stance != player->get_stance()) {
+			if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+				inc_stance();
+			}
+			else {
+				dec_stance();
+			}
+		}
+
+        // Check if the player is attacking
+        if (player->m_is_attacking) {
+            m_is_attacking = true; // Always attack if the player attacks
+
+            // Determine the outcome of the engagement
+            if (dummy_will_win) {
+                set_weight(3);
+            }
+            else {
+                set_weight(1);
+            }
+
+            // Add the current stance and weight to the input queue
+            if (m_input_queue.size() < 1) {
+                m_input_queue.push_back({ m_atk_stance, m_atk_weight });
+            }
+
+            need_to_generate = true; // Ready to generate a new random outcome after a bind
+        }
+        break;
+
+    case MIRROR_OFF:
+        if (need_to_generate) {
+            // Generate a new random outcome for the engagement
+            int rand_value = rand() % 100;
+            dummy_will_win = (rand_value < 25); // 25% chance to win
+            need_to_generate = false; // Only generate after a bind
+        }
+
+		// Ensure the stance is opposite to the player's stance
+		if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+			if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+				inc_stance();
+			}
+			else {
+				dec_stance();
+			}
+		}
+
+        // Check if the player is attacking
+        if (player->m_is_attacking) {
+            m_is_attacking = true; // Always attack if the player attacks
+
+            // Determine the outcome of the engagement
+            if (dummy_will_win) {
+                set_weight(1);
+            }
+            else {
+                set_weight(3);
+            }
+
+            // Add the current stance and weight to the input queue
+            if (m_input_queue.size() < 1) {
+                m_input_queue.push_back({ m_atk_stance, m_atk_weight });
+            }
+
+            need_to_generate = true; // Ready to generate a new random outcome after a bind
         }
         break;
 
@@ -834,7 +915,10 @@ void const Entity::death()
             m_ai_state = COOLER_DEF;
         }
         else if (m_ai_state == COOLER_DEF) {
-            m_ai_state = IDLE;
+            m_ai_state = CRASH_OFF;
+        }
+        else if (m_ai_state == CRASH_OFF) {
+            m_ai_state = MIRROR_OFF;
         }
         else {
             m_ai_state = IDLE;  // Reset to CRASH_DEF if needed
