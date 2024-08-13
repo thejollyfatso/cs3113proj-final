@@ -388,18 +388,20 @@ void Entity::oracle_calculate_aggression_rating() {
     }
 
     // Calculate the average time between attacks
-    //float avg_attack_interval = match_time / static_cast<float>(m_attack_count);
-    float avg_attack_interval = match_time / (static_cast<float>(m_attack_count)/6); // manual adjustment
+    float avg_attack_interval = match_time / (static_cast<float>(m_attack_count)/6); // manual adjust
 
     // Map the average attack interval to an aggression rating on a scale of 1 to 10
     if (avg_attack_interval <= 1.0f) {
-        m_oracle_aggression_rating = 10;
+        // Map first second to aggression ratings 7-10
+        m_oracle_aggression_rating = static_cast<int>(10 - (avg_attack_interval * 3));
     }
-    else if (avg_attack_interval >= 10.0f) {
+    else if (avg_attack_interval >= 5.0f) {
+        // Map 5 seconds or more to aggression rating 1
         m_oracle_aggression_rating = 1;
     }
     else {
-        m_oracle_aggression_rating = static_cast<int>(10 - (avg_attack_interval - 1) / 9 * 9);
+        // Map the rest of the range to aggression ratings 2-6
+        m_oracle_aggression_rating = static_cast<int>(6 - ((avg_attack_interval - 1) / 4) * 5);
     }
 }
 
