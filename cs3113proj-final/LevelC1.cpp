@@ -384,7 +384,7 @@ void LevelC1::render(ShaderProgram *g_shader_program)
     // Render the state text above player2
     Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_text, 0.5f, 0.05f,
         m_game_state.player2->get_position() + glm::vec3(-2.0f, 3.0f, 0.0f));
-    Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_def_text, 0.3f, 0.005f,
+    Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_def_text, 0.4f, 0.005f,
         m_game_state.player2->get_position() + glm::vec3(-3.0f, 2.5f, 0.0f));
     Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_info_text, 0.3f, 0.005f,
         m_game_state.player2->get_position() + glm::vec3(-5.0f, 2.0f, 0.0f));
