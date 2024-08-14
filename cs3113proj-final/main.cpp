@@ -78,6 +78,9 @@ SDL_Window* g_display_window;
 
 AppStatus g_app_status = RUNNING;
 ShaderProgram g_shader_program;
+ShaderProgram g_shader_program_blue;
+ShaderProgram g_shader_program_normal;
+bool blue_channel_only = false;
 glm::mat4 g_view_matrix, g_projection_matrix;
 
 float g_previous_ticks = 0.0f;
@@ -120,6 +123,8 @@ void initialise()
     glViewport(VIEWPORT_X, VIEWPORT_Y, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
     
     g_shader_program.load(V_SHADER_PATH, F_SHADER_PATH);
+    g_shader_program_normal.load(V_SHADER_PATH, F_SHADER_PATH);
+    g_shader_program_blue.load(V_SHADER_PATH, "shaders/effects_textured.glsl");
     
     g_view_matrix = glm::mat4(1.0f);
     g_projection_matrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
@@ -189,6 +194,19 @@ void process_input()
                         // toggle music
                         if (Mix_VolumeMusic(-1)) Mix_VolumeMusic(0);
                         else Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+                        break;
+
+                    case SDLK_n:
+                        // toggle nighttime mode
+                        blue_channel_only = !blue_channel_only; 
+                        if (blue_channel_only) {
+                            g_shader_program = g_shader_program_blue;
+                        }
+                        else {
+                            g_shader_program = g_shader_program_normal; 
+                        }
+                        g_shader_program.set_projection_matrix(g_projection_matrix);
+                        g_shader_program.set_view_matrix(g_view_matrix);
                         break;
 
                     case SDLK_1:
