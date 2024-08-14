@@ -93,6 +93,7 @@ void UIElem::update(float delta_time) {
             m_model_matrix = glm::rotate(m_model_matrix, 3 * glm::pi<float>() / 2, glm::vec3(0.0f, 0.0f, -1.0f));
             break;
         }
+        if (m_entity->get_health_state() == DEAD) m_hidden = true;
     }
 
     // weight indication, not very clean at all
@@ -101,6 +102,7 @@ void UIElem::update(float delta_time) {
         if (m_parent_elem->m_type == STANCE)
         {
             switch_animation("active", false);
+			if (m_parent_elem->m_entity->get_health_state() == DEAD) m_hidden = true;
         }
         else if (m_parent_elem->m_type == WEIGHT) {
             if (m_parent_elem->m_parent_elem->m_entity)
@@ -109,6 +111,7 @@ void UIElem::update(float delta_time) {
 					if (m_parent_elem->m_parent_elem->m_entity->get_weight() > 1) switch_animation("active", false);
 					else switch_animation("idle", false);
 				}
+				if (m_parent_elem->m_parent_elem->m_entity->get_health_state() == DEAD) m_hidden = true;
             }
             if (m_parent_elem->m_parent_elem->m_parent_elem)
             {
@@ -116,6 +119,7 @@ void UIElem::update(float delta_time) {
 					if (m_parent_elem->m_parent_elem->m_parent_elem->m_entity->get_weight() > 2) switch_animation("active", false);
 					else switch_animation("idle", false);
 				}
+				if (m_parent_elem->m_parent_elem->m_parent_elem->m_entity->get_health_state() == DEAD) m_hidden = true;
             }
         }
     }
