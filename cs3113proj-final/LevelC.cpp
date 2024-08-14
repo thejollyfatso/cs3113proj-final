@@ -184,6 +184,7 @@ void LevelC::initialise()
     m_game_state.widgets[0].set_animation("idle", test_animation, 1);
     m_game_state.widgets[0].switch_animation("idle", false);
     m_game_state.widgets[0].m_offset = glm::vec3(-0.5f, 1.0f, 0.0f);
+    m_game_state.widgets[0].m_hidden = true;
 
     m_game_state.widgets[1] = UIElem(m_ui_texture_id, 20, 10, &m_game_state.widgets[0], WEIGHT);
     int test_animation2[] = { 135 };
@@ -204,6 +205,10 @@ void LevelC::initialise()
     m_game_state.widgets[3].set_animation("active", test_animation3, 1);
     m_game_state.widgets[3].switch_animation("idle", false);
     m_game_state.widgets[3].m_offset = glm::vec3(0.19f, 0.0f, 0.0f);
+
+    m_game_state.widgets[1].m_hidden = true;
+    m_game_state.widgets[2].m_hidden = true;
+    m_game_state.widgets[3].m_hidden = true;
 
     m_game_state.widgets[4] = UIElem(m_ui_texture_id, 20, 10, m_game_state.player2, STANCE);
     m_game_state.widgets[4].set_animation("idle", test_animation, 1);
@@ -234,11 +239,13 @@ void LevelC::initialise()
     m_game_state.widgets[8].set_animation("idle", test_animation4, 1);
     m_game_state.widgets[8].switch_animation("idle", false);
     //m_game_state.widgets[8].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 1.6f, 0.0f);
+    m_game_state.widgets[8].m_hidden = true;
 
     int test_animation5[] = { 25 };
     m_game_state.widgets[9] = UIElem(m_ui_texture_id2, 9, 18, m_game_state.player, METER);
     m_game_state.widgets[9].set_animation("idle", test_animation5, 1);
     m_game_state.widgets[9].switch_animation("idle", false);
+    m_game_state.widgets[9].m_hidden = true;
 
     // Health indication
     int adv_state[] = { 143 };
@@ -258,6 +265,8 @@ void LevelC::initialise()
     m_game_state.widgets[10].set_animation("dead", dead_state, 1);
     m_game_state.widgets[10].switch_animation("adv", false);
     m_game_state.widgets[10].m_offset = glm::vec3(1.1f, 0.95f, 0.0f);
+    // no need in tutorial
+    m_game_state.widgets[10].m_hidden = true;
 
     m_game_state.widgets[11] = UIElem(m_ui_texture_id3, 13, 20, m_game_state.player2, HEATLH);
     m_game_state.widgets[11].set_animation("adv", adv_state, 1);
@@ -353,10 +362,25 @@ void LevelC::update(float delta_time)
     dialogue->update(delta_time);
 
     // dialogue progress
-    if (!goal_move_left || !goal_move_right) dialogue->m_animation_index = 3;
-    if (goal_move_left && goal_move_right && goal_change_stance < 6) dialogue->m_animation_index = 0;
-    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && (!goal_max_weight || !goal_min_weight)) dialogue->m_animation_index = 1;
-    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && goal_max_weight && goal_min_weight && !goal_attack) dialogue->m_animation_index = 2;
+    if (!goal_move_left || !goal_move_right) { dialogue->m_animation_index = 3; }
+    if (goal_move_left && goal_move_right && goal_change_stance < 6)
+    {
+        dialogue->m_animation_index = 0;
+		m_game_state.widgets[0].m_hidden = false;
+    }
+    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && (!goal_max_weight || !goal_min_weight))
+    {
+        dialogue->m_animation_index = 1;
+		m_game_state.widgets[1].m_hidden = false;
+		m_game_state.widgets[2].m_hidden = false;
+		m_game_state.widgets[3].m_hidden = false;
+    }
+    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && goal_max_weight && goal_min_weight && !goal_attack) 
+    {
+        dialogue->m_animation_index = 2;
+		m_game_state.widgets[8].m_hidden = false;
+		m_game_state.widgets[9].m_hidden = false;
+    }
 }
 
 
