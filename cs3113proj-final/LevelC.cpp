@@ -318,9 +318,15 @@ void LevelC::update(float delta_time)
 		m_game_state.widgets[i].update(delta_time);
 
     // center meter
+    /*
     m_game_state.widgets[8].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 1.6f, 0.0f);
     m_game_state.widgets[9].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 
         3.0f - (3.0 * ((m_game_state.meter->m_frame+1.0f) / (m_game_state.meter->m_FRAMES*1.0f))) + 1.6f,
+        0.0f);
+        */
+    m_game_state.widgets[8].m_offset = glm::vec3(0.2f, 2.0f, 0.0f);
+    m_game_state.widgets[9].m_offset = glm::vec3(0.2f,
+        3.0f - (3.0 * ((m_game_state.meter->m_frame+1.0f) / (m_game_state.meter->m_FRAMES*1.0f))) + 2.0f,
         0.0f);
 
     if (m_game_state.player->get_position().x < post_player_start) goal_move_left = true;
@@ -345,6 +351,12 @@ void LevelC::update(float delta_time)
 
     goal_listener_audio();
     dialogue->update(delta_time);
+
+    // dialogue progress
+    if (!goal_move_left || !goal_move_right) dialogue->m_animation_index = 3;
+    if (goal_move_left && goal_move_right && goal_change_stance < 6) dialogue->m_animation_index = 0;
+    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && (!goal_max_weight || !goal_min_weight)) dialogue->m_animation_index = 1;
+    if (goal_move_left && goal_move_right && goal_change_stance >= 6 && goal_max_weight && goal_min_weight && !goal_attack) dialogue->m_animation_index = 2;
 }
 
 
@@ -387,6 +399,7 @@ void LevelC::render(ShaderProgram *g_shader_program)
 	*/
 
     // example tutorial message
+    /*
     if (!goal_move_left || !goal_move_right)
         Utility::draw_text(g_shader_program, m_font_texture_id, "A and D to move", 0.4f, 0.01f,
             m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
@@ -403,6 +416,7 @@ void LevelC::render(ShaderProgram *g_shader_program)
         Utility::draw_text(g_shader_program, m_font_texture_id, "F to attack", 0.4f, 0.01f,
             m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
     }
+    */
 
     dialogue->render(g_shader_program, 0);
 }
