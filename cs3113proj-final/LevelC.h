@@ -9,9 +9,11 @@ public:
     GLuint m_ui_texture_id;
     GLuint m_ui_texture_id2;
     GLuint m_ui_texture_id3;
+    GLuint m_dialog_texture_id;
     GLuint m_font_texture_id;
 
     // PROGRESS //
+    Dialog* dialogue;
     float post_player_start = 31.0f;
     bool goal_move_left = false;
     bool goal_move_right = false;

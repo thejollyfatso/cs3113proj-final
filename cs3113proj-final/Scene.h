@@ -17,6 +17,7 @@
 #include "Hitbox.h"
 #include "Map.h"
 #include "UIElem.h"
+#include "Dialog.h"
 #include "Meter.h"
 
 /**

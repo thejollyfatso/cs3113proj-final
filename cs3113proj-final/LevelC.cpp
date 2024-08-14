@@ -29,6 +29,7 @@ LevelC::~LevelC()
     delete    m_game_state.player2;
     delete    m_game_state.map;
     delete    m_game_state.meter;
+    delete dialogue;
     Mix_FreeChunk(m_game_state.jump_sfx);
     Mix_FreeMusic(m_game_state.bgm);
 }
@@ -282,6 +283,14 @@ void LevelC::initialise()
     //Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
     
     m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
+
+    // Dialog
+    GLuint m_dialog_texture_id = Utility::load_texture("assets/dialogue/C/d_spritesheet.png");
+    dialogue = new Dialog(m_dialog_texture_id, 4, 1);
+    dialogue->m_animation_index = 3;
+    dialogue->m_entity = m_game_state.player;
+    dialogue->m_scale = glm::vec3(4.8f);
+    dialogue->m_offset = glm::vec3(2.4f, 3.0f, 0.0f);
 }
 
 void LevelC::update(float delta_time)
@@ -335,6 +344,7 @@ void LevelC::update(float delta_time)
     if (goal_move_left && goal_move_right && goal_min_weight && goal_max_weight && goal_change_stance >= 6 && goal_attack) post_level_switch = true;
 
     goal_listener_audio();
+    dialogue->update(delta_time);
 }
 
 
@@ -393,4 +403,6 @@ void LevelC::render(ShaderProgram *g_shader_program)
         Utility::draw_text(g_shader_program, m_font_texture_id, "F to attack", 0.4f, 0.01f,
             m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
     }
+
+    dialogue->render(g_shader_program, 0);
 }

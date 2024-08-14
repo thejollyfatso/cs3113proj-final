@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Hitbox.cpp" />
     <ClCompile Include="Level0.cpp" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Dialog.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="Level0.h" />
