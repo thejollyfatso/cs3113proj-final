@@ -13,6 +13,7 @@ public:
     GLuint m_font_texture_id;
 
     Dialog* dialogue;
+    bool post_level_switch = false;
     
     
     // ————— DESTRUCTOR ————— //

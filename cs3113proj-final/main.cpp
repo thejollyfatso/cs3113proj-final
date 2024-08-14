@@ -264,6 +264,8 @@ void process_input()
 					case SDLK_SPACE:
                         if (g_current_scene == g_level_d && g_level_d->post_level_switch) switch_to_scene(g_level_d1);
                         if (g_current_scene == g_level_d1 && g_level_d1->post_level_switch) switch_to_scene(g_level_d2);
+                        if (g_current_scene == g_level_d2 && g_level_d2->post_level_switch) switch_to_scene(g_level_d3);
+                        if (g_current_scene == g_level_d3 && g_level_d3->post_level_switch) switch_to_scene(g_level_0);
                         break;
                         
                     case SDLK_d:
