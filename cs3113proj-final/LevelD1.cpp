@@ -355,6 +355,8 @@ void LevelD1::update(float delta_time)
     default:
         break;
     }
+
+    if (!m_game_state.player2->is_alive()) post_level_switch = true;
 }
 
 
@@ -370,6 +372,9 @@ void LevelD1::render(ShaderProgram *g_shader_program)
     for (int i = 0; i < WIDGET_COUNT; i++)
 		m_game_state.widgets[i].render(g_shader_program);
 
+    if (post_level_switch)
+		Utility::draw_text(g_shader_program, m_font_texture_id, "Space to continue", 0.4f, 0.01f,
+			m_game_state.player->get_position() + glm::vec3(-3.0f, 2.0f, 0.0f)); // position according to player
     /*
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.meter->m_frame), 0.5f, 0.05f,
 	//Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.meter->m_frame/(m_game_state.meter->m_FRAMES * 1.0f)), 0.5f, 0.05f,
