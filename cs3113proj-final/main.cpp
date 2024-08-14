@@ -41,6 +41,7 @@
 #include "LevelD.h"
 #include "LevelD1.h"
 #include "LevelD2.h"
+#include "LevelD3.h"
 
 // ————— CONSTANTS ————— //
 constexpr int WINDOW_WIDTH  = 640,
@@ -73,8 +74,9 @@ LevelC1 *g_level_c1;
 LevelD* g_level_d;
 LevelD1* g_level_d1;
 LevelD2* g_level_d2;
+LevelD3* g_level_d3;
 
-Scene *g_levels[8];
+Scene *g_levels[9];
 
 SDL_Window* g_display_window;
 
@@ -148,6 +150,7 @@ void initialise()
     g_level_d = new LevelD();
     g_level_d1 = new LevelD1();
     g_level_d2 = new LevelD2();
+    g_level_d3 = new LevelD3();
     g_levels[0] = g_level_0;
     g_levels[1] = g_level_a;
     g_levels[2] = g_level_b;
@@ -156,6 +159,7 @@ void initialise()
     g_levels[5] = g_level_d;
     g_levels[6] = g_level_d1;
     g_levels[7] = g_level_d2;
+    g_levels[8] = g_level_d3;
     switch_to_scene(g_level_0);
     
     // ————— BLENDING ————— //
@@ -406,6 +410,7 @@ void shutdown()
     delete g_level_d;
     delete g_level_d1;
     delete g_level_d2;
+    delete g_level_d3;
 }
 
 // ————— GAME LOOP ————— //

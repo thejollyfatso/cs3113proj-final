@@ -145,6 +145,7 @@
     <ClCompile Include="LevelD.cpp" />
     <ClCompile Include="LevelD1.cpp" />
     <ClCompile Include="LevelD2.cpp" />
+    <ClCompile Include="LevelD3.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Meter.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="LevelD.h" />
     <ClInclude Include="LevelD1.h" />
     <ClInclude Include="LevelD2.h" />
+    <ClInclude Include="LevelD3.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Meter.h" />
     <ClInclude Include="Scene.h" />
