@@ -306,10 +306,12 @@ void LevelD::initialise()
     // Dialog
     GLuint m_dialog_texture_id = Utility::load_texture("assets/dialogue/D/d_spritesheet.png");
     dialogue = new Dialog(m_dialog_texture_id, 5, 1);
-    dialogue->m_animation_index = 0;
     dialogue->m_entity = m_game_state.player2;
     dialogue->m_scale = glm::vec3(4.8f);
     dialogue->m_offset = glm::vec3(-0.4f, 3.0f, 0.0f);
+    dialogue->m_animation_index = 0;
+    dialogue->m_active = false;
+    dialogue->speak(0, 10.0f);
 }
 
 void LevelD::update(float delta_time)
@@ -343,6 +345,7 @@ void LevelD::update(float delta_time)
         0.0f);
 
     dialogue->update(delta_time);
+    /*
     switch (m_game_state.player2->get_state()) {
     case CRASH_DEF:
         dialogue->m_animation_index = 2;
@@ -362,7 +365,7 @@ void LevelD::update(float delta_time)
     default:
         break;
     }
-
+	*/
     if (!m_game_state.player2->is_alive()) post_level_switch = true;
 }
 
@@ -407,5 +410,5 @@ void LevelD::render(ShaderProgram *g_shader_program)
             */
 
 
-    //dialogue->render(g_shader_program, 0);
+    dialogue->render(g_shader_program, 0);
 }

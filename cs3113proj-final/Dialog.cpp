@@ -1,6 +1,8 @@
 #include "Dialog.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "Entity.h"  // Include the Entity class
+#include <thread>
+#include <chrono>
 
 Dialog::Dialog()
     : m_offset(0.0f), m_texture_id(0), m_entity(nullptr), m_animation_cols(1), m_animation_rows(1) {
@@ -14,6 +16,30 @@ Dialog::Dialog(GLuint texture_id, int animation_cols, int animation_rows)
     m_model_matrix = glm::mat4(1.0f);
     m_scale = glm::vec3(1.0f);
     m_position = glm::vec3(0);
+}
+
+void Dialog::speak(int index, float duration) {
+    // Set the animation index and activate the dialog
+    m_animation_index = index;
+    m_active = true;
+
+    // Record the start time
+    auto start_time = std::chrono::high_resolution_clock::now();
+
+    // Create a thread to deactivate the dialog after the specified duration
+    std::thread([this, duration, start_time]() {
+        // Continuously check the time elapsed
+        while (true) {
+            auto current_time = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<float> elapsed_time = current_time - start_time;
+
+            // Deactivate the dialog when the duration has passed
+            if (elapsed_time.count() >= duration) {
+                m_active = false;
+                break;
+            }
+        }
+        }).detach(); // Detach the thread to let it run independently
 }
 
 void Dialog::update(float delta_time) {
