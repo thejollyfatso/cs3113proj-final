@@ -29,6 +29,7 @@ LevelC1::~LevelC1()
     delete    m_game_state.player2;
     delete    m_game_state.map;
     delete    m_game_state.meter;
+    delete dialogue;
     Mix_FreeChunk(m_game_state.jump_sfx);
     Mix_FreeMusic(m_game_state.bgm);
 }
@@ -278,6 +279,14 @@ void LevelC1::initialise()
     
     m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 	m_game_state.player2->horizontal_mirror();
+
+    // Dialog
+    GLuint m_dialog_texture_id = Utility::load_texture("assets/dialogue/C1/d_spritesheet.png");
+    dialogue = new Dialog(m_dialog_texture_id, 5, 1);
+    dialogue->m_animation_index = 2;
+    dialogue->m_entity = m_game_state.player2;
+    dialogue->m_scale = glm::vec3(4.8f);
+    dialogue->m_offset = glm::vec3(-0.4f, 3.0f, 0.0f);
 }
 
 void LevelC1::update(float delta_time)
@@ -309,6 +318,8 @@ void LevelC1::update(float delta_time)
     m_game_state.widgets[9].m_offset = glm::vec3((-(m_game_state.player->get_position().x)/2)+((m_game_state.player2->get_position().x)/2), 
         3.0f - (3.0 * ((m_game_state.meter->m_frame+1.0f) / (m_game_state.meter->m_FRAMES*1.0f))) + 1.6f,
         0.0f);
+
+    dialogue->update(delta_time);
 }
 
 
@@ -398,4 +409,6 @@ void LevelC1::render(ShaderProgram *g_shader_program)
 		Utility::draw_text(g_shader_program, m_font_texture_id, bind_info_text2, 0.3f, 0.05f,
 			m_game_state.player2->get_position() + glm::vec3(-5.0f, 3.6f, 0.0f));
     }
+
+    dialogue->render(g_shader_program, 0);
 }

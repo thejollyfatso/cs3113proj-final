@@ -9,8 +9,10 @@ public:
     GLuint m_ui_texture_id;
     GLuint m_ui_texture_id2;
     GLuint m_ui_texture_id3;
+    GLuint m_dialog_texture_id;
     GLuint m_font_texture_id;
 
+    Dialog* dialogue;
     
     
     // ————— DESTRUCTOR ————— //
