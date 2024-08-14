@@ -311,7 +311,7 @@ void LevelD::initialise()
     dialogue->m_offset = glm::vec3(-0.4f, 3.0f, 0.0f);
     dialogue->m_animation_index = 0;
     dialogue->m_active = false;
-    dialogue->speak(0, 10.0f);
+    //dialogue->speak(0, 10.0f);
 }
 
 void LevelD::update(float delta_time)
