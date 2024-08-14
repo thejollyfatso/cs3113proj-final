@@ -330,6 +330,7 @@ void LevelC1::render(ShaderProgram *g_shader_program)
 		glm::vec3(((m_game_state.player->get_position().x + m_game_state.player2->get_position().x)/2), -2.4f, 0.0f));
         */
     // DEBUG prototype to ui elements
+    /*
 	Utility::draw_text(g_shader_program, m_font_texture_id, m_game_state.player->get_stance_str(), 0.5f, 0.05f,
 		m_game_state.player->get_position() + glm::vec3(-0.5f, 1.0f, 0.0f)); // position according to player
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.player->get_weight()), 0.5f, 0.05f,
@@ -345,6 +346,7 @@ void LevelC1::render(ShaderProgram *g_shader_program)
     if (!m_game_state.player->is_alive())
 		Utility::draw_text(g_shader_program, m_font_texture_id, "You Lose.", 0.5f, 0.05f,
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
+            */
 
     std::string player2_state_text;
     std::string player2_state_def_text;
