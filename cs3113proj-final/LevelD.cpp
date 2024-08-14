@@ -304,9 +304,9 @@ void LevelD::initialise()
     m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 
     // Dialog
-    GLuint m_dialog_texture_id = Utility::load_texture("assets/dialogue/C1/d_spritesheet.png");
+    GLuint m_dialog_texture_id = Utility::load_texture("assets/dialogue/D/d_spritesheet.png");
     dialogue = new Dialog(m_dialog_texture_id, 5, 1);
-    dialogue->m_animation_index = 2;
+    dialogue->m_animation_index = 0;
     dialogue->m_entity = m_game_state.player2;
     dialogue->m_scale = glm::vec3(4.8f);
     dialogue->m_offset = glm::vec3(-0.4f, 3.0f, 0.0f);

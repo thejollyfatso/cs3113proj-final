@@ -68,8 +68,10 @@ void Dialog::draw_sprite_from_texture_atlas(ShaderProgram* program, int index) {
 }
 
 void Dialog::render(ShaderProgram* program, int index) {
-    program->set_model_matrix(m_model_matrix);
-    //draw_sprite_from_texture_atlas(program, index);
-    draw_sprite_from_texture_atlas(program, m_animation_index);
+    if (m_active)
+    {
+        program->set_model_matrix(m_model_matrix);
+        draw_sprite_from_texture_atlas(program, m_animation_index);
+    }
 }
 

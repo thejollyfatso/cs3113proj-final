@@ -13,6 +13,7 @@ public:
     glm::vec3 m_scale;
     glm::vec3 m_offset;
     glm::mat4 m_model_matrix;
+    bool m_active = true;
     GLuint m_texture_id;
     Entity* m_entity;  // Pointer to an associated entity
 
@@ -28,6 +29,8 @@ public:
     void set_scale(float x_scale, float y_scale) { m_scale.x = x_scale; m_scale.y = y_scale; }
     void set_offset(float x_offset, float y_offset) { m_offset.x = x_offset; m_offset.y = y_offset; }
     void set_entity(Entity* entity) { m_entity = entity; }
+
+    void speak(int index, float duration);
 
     void update(float delta_time);
     void render(ShaderProgram* program, int index);
