@@ -6,7 +6,7 @@
 
 constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
-           ENEMY_FILEPATH[]       = "assets/spritesheet_prog2.png";
+           ENEMY_FILEPATH[]       = "assets/spritesheet_negative.png";
 
 unsigned int LEVEL8_DATA[] =
 {
@@ -106,7 +106,7 @@ void LevelD3::initialise()
 	}
     */
     m_game_state.player2 = new Entity(
-        player_texture_id,         // texture id
+        player2_texture_id,         // texture id
         5.0f,                      // speed
         acceleration,              // acceleration
         6.0f,                      // jumping power
@@ -363,7 +363,7 @@ void LevelD3::render(ShaderProgram *g_shader_program)
 		m_game_state.widgets[i].render(g_shader_program);
 
     if (post_level_switch)
-		Utility::draw_text(g_shader_program, m_font_texture_id, "Space to continue", 0.4f, 0.01f,
+		Utility::draw_text(g_shader_program, m_font_texture_id, "You win!", 0.4f, 0.01f,
 			m_game_state.player->get_position() + glm::vec3(-3.0f, 2.0f, 0.0f)); // position according to player
     /*
 	Utility::draw_text(g_shader_program, m_font_texture_id, std::to_string(m_game_state.meter->m_frame), 0.5f, 0.05f,
