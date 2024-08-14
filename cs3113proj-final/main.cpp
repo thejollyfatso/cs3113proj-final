@@ -230,10 +230,13 @@ void process_input()
                     case SDLK_4:
                         if (g_current_scene == g_levels[0]) {
                             if (g_level_0->m_current_menu_state == MAIN_MENU) {
-                                //switch_to_scene(g_levels[5]);
-                                switch_to_scene(g_levels[6]);
+                                switch_to_scene(g_levels[5]);
                             }
                         }
+                        break;
+
+					case SDLK_SPACE:
+                        if (g_current_scene == g_level_d && g_level_d->post_level_switch) switch_to_scene(g_level_d1);
                         break;
                         
                     case SDLK_d:

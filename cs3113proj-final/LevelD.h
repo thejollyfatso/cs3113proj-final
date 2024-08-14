@@ -12,7 +12,9 @@ public:
     GLuint m_dialog_texture_id;
     GLuint m_font_texture_id;
 
+    // Progress
     Dialog* dialogue;
+    bool post_level_switch = false;
     
     
     // ————— DESTRUCTOR ————— //
