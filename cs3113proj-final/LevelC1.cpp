@@ -320,6 +320,25 @@ void LevelC1::update(float delta_time)
         0.0f);
 
     dialogue->update(delta_time);
+    switch (m_game_state.player2->get_state()) {
+    case CRASH_DEF:
+        dialogue->m_animation_index = 2;
+        break;
+    case MIRROR_DEF:
+        dialogue->m_animation_index = 1;
+        break;
+    case COOLER_DEF:
+        dialogue->m_animation_index = 4;
+        break;
+    case CRASH_OFF:
+        dialogue->m_animation_index = 0;
+        break;
+    case MIRROR_OFF:
+        dialogue->m_animation_index = 3;
+        break;
+    default:
+        break;
+    }
 }
 
 
@@ -359,56 +378,6 @@ void LevelC1::render(ShaderProgram *g_shader_program)
 			m_game_state.player->get_position() + glm::vec3(-2.0f, 2.0f, 0.0f)); // position according to player
             */
 
-    std::string player2_state_text;
-    std::string player2_state_def_text;
-    std::string player2_state_info_text;
-    std::string bind_info_text = "Simultaneous attacks";
-    std::string bind_info_text2 = "result in binds";
-    switch (m_game_state.player2->get_state()) {
-    case CRASH_DEF:
-        player2_state_text = "CRASHING";
-        player2_state_def_text = "Equal stance";
-        player2_state_info_text = "Guard broken with unequal weight";
-        break;
-    case MIRROR_DEF:
-        player2_state_text = "MIRRORING";
-        player2_state_def_text = "Opposite stance";
-        player2_state_info_text = "Guard completely ineffective";
-        break;
-    case COOLER_DEF:
-        player2_state_text = "COOLING";
-        player2_state_def_text = "Non-match stance";
-        player2_state_info_text = "Guard broken with equal weight";
-        break;
-    case CRASH_OFF:
-        player2_state_text = "CRASHING";
-        player2_state_def_text = "Equal stance";
-        player2_state_info_text = "Favors greater weight";
-        break;
-    case MIRROR_OFF:
-        player2_state_text = "MIRRORING";
-        player2_state_def_text = "Opposite stance";
-        player2_state_info_text = "Favors lesser weight";
-        break;
-    default:
-        break;
-    }
-
-    // Render the state text above player2
-    Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_text, 0.5f, 0.05f,
-        m_game_state.player2->get_position() + glm::vec3(-2.0f, 3.0f, 0.0f));
-    Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_def_text, 0.4f, 0.005f,
-        m_game_state.player2->get_position() + glm::vec3(-3.0f, 2.5f, 0.0f));
-    Utility::draw_text(g_shader_program, m_font_texture_id, player2_state_info_text, 0.3f, 0.005f,
-        m_game_state.player2->get_position() + glm::vec3(-5.0f, 2.0f, 0.0f));
-
-    if (m_game_state.player2->get_state() == CRASH_OFF || m_game_state.player2->get_state() == MIRROR_OFF)
-    {
-		Utility::draw_text(g_shader_program, m_font_texture_id, bind_info_text, 0.3f, 0.05f,
-			m_game_state.player2->get_position() + glm::vec3(-5.0f, 4.0f, 0.0f));
-		Utility::draw_text(g_shader_program, m_font_texture_id, bind_info_text2, 0.3f, 0.05f,
-			m_game_state.player2->get_position() + glm::vec3(-5.0f, 3.6f, 0.0f));
-    }
 
     dialogue->render(g_shader_program, 0);
 }
