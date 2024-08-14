@@ -38,6 +38,7 @@
 #include "LevelB.h"
 #include "LevelC.h"
 #include "LevelC1.h"
+#include "LevelD.h"
 
 // ————— CONSTANTS ————— //
 constexpr int WINDOW_WIDTH  = 640,
@@ -67,8 +68,9 @@ LevelA *g_level_a;
 LevelB *g_level_b;
 LevelC *g_level_c;
 LevelC1 *g_level_c1;
+LevelD* g_level_d;
 
-Scene *g_levels[5];
+Scene *g_levels[6];
 
 SDL_Window* g_display_window;
 
@@ -134,11 +136,13 @@ void initialise()
     g_level_b = new LevelB();
     g_level_c = new LevelC();
     g_level_c1 = new LevelC1();
+    g_level_d = new LevelD();
     g_levels[0] = g_level_0;
     g_levels[1] = g_level_a;
     g_levels[2] = g_level_b;
     g_levels[3] = g_level_c;
     g_levels[4] = g_level_c1;
+    g_levels[5] = g_level_d;
     switch_to_scene(g_level_0);
     
     // ————— BLENDING ————— //
@@ -215,6 +219,14 @@ void process_input()
                             else if (g_level_0->m_current_menu_state == DIFFICULTY_SELECTION) {
                                 g_level_b->selected_difficulty = 3;
                                 switch_to_scene(g_levels[2]);  // Duel with Hard difficulty
+                            }
+                        }
+                        break;
+
+                    case SDLK_4:
+                        if (g_current_scene == g_levels[0]) {
+                            if (g_level_0->m_current_menu_state == MAIN_MENU) {
+                                switch_to_scene(g_levels[5]);
                             }
                         }
                         break;
@@ -360,6 +372,7 @@ void shutdown()
     delete g_level_b;
     delete g_level_c;
     delete g_level_c1;
+    delete g_level_d;
 }
 
 // ————— GAME LOOP ————— //
