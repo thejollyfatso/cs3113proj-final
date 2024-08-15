@@ -163,6 +163,7 @@ public:
 
     // AI Oracle
     int m_oracle_aggression_rating = 0;  // 1-10 scale for aggression
+    int m_aggression_level = 6; // self
 
 	StylePreference m_oracle_style_preference = UNDEFINED;
 
