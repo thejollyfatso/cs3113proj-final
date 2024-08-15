@@ -848,8 +848,8 @@ void const Entity::hitbox_deactivate() { m_hitbox->m_active = false; }
 void const Entity::attack() 
 { 
 	soundbox.play_unique_sound("decision");
-    if (!m_is_moving) m_is_attacking = true;
-    if (m_input_queue.size() < 3 && !m_is_moving) m_input_queue.push_back({ m_atk_stance, m_atk_weight });
+    m_is_attacking = true;
+    if (m_input_queue.size() < 3) m_input_queue.push_back({ m_atk_stance, m_atk_weight });
 }
 
 bool const Entity::bind(AtkStance o_atk_stance, int o_atk_weight, bool o_adv)
@@ -1241,7 +1241,7 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     if (!m_is_active) return;
     switch_animation("idle", false);
     //if (m_is_attacking && m_meter->m_frame == 0)
-    if (m_is_attacking && m_meter->m_frame == 4)  // hardcode change for visual timing
+    if ((m_is_attacking || m_input_queue.size()) && m_meter->m_frame == 4)  // hardcode change for visual timing
     {
 		soundbox.play_sound("swing");
 		if (m_atk_stance < 2) switch_animation("attack", true);  
