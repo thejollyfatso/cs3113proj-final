@@ -68,7 +68,7 @@ private:
     StylePreference m_ai_style_preference;
     int m_ai_style_rigidity; // Scale 1-10 for how likely to switch out of or into style
 
-    float m_max_defensive_distance = 3.6f;
+    float m_max_defensive_distance = 8.4f;
     float m_attack_range = 1.5f;  // The range within which the AI will initiate an attack
 
     // For tracking intermediate oracle data
