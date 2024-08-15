@@ -106,6 +106,8 @@ private:
               m_jumping_power;
     
     bool m_is_moving = false;
+    bool m_cont_left = false;
+    bool m_cont_right = false;
     bool m_is_attacking = false;
     bool m_taking_hit = false;
     bool m_is_jumping;

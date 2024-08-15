@@ -777,24 +777,26 @@ Entity::~Entity() {}
 
 void Entity::move_right()
 {
-    if (!m_is_moving && m_recovery == RECOVERY_FRAMES)
+    if ((!m_is_moving && m_recovery == RECOVERY_FRAMES) || (m_cont_right && m_recovery == RECOVERY_FRAMES))
     {
         if (!m_is_attacking)
         {
-			if (m_scale.x >= 0) switch_animation("run", true);
-			else switch_animation("jump", true);
+            if (m_scale.x >= 0) switch_animation("run", true);
+            else switch_animation("jump", true);
         }
         m_recovery = 0;
         m_face_forward = true;
         m_target_position = m_position + glm::vec3(0.4f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 2 - m_atk_weight, 0.0f, 0.0f);
         m_is_moving = true;
         soundbox.play_sound("dash");
+        m_cont_right = false;
     }
+    else m_cont_right = true;
 }
 
 void Entity::move_left()
 {
-    if (!m_is_moving && m_recovery == RECOVERY_FRAMES)
+    if ((!m_is_moving && m_recovery == RECOVERY_FRAMES) || (m_cont_left && m_recovery == RECOVERY_FRAMES))
     {
         if (!m_is_attacking)
         {
@@ -806,7 +808,9 @@ void Entity::move_left()
         m_target_position = m_position - glm::vec3(0.4f, 0.0f, 0.0f) * glm::vec3(MAX_ATK_WEIGHT + 2 - m_atk_weight, 0.0f, 0.0f);
         m_is_moving = true;
         soundbox.play_sound("dash");
+		m_cont_left = false;
     }
+    else m_cont_left = true;
 }
 
 void Entity::face_right() 
@@ -1258,6 +1262,8 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     m_collided_right = false;
 
     if (m_entity_type == ENEMY) ai_activate(player);
+    if (m_entity_type == ENEMY) m_cont_left = false;
+    if (m_entity_type == ENEMY) m_cont_right = false;
 
     if (m_animation_indices != nullptr && !m_current_animation.empty()) {
         m_animation_time += delta_time;
@@ -1330,6 +1336,8 @@ void Entity::update(float delta_time, Entity* player, Entity* collidable_entitie
     {
         m_is_moving = false;
         m_movement.x = 0.0f;
+        if (m_cont_left) move_left();
+        if (m_cont_right) move_right();
     }
 
 
