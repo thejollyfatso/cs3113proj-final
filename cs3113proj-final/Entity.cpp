@@ -30,7 +30,7 @@ void Entity::set_ai_difficulty(AIDifficulty difficulty) {
 	m_ai_difficulty = difficulty;
 	switch (m_ai_difficulty) {
 	case EASY:
-		m_ai_action_delay = 750;
+		m_ai_action_delay = 1000;
 		break;
 	case MEDIUM:
 		m_ai_action_delay = 500;
@@ -214,24 +214,24 @@ void Entity::ai_crash(Entity* player) {
 
     case CRASH_OFF:
         if (elapsed_time >= m_ai_action_delay) {
-            // Crashing offensive strategy: match stance and increase weight
-            if (m_atk_stance != player->get_stance()) {
-                if ((m_atk_stance + 1) % 4 == player->get_stance()) {
-                    inc_stance();
-                }
-                else {
-                    dec_stance();
-                }
-            }
-
-            // Weight adjustment for crashing: Increase weight to ensure advantage
-            if (m_atk_weight <= player->get_weight()) {
-                inc_weight();
-            }
-
             float distance = glm::distance(m_position, player->get_position());
 
             if (distance < m_max_attack_range) {
+				// Crashing offensive strategy: match stance and increase weight
+				if (m_atk_stance != player->get_stance()) {
+					if ((m_atk_stance + 1) % 4 == player->get_stance()) {
+						inc_stance();
+					}
+					else {
+						dec_stance();
+					}
+				}
+
+				// Weight adjustment for crashing: Increase weight to ensure advantage
+				if (m_atk_weight <= player->get_weight()) {
+					inc_weight();
+				}
+
 				if (glm::distance(m_position, player->get_position()) < m_min_attack_range) {
 					if (m_position.x < player->get_position().x) move_left();
 					if (m_position.x > player->get_position().x) move_right();
@@ -313,23 +313,23 @@ void Entity::ai_mirror(Entity* player) {
     case MIRROR_OFF:
         if (elapsed_time >= m_ai_action_delay) {
             // Mirroring offensive strategy: use opposite stance and decrease weight
-            if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-                if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-                    inc_stance();
-                }
-                else {
-                    dec_stance();
-                }
-            }
-
-            // Weight adjustment for mirroring: Decrease weight to gain advantage
-            if (m_atk_weight >= player->get_weight()) {
-                dec_weight();
-            }
-
             float distance = glm::distance(m_position, player->get_position());
 
             if (distance < m_max_attack_range) {
+				if (m_atk_stance != static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+					if ((m_atk_stance + 1) % 4 == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+						inc_stance();
+					}
+					else {
+						dec_stance();
+					}
+				}
+
+				// Weight adjustment for mirroring: Decrease weight to gain advantage
+				if (m_atk_weight >= player->get_weight()) {
+					dec_weight();
+				}
+
 				if (glm::distance(m_position, player->get_position()) < m_min_attack_range) {
 					if (m_position.x < player->get_position().x) move_left();
 					if (m_position.x > player->get_position().x) move_right();
@@ -406,24 +406,24 @@ void Entity::ai_cooler(Entity* player) {
 
     case COOLER_OFF:
         if (elapsed_time >= m_ai_action_delay) {
-            // Cooling offensive strategy: avoid matching or opposite stances and adjust weight
-            if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
-                inc_stance();
-            }
-
-            // Weight adjustment for cooling: Make sure weight is equal
-            if (m_atk_weight != player->get_weight()) {
-                if (m_atk_weight < player->get_weight()) {
-                    inc_weight();
-                }
-                else {
-                    dec_weight();
-                }
-            }
-
             float distance = glm::distance(m_position, player->get_position());
 
             if (distance < m_max_attack_range) {
+				// Cooling offensive strategy: avoid matching or opposite stances and adjust weight
+				if (m_atk_stance == player->get_stance() || m_atk_stance == static_cast<AtkStance>((player->get_stance() + 2) % 4)) {
+					inc_stance();
+				}
+
+				// Weight adjustment for cooling: Make sure weight is equal
+				if (m_atk_weight != player->get_weight()) {
+					if (m_atk_weight < player->get_weight()) {
+						inc_weight();
+					}
+					else {
+						dec_weight();
+					}
+				}
+
 				if (glm::distance(m_position, player->get_position()) < m_min_attack_range) {
 					if (m_position.x < player->get_position().x) move_left();
 					if (m_position.x > player->get_position().x) move_right();
