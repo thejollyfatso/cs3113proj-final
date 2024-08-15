@@ -147,7 +147,7 @@ void LevelC::initialise()
     hb_offset = { 0.16f, 0.0f, 0.0f };
     m_game_state.player->get_hitbox()->add_hitdata("idle", hb_scale, hb_offset);
     hb_scale = { 0.6f, 1.1f, 1.0f };
-    hb_offset = { -0.03f, 0.0f, 0.0f };
+    hb_offset = { -3000.03f, 3000.0f, 3000.0f };
     m_game_state.player2->get_hitbox()->add_hitdata("idle", hb_scale, hb_offset);
     hb_scale = { 0.6f, 1.1f, 1.0f };
     hb_offset = { 0.0f, 0.0f, 0.0f };
