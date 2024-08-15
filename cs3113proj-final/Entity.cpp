@@ -225,7 +225,11 @@ void Entity::ai_crash(Entity* player) {
 
             float distance = glm::distance(m_position, player->get_position());
 
-            if (distance < m_attack_range) {
+            if (distance < m_max_attack_range) {
+				if (glm::distance(m_position, player->get_position()) < m_min_attack_range) {
+					if (m_position.x < player->get_position().x) move_left();
+					if (m_position.x > player->get_position().x) move_right();
+				}
                 if (m_ai_attack_count == 0) {
                     ai_start_new_attack_sequence();
                 }
@@ -314,7 +318,11 @@ void Entity::ai_mirror(Entity* player) {
 
             float distance = glm::distance(m_position, player->get_position());
 
-            if (distance < m_attack_range) {
+            if (distance < m_max_attack_range) {
+				if (glm::distance(m_position, player->get_position()) < m_min_attack_range) {
+					if (m_position.x < player->get_position().x) move_left();
+					if (m_position.x > player->get_position().x) move_right();
+				}
                 if (m_ai_attack_count == 0) {
                     ai_start_new_attack_sequence();
                 }
@@ -399,7 +407,11 @@ void Entity::ai_cooler(Entity* player) {
 
             float distance = glm::distance(m_position, player->get_position());
 
-            if (distance < m_attack_range) {
+            if (distance < m_max_attack_range) {
+				if (glm::distance(m_position, player->get_position()) < m_min_attack_range) {
+					if (m_position.x < player->get_position().x) move_left();
+					if (m_position.x > player->get_position().x) move_right();
+				}
                 if (m_ai_attack_count == 0) {
                     ai_start_new_attack_sequence();
                 }

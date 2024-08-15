@@ -69,7 +69,8 @@ private:
     int m_ai_style_rigidity; // Scale 1-10 for how likely to switch out of or into style
 
     float m_max_defensive_distance = 8.4f;
-    float m_attack_range = 1.5f;  // The range within which the AI will initiate an attack
+    float m_min_attack_range = 1.2f;  // The range within which the AI will initiate an attack
+    float m_max_attack_range = 2.4f;  // The range within which the AI will initiate an attack
 
     // For tracking intermediate oracle data
     std::chrono::time_point<std::chrono::steady_clock> m_last_player_attack_time;
