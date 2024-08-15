@@ -310,7 +310,6 @@ void LevelD::initialise()
     dialogue->m_scale = glm::vec3(4.8f);
     dialogue->m_offset = glm::vec3(-0.4f, 3.0f, 0.0f);
     dialogue->m_animation_index = 0;
-    dialogue->m_active = false;
     //dialogue->speak(0, 10.0f);
 }
 
@@ -345,27 +344,29 @@ void LevelD::update(float delta_time)
         0.0f);
 
     dialogue->update(delta_time);
-    /*
-    switch (m_game_state.player2->get_state()) {
-    case CRASH_DEF:
-        dialogue->m_animation_index = 2;
-        break;
-    case MIRROR_DEF:
-        dialogue->m_animation_index = 1;
-        break;
-    case COOLER_DEF:
-        dialogue->m_animation_index = 4;
-        break;
-    case CRASH_OFF:
+    switch (m_game_state.player2->get_health_state()) {
+    case ADV:
         dialogue->m_animation_index = 0;
         break;
-    case MIRROR_OFF:
+    case LUCK3:
+        dialogue->m_animation_index = 2;
+        break;
+    case LUCK2:
+        dialogue->m_animation_index = 1;
+        break;
+    case LUCK1:
+        dialogue->m_animation_index = 1;
+        break;
+    case HEALTH:
         dialogue->m_animation_index = 3;
         break;
+    case WOUNDED:
+        dialogue->m_animation_index = 4;
+        break;
     default:
+        dialogue->m_active = false;
         break;
     }
-	*/
     if (!m_game_state.player2->is_alive()) post_level_switch = true;
 }
 
