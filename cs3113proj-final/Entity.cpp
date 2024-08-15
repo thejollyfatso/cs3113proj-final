@@ -168,6 +168,11 @@ void Entity::ai_crash(Entity* player) {
     case CRASH_DEF:
         m_ai_attack_count = 0;
 
+        // Record the start position when entering defense
+        if (defense_elapsed_time == 0) {
+            m_defense_start_position = m_position;
+        }
+
         if (defense_elapsed_time >= switch_time) {
             m_ai_state = CRASH_OFF;
             m_last_action_time = now;
@@ -194,7 +199,8 @@ void Entity::ai_crash(Entity* player) {
             m_last_action_time = now;
         }
 
-        if (glm::distance(m_position, player->get_position()) < 2.0f) {
+        // Check if the AI has retreated beyond the maximum retreat distance
+        if (glm::distance(m_position, m_defense_start_position) < m_max_retreat_distance && glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
@@ -264,6 +270,11 @@ void Entity::ai_mirror(Entity* player) {
     case MIRROR_DEF:
         m_ai_attack_count = 0;
 
+        // Record the start position when entering defense
+        if (defense_elapsed_time == 0) {
+            m_defense_start_position = m_position;
+        }
+
         if (defense_elapsed_time >= switch_time) {
             m_ai_state = MIRROR_OFF;
             m_last_action_time = now;
@@ -287,7 +298,7 @@ void Entity::ai_mirror(Entity* player) {
             m_last_action_time = now;
         }
 
-        if (glm::distance(m_position, player->get_position()) < 2.0f) {
+        if (glm::distance(m_position, m_defense_start_position) < m_max_retreat_distance && glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }
@@ -357,6 +368,11 @@ void Entity::ai_cooler(Entity* player) {
     case COOLER_DEF:
         m_ai_attack_count = 0;
 
+        // Record the start position when entering defense
+        if (defense_elapsed_time == 0) {
+            m_defense_start_position = m_position;
+        }
+
         if (defense_elapsed_time >= switch_time) {
             m_ai_state = COOLER_OFF;
             m_last_action_time = now;
@@ -376,7 +392,7 @@ void Entity::ai_cooler(Entity* player) {
             m_last_action_time = now;
         }
 
-        if (glm::distance(m_position, player->get_position()) < 2.0f) {
+        if (glm::distance(m_position, m_defense_start_position) < m_max_retreat_distance && glm::distance(m_position, player->get_position()) < 2.0f) {
             if (m_position.x < player->get_position().x) move_left();
             if (m_position.x > player->get_position().x) move_right();
         }

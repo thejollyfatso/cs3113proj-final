@@ -69,6 +69,8 @@ private:
     int m_ai_style_rigidity; // Scale 1-10 for how likely to switch out of or into style
 
     float m_max_defensive_distance = 8.4f;
+    float m_max_retreat_distance = 4.8f;
+    glm::vec3 m_defense_start_position;
     float m_min_attack_range = 1.2f;  // The range within which the AI will initiate an attack
     float m_max_attack_range = 2.4f;  // The range within which the AI will initiate an attack
 
