@@ -58,7 +58,7 @@ void Entity::ai_attempt_attack() {
 
         // Check if the attack sequence is complete
         if (m_ai_attack_count >= m_ai_attack_limit) {
-            m_ai_state = DISTANCE; // Return to the DISTANCE state after completing the sequence
+            m_ai_state = IDLE; 
         }
     }
 }
