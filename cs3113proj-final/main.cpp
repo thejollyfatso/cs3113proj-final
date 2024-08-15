@@ -1,8 +1,7 @@
 /**
 * Author: Rafael de Leon
-* Assignment: Rise of the AI
-* Date due: 2024-07-27, 11:59pm
-* Extension: 2024-07-30, 11:59pm
+* Assignment: WimWam
+* Date due: 2024-08-15, 1:00pm
 * I pledge that I have completed this assignment without
 * collaborating with anyone else, in conformance with the
 * NYU School of Engineering Policies and Procedures on
@@ -107,7 +106,7 @@ void initialise()
 {
     // ————— VIDEO ————— //
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-    g_display_window = SDL_CreateWindow("WimWim",
+    g_display_window = SDL_CreateWindow("WimWam",
                                       SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                       WINDOW_WIDTH, WINDOW_HEIGHT,
                                       SDL_WINDOW_OPENGL);

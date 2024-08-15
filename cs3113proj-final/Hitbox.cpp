@@ -1,6 +1,6 @@
 /**
 * Author: Rafael de Leon
-* Assignment: [Your game's name here]
+* Assignment: WimWam
 * Date due: 2024-08-15, 1:00pm
 * I pledge that I have completed this assignment without
 * collaborating with anyone else, in conformance with the
