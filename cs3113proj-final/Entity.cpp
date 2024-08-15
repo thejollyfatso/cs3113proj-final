@@ -159,7 +159,7 @@ void Entity::ai_crash(Entity* player) {
     auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_action_time).count();
     auto defense_elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(now - m_defense_start_time).count();
 
-    int opposite_rating = m_oracle_aggression_rating; // Use the aggression rating
+    int opposite_rating = 11 - m_oracle_aggression_rating; // Use the aggression rating
 
     // Adjusted switch time formula for a range of 1 to 5 seconds
     float switch_time = 1 + 4 * pow(10, (1 - (opposite_rating / 10.0f)) - 1);
