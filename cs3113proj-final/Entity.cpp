@@ -51,13 +51,14 @@ void Entity::ai_attempt_attack() {
     auto time_since_last_attack = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_last_attack_time).count();
 
     // Check if enough time has passed and if we haven't reached the attack limit
-    if (time_since_last_attack >= 250 && m_ai_attack_count < m_ai_attack_limit) {
+    if (time_since_last_attack >= 250 && m_ai_attack_count < m_ai_attack_limit || m_ai_attack_count == 0) {
         attack();
         m_last_attack_time = now; // Update the time of the last attack
         m_ai_attack_count++;      // Increment the attack count
 
         // Check if the attack sequence is complete
         if (m_ai_attack_count >= m_ai_attack_limit) {
+            m_ai_action_count = 0;
             m_ai_state = IDLE; 
         }
     }
