@@ -6,7 +6,7 @@
 
 constexpr char SPRITESHEET_FILEPATH[] = "assets/spritesheet.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
-           ENEMY_FILEPATH[]       = "assets/spritesheet2.png";
+           ENEMY_FILEPATH[]       = "assets/FREE_Samurai 2D Pixel Art/Sprites/IDLE.png";
 
 unsigned int LEVEL3_DATA[] =
 {
@@ -98,36 +98,21 @@ void LevelC::initialise()
         0.0f,                      // animation time
         8,                         // animation frame amount
         0,                         // current animation index
-        8,                         // animation column amount
-        9,                         // animation row amount
+        5,                         // animation column amount
+        1,                         // animation row amount
         2.0f,                      // width
         2.0f,                       // height
-        ENEMY,
-        MASTER,
-        IDLE,
-        EASY
+        PLAYER
     );
 
     // enlarge
     m_game_state.player2->set_scale(new_scale);
-    m_game_state.player2->set_margin_y(glm::vec2(0.8f, 0.1f)); // trim sprite
+    m_game_state.player2->set_margin_y(glm::vec2(-1.6f, 0.1f)); // trim sprite
     m_game_state.player2->set_margin_x(glm::vec2(0.5f, 0.5f)); // trim sprite
     
-    int run_animation2[] = { 48, 49, 51 };
-    int idle_animation2[] = { 32, 33, 34, 35 };
-    int counter_animation2[] = { 3, 8, 8, 3 };
-    int attack_animation2[] = { 2, 3, 4, 5 };
-    int attack2_animation2[] = { 3, 11, 12, 13 };
-    int death_animation2[] = { 16, 17, 18, 19, 20, 21 };
-    int jump_animation2[] = { 65, 65 };
+    int idle_animation2[] = { 0, 1, 2, 3, 4 };
     
-    m_game_state.player2->set_animation("run", run_animation2, 3, 0, 0);
-    m_game_state.player2->set_animation("idle", idle_animation2, 4, 0, 0);
-    m_game_state.player2->set_animation("counter", counter_animation2, 4, 0, 0);
-    m_game_state.player2->set_animation("attack", attack_animation2, 4, 3, 1);
-    m_game_state.player2->set_animation("attack2", attack2_animation2, 4, 3, 1);
-    m_game_state.player2->set_animation("death", death_animation2, 6, 0, 0);
-    m_game_state.player2->set_animation("jump", jump_animation2, 2, 0, 0);
+    m_game_state.player2->set_animation("idle", idle_animation2, 5, 0, 0);
     m_game_state.player2->switch_animation("idle", true); // start with idle
 
     m_game_state.player2->set_position(glm::vec3(34.0f, 0.0f, 0.0f));
@@ -233,6 +218,8 @@ void LevelC::initialise()
     m_game_state.widgets[7].switch_animation("idle", false);
     m_game_state.widgets[7].m_offset = glm::vec3(0.19f, 0.0f, 0.0f);
 
+    for (int i = 4; i < 8; i++) m_game_state.widgets[i].m_hidden = true;
+
     // Meter
     int test_animation4[] = { 18 };
     m_game_state.widgets[8] = UIElem(m_ui_texture_id2, 9, 18, m_game_state.player, METER);
@@ -278,9 +265,10 @@ void LevelC::initialise()
     m_game_state.widgets[11].set_animation("dead", dead_state, 1);
     m_game_state.widgets[11].switch_animation("adv", false);
     m_game_state.widgets[11].m_offset = glm::vec3(1.1f, 0.95f, 0.0f);
+    m_game_state.widgets[11].m_hidden = true;
 
     // deactivate p2
-    m_game_state.player2->deactivate();
+    //m_game_state.player2->deactivate();
 
     /**
      BGM and SFX
@@ -297,9 +285,9 @@ void LevelC::initialise()
     GLuint m_dialog_texture_id = Utility::load_texture("assets/dialogue/C/d_spritesheet.png");
     dialogue = new Dialog(m_dialog_texture_id, 4, 1);
     dialogue->m_animation_index = 3;
-    dialogue->m_entity = m_game_state.player;
+    dialogue->m_entity = m_game_state.player2;
     dialogue->m_scale = glm::vec3(4.8f);
-    dialogue->m_offset = glm::vec3(2.4f, 3.0f, 0.0f);
+    dialogue->m_offset = glm::vec3(-0.6f, 2.0f, 0.0f);
 }
 
 void LevelC::update(float delta_time)
